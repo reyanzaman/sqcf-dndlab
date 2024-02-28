@@ -61,7 +61,7 @@ export default async function Home() {
             <div className="anim-appear-2 custom-link">
             <Link href="/" className="bg-black px-4 lg:py-4 py-3 border-2 border-white lg:px-24 lg:m-6 hover:text-white lg:text-xl text-base flex items-center justify-center relative link-comp">
               <span className="text-gray-300 flex items-center justify-center hover:text-white duration-300">
-                <span className="relative hover-effect">আরো দেখুন</span>
+                <span className="relative hover-effect">বিস্তারিত জানুন</span>
                 <FaArrowRight className="ml-4 transform translate-x-3"/>
               </span>
             </Link>
