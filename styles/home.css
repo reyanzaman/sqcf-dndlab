@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Tiro+Bangla:ital@0;1&display=swap');
+
+@keyframes borderAnimation {
+    from {
+        border-width: 0px;
+        /* Starting with no border */
+    }
+
+    to {
+        border-width: 1em;
+        /* Default final desired border width */
+    }
+}
+
+@keyframes zoomEffect {
+    from {
+        transform: scale(1.5);
+        /* Starting scale */
+    }
+
+    to {
+        transform: scale(1.1);
+        /* Ending scale, creating a zoom effect */
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        /* Starting scale */
+    }
+
+    to {
+        opacity: 100;
+        /* Ending scale, creating a zoom effect */
+    }
+}
+
+/* Apply the animation to the element */
+.animated-border {
+    animation: borderAnimation 1s ease-in-out forwards;
+    /* Adjust timing to your preference */
+}
+
+/* Media query for larger screens */
+@media screen and (min-width: 1024px) {
+    @keyframes borderAnimation {
+        from {
+            border-width: 0px;
+            /* Starting with no border */
+        }
+
+        to {
+            border-width: 2.5em;
+            /* Increased border width for larger screens */
+        }
+    }
+}
+
+/* Ensuring the border does not zoom */
+.image-container {
+    overflow: hidden;
+    border: 0px solid #ec1f2e;
+    /* Make border initially invisible */
+    transition: border-color 1s ease-in-out;
+    animation: borderAnimation 2s ease-in-out 1.5s forwards;
+    /* Animation for the border starts after 2s delay */
+}
+
+.image-zoom {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoomEffect 3s ease-in-out forwards;
+    /* Longer zoom effect, independent of border */
+}
+
+.custom-font {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.bangla-font {
+    font-family: "Tiro Bangla", serif;
+}
+
+.anim-appear {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 2.5s forwards;
+}
+
+.anim-appear-2 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 3s forwards;
+}
+
+.hover-effect {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.hover-effect::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0.2px;
+    bottom: -2px;
+    /* Adjust this value if necessary to fit under the text */
+    left: 0;
+    background-color: white;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.link-comp:hover .hover-effect::before {
+    visibility: visible;
+    width: 100%;
+}
+
+/* Custom CSS */
+.custom-link {
+    width: auto;
+}
+
+@media (max-width: 1023px) {
+
+    /* Adjust based on your 'lg' breakpoint */
+    .custom-link {
+        width: calc(100vw - 2em);
+        margin: 0 1em 1em 1em;
+        /* Resets width for larger devices */
+    }
+}
