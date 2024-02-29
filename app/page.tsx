@@ -129,44 +129,44 @@ export default function Home() {
           <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-24 lg:mt-32 mt-0 lg:translate-y-0 -translate-y-13">
             <ul className="">
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;High Noon&quot; <p></p></li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;High Noon&quot; <p></p></li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Oil on masonite board - মধ্যদুপুর ১৯৬৮</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;Independence&quot;</li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;Independence&quot;</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Oil on canvas - স্বাধীনতা ১৯৭২</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;Collecting Shapla&quot;</li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;Collecting Shapla&quot;</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on paper - শাপলা তোলা ১৯৯৮</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;Boat in moonlight&quot;</li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;Boat in moonlight&quot;</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Watercolour - চন্দ্রালোকে নৌকা ১৯৫৭</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;Quest for self-63&quot;</li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;Quest for self-63&quot;</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on canvas - আত্মানুসন্ধান-৬৩ ২০১২</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">&quot;Quest for Self-45&quot;</li>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;Quest for Self-45&quot;</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on canvas - আত্মানুসন্ধান-৪৫ ২০১১</p>
               </button>
 
               <button className="flex flex-col">
-                <li className="menu-item hover-effect-black">-View More</li>
+                <li className="menu-item text-red-800 hover-effect-red">-View More</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">শিল্পী কাইয়ুম চৌধুরীর আরো শিল্প দেখুন</p>
               </button>
             </ul>
           </div>
 
           {/* Menu Cross */}
-          <div className="absolute anim-appear-3 top-0 right-0 lg:mr-[1.5em] lg:mt-[1.5em] mr-[0] mt-[0] transform lg:translate-x-0 translate-x-0.5">
+          <div className="absolute anim-appear-3 top-0 right-0 lg:mr-[1.5em] lg:mt-[1.5em] mr-[0] mt-[0]">
             <button onClick={toggleMenu}>
               <div className="lg:p-3 p-4 bg-black">
                 <IoClose  className="lg:text-4xl text-xl text-white"/>
@@ -185,7 +185,7 @@ export default function Home() {
 
           {/* Logo */}
           <div className="absolute top-0 left-0 lg:p-[2.5em] p-0 anim-appear-3">
-            <div className="flex items-center justify-center w-[90px] lg:w-[150px] h-[90px] lg:h-[150px] bg-[#f3ecdc] pr-1">
+            <div className="lg:flex items-center justify-center w-[90px] lg:w-[150px] h-[90px] lg:h-[150px] bg-[#f3ecdc] pr-1 hidden">
               <Image
                 src="/images/logo.jpg"
                 alt="Logo"
@@ -194,6 +194,17 @@ export default function Home() {
                 className="w-auto lg:h-[140px] h-[70px]"
               />
             </div>
+          </div>
+
+          {/* Rotated Links */}
+          <div className="flex flex-row absolute lg:bottom-0 lg:right-0 lg:left-auto left-0 transform lg:-rotate-90 rotate-0
+           lg:-translate-y-44 -translate-y-[0px] lg:translate-x-[135px] -translate-x-0 text-gray-800">
+              <Link href="/qayyum" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
+                <p>Qayyum Chowdhury</p>
+              </Link>
+              <Link href="/tahera" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
+                <p>Tahera Khanom</p>
+              </Link>
           </div>
 
         </div>

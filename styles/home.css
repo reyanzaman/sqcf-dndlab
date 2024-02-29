@@ -141,6 +141,30 @@
     visibility: visible;
 }
 
+.hover-effect-red {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.hover-effect-red::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 5px;
+    left: 0;
+    background-color: maroon;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect-red:hover::before {
+    margin: 0 0 0 14px;
+    width: 93%;
+    visibility: visible;
+}
+
 .link-comp:hover .hover-effect::before {
     visibility: visible;
     width: 100%;
@@ -198,7 +222,6 @@ body {
 
 
 .menu-item {
-    color: #3e3e3e;
     font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -207,6 +230,7 @@ body {
     margin: 1.1em 0 0 0 ;
     padding: 0;
 }
+
 
 @media (max-width: 1023px) {
 
@@ -226,6 +250,16 @@ body {
     }
 
     .hover-effect-black:hover::before {
+        margin: 0 0 0 4px;
+        width: 100%;
+    }
+
+    .hover-effect-red::before {
+        bottom: 0px;
+        background-color: maroon;
+    }
+
+    .hover-effect-red:hover::before {
         margin: 0 0 0 4px;
         width: 100%;
     }
