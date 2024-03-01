@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,12 +15,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Image {
-//   id        String   @id @default(uuid())
-//   url       String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+model Art {
+  id        String   @id @default(uuid())
+  title     String
+  title_Bangla String
+  artist    String
+  year      String
+  imageUrl  String
+  description String
+  width     Int
+  height    Int
+  Medium    String
+  Medium_Bangla String
+  type      String
+  tags      String[]
+  tags_Bangla String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@index([createdAt])
-//   @@map("images")
-// }
+  @@index([createdAt])
+  @@map("arts")
+}

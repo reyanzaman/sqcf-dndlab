@@ -1,12 +1,11 @@
 import type { Knex } from "knex";
-require("dotenv").config({ paath: '.env.development' });
-
+require("dotenv").config({ path: '.env.development' });
 const config: Knex.Config = {
   client: "pg",
-  connection: process.env.Database_URL,
+  connection: process.env.DATABASE_URL,
   migrations: {
     extension: "ts",
   },
 };
 
-export default config;
+module.exports = config;
