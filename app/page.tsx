@@ -120,6 +120,13 @@ export default function Home() {
       setCurrentArtIndex(Number('0'));
     }
 
+    const preloadImages = (arts: Art[]) => {
+      arts.forEach(art => {
+        const img = new window.Image();
+        img.src = art.imageUrl;
+      });
+    };
+
     const fetchData = async () => {
       try {
         const fetchPromises = specificArtIdArray.map(id =>
@@ -132,6 +139,7 @@ export default function Home() {
         );
         const results = await Promise.all(fetchPromises);
         setArts(results);
+        preloadImages(results);
       } catch (error) {
         console.error('Failed to fetch arts:', error);
         setError('Failed to load artworks. Please try again later.');
