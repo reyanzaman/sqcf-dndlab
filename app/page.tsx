@@ -9,8 +9,8 @@ import { IoMenuOutline } from "react-icons/io5";
 import { GrNext } from "react-icons/gr";
 import React, { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
-import LoadingScreen from './components/LoadingScreen';
-import ErrorScreen from './components/error';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorScreen from '../components/error';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {

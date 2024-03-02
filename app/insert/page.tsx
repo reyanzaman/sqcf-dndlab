@@ -3,8 +3,8 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import "../../styles/home.css";
-import useAuth from "../hooks/useAuth";
-import { Login } from "../components/login";
+import useAuth from "../../hooks/useAuth";
+import { Login } from "../../components/login";
 
 const AddArt: NextPage = () => {
   const { isAuthenticated, login, logout } = useAuth();

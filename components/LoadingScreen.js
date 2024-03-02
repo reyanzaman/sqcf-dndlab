@@ -1,4 +1,4 @@
-import "../../styles/loader.css"; // Adjust the path as necessary
+import "/styles/loader.css"; // Adjust the path as necessary
 import React, { useEffect, useState } from "react";
 
 const quotes = [
