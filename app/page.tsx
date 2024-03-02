@@ -11,6 +11,7 @@ import { GrNext } from "react-icons/gr";
 import React, { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import LoadingScreen from './components/LoadingScreen';
+import ErrorScreen from './components/error';
 
 export default function Home() {
 
@@ -53,6 +54,7 @@ export default function Home() {
       try {
         const url = `/api/getArt?id=${specificArtId}`;
         const response = await fetch(url);
+        console.log(response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -72,7 +74,7 @@ export default function Home() {
   }, [specificArtId]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <ErrorScreen />;
 
   return (
     <main className="overflow-hidden">
@@ -112,10 +114,10 @@ export default function Home() {
 
         {/* Title */}
         <div className="flex flex-col items-center lg:justify-center justify-end w-screen h-screen absolute">
-            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font">{arts ? arts.title : ""}</h1>
+            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
             <div className="lg:mt-14 mt-4 lg:mb-2 mb-6 lg:space-y-4">
-              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font">{arts ? arts.title_Bangla : ""} - {arts ? arts.artist : ""}</h3>
-              <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">{arts ? arts.Medium_Bangla : ""} - {arts ? arts.year : ""}</h3>
+              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</h3>
+              <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">{arts.Medium_Bangla!=="" ? arts.Medium_Bangla : "ম্যাসোনাইট বোর্ডে তেলরং"} - {arts.year!=="" ? arts.year : "১৯৬৮"}</h3>
               {/* <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">১৩০ সেমি x ১৫০ সেমি</h3> */}
             </div>
             <div>
@@ -168,9 +170,9 @@ export default function Home() {
 
             {/* Title */}
             <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3">
-                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font">{arts ? arts.title : ""}</h1>
+                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
                 <div className="lg:mt-6 mt-4 lg:mb-0 mb-8 lg:space-y-4">
-                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font">{arts ? arts.title_Bangla : ""} - {arts ? arts.artist : ""}</h3>
+                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</h3>
                 </div>
                 <div>
                   <div className="custom-link">
@@ -187,11 +189,11 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-24 lg:mt-32 mt-0 lg:translate-y-0 -translate-y-12">
+          <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-24 lg:mt-32 mt-0 lg:-translate-y-4 -translate-y-12">
             <ul className="">
               <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;{arts ? arts.title : ""}&quot; <p></p></li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{arts ? arts.Medium : ""} - {arts ? arts.title_Bangla : ""}</p>
+                <li className="menu-item text-gray-800 hover-effect-black">&quot;{arts.title!=="" ? arts.title : ""}&quot; <p></p></li>
+                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{arts.Medium!=="" ? arts.Medium : ""} - {arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"}</p>
               </button>
 
               <button className="flex flex-col">
@@ -290,28 +292,28 @@ export default function Home() {
 
             {/* Right part with description */}
             <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 mt-0 lg:-translate-y-4 translate-y-1">
-              <h1 className="custom-font text-3xl lg:text-[3.5rem] anim-appear text-[#898166]">{arts ? arts.title : ""}</h1>
+              <h1 className="custom-font text-3xl lg:text-[3.5rem] anim-appear text-[#898166]">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
 
-              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-2 text-gray-800">{arts ? arts.title_Bangla : ""} - {arts ? arts.artist : ""}</p>
+              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-2 text-gray-800">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</p>
 
               <hr className="anim-appear-2 border w-full my-5 border-[#bbb190]"></hr>
 
               <p className="lg:mt-2 description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify font-light">
-              {arts ? arts.description : ""}
+              {arts.description!=="" ? arts.description : "কাইয়ুম চৌধুরীর শিল্পকর্ম যেমন সরল নির্মল সুন্দর বাংলাদেশের কথা বলে । তিনি ব্যক্তিজীবনেও ছিলেন সরল, নির্মল আর সাদাসিধে। আধুনিক সমকালীন শিল্পকলার প্রবল দ্বিধার ভেতরেও তিনি তাঁর ক্যানভাসের নিজস্ব ভাষা প্রকাশে ছিলেন অবিচন, দৃঢ়। সেখানে তাঁর প্রকাশভঙ্গি ছিল পুরেপুরি লোকজ। নিজের শিকড়ের বাইরে তিনি কখনোই যাননি। দেশের প্রতি তাঁর প্রবল মমতা মাখানো ভালোবাসাকে আলিঙ্গন করে শিল্পী হিসেবে তিনি নিজে যেমন সমৃদ্ধ হয়েছেন, তেমনি সমৃদ্ধ করেছেন বাংলাদেশের চিত্রলোকে। রফি হক, কাইয়ুম চৌধুরী স্মারকগ্রন্থ, পৃষ্ঠা-১৩১"}
               </p>
 
               <p className="lg:mt-4 mt-2 description custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              {arts ? arts.height : ""}cm x {arts ? arts.width : ""}cm
+              {arts.height!=="" ? arts.height : "130"}cm x {arts.width!=="" ? arts.width : "150"}cm
               <br></br>
-              {arts ? arts.Medium_Bangla : ""} ({arts ? arts.Medium : ""})
+              {arts.Medium_Bangla!=="" ? arts.Medium_Bangla : "ম্যাসোনাইট বোর্ডে তেলরং "} ({arts.Medium!=="" ? arts.Medium : "Oil on masonite board"})
               </p>
 
-              <p className="lg:mt-4 mt-2 custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              Type: {arts ? arts.type : ""}
-              </p>
+              {/* <p className="lg:mt-4 mt-2 custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
+              Type: {arts.type!=="" ? arts.type : "Painting"}
+              </p> */}
 
               <p className="custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              Year: {arts ? arts.year : ""}
+              Year: {arts.year!=="" ? arts.year : "১৯৬৮"}
               </p>
 
 

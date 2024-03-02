@@ -1,4 +1,3 @@
-// Import the stylesheet at the top of your LoadingScreen.js
 import "../../styles/loader.css"; // Adjust the path as necessary
 
 import React from "react";

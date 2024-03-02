@@ -23,11 +23,13 @@ const GET = async (req: NextApiRequest, res: NextApiResponse) => {
         if (art) {
             return NextResponse.json(art);
         } else {
+            res.status(500).end();
             return NextResponse.json({ message: "Artwork not found" });
         }
     } catch (error) {
         console.error("Failed to get art:", error);
-        return NextResponse.json({ message: "Artwork not found" });
+        res.status(500).end();
+        return NextResponse.json({ message: "Error occured during artwork retrieval", error });
     }
 }
 
