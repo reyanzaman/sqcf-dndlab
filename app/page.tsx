@@ -121,10 +121,16 @@ export default function Home() {
     }
 
     const preloadImages = (arts: Art[]) => {
-      arts.forEach(art => {
+      const loadImage = (src: string) => new Promise((resolve, reject) => {
         const img = new window.Image();
-        img.src = art.imageUrl;
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = reject;
       });
+      // Map each art object to a loadImage promise
+      const imagePromises = arts.map(art => loadImage(art.imageUrl));
+      // Use Promise.all to wait for all images to be loaded
+      return Promise.all(imagePromises);
     };
 
     const fetchData = async () => {
