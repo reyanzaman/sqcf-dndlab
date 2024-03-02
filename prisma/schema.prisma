@@ -21,12 +21,14 @@ model Art {
   title_Bangla String
   artist    String
   year      String
+  year_Bangla String
   imageUrl  String
   description String
   width     Int
   height    Int
-  Medium    String
-  Medium_Bangla String
+  medium    String
+  medium_Bangla String
+  publication String
   type      String
   tags      String[]
   tags_Bangla String[]

@@ -14,13 +14,15 @@ const AddArt: NextPage = () => {
     title_Bangla: "",
     artist: "",
     year: "",
+    year_Bangla: "",
     imageUrl: "",
     description: "",
     width: "",
     height: "",
-    Medium: "",
-    Medium_Bangla: "",
+    medium: "",
+    medium_Bangla: "",
     type: "",
+    publication: "",
     tags: "",
     tags_Bangla: "",
   });
@@ -60,21 +62,22 @@ const AddArt: NextPage = () => {
         body: JSON.stringify(dataToSend),
       });
       if (response.ok) {
-        console.log("Artwork added successfully");
+        console.log(response);
         alert("Artwork added successfully");
-        // Optionally reset form or redirect
         setFormData({
           title: "",
           title_Bangla: "",
           artist: "",
           year: "",
+          year_Bangla: "",
           imageUrl: "",
           description: "",
           width: "",
           height: "",
-          Medium: "",
-          Medium_Bangla: "",
+          medium: "",
+          medium_Bangla: "",
           type: "",
+          publication: "",
           tags: "",
           tags_Bangla: "",
         });
@@ -91,15 +94,15 @@ const AddArt: NextPage = () => {
   if (isAuthenticated) {
     return (
       <div style={{ padding: "20px" }}>
-        <h2 className="text-4xl font-bold custom-font border-b border-black mb-8 text-center">
+        <h2 className="text-4xl font-bold custom-font border-b border-black lg:mb-2 mb-8 text-center">
           Add New Artwork
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-row bg-orange-100 p-8 rounded-xl drop-shadow-md mb-8 space-x-8"
+          className="flex flex-row bg-orange-100 lg:p-8 lg:pt-2 pt-4 p-4 rounded-xl drop-shadow-md lg:space-x-8 space-x-4 lg:m-8 m-0"
         >
           <div className="mx-2 w-1/2">
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Title (English):
                 <input
@@ -112,7 +115,7 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Title (Bangla):
                 <input
@@ -125,7 +128,7 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Artist (Bangla):
                 <input
@@ -138,7 +141,7 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Year (English):
                 <input
@@ -151,7 +154,20 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
+              <label>
+                Year (Bangla):
+                <input
+                  className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                  type="text"
+                  name="year_Bangla"
+                  value={formData.year_Bangla}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+            </div>
+            <div className="py-2">
               <label>
                 Image URL:
                 <input
@@ -164,9 +180,9 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
-                Description:
+                Description (Bangla):
                 <textarea
                   className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                   name="description"
@@ -187,7 +203,7 @@ const AddArt: NextPage = () => {
             </div>
           </div>
           <div className="mx-2 w-1/2">
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Width (English) (cm):
                 <input
@@ -200,7 +216,7 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Height (English) (cm):
                 <input
@@ -213,33 +229,33 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Medium:
                 <input
                   className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                   type="text"
-                  name="Medium"
-                  value={formData.Medium}
+                  name="medium"
+                  value={formData.medium}
                   onChange={handleChange}
                   required
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Medium (Bangla):
                 <input
                   className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                   type="text"
-                  name="Medium_Bangla"
-                  value={formData.Medium_Bangla}
+                  name="medium_Bangla"
+                  value={formData.medium_Bangla}
                   onChange={handleChange}
                   required
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Type (English):
                 <input
@@ -252,7 +268,20 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
+              <label>
+                Publication (Bangla):
+                <input
+                  className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                  type="text"
+                  name="publication"
+                  value={formData.publication}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+            </div>
+            <div className="py-2">
               <label>
                 Tags (English, comma-separated):
                 <input
@@ -265,7 +294,7 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            <div className="py-4">
+            <div className="py-2">
               <label>
                 Tags (Bangla, comma-separated):
                 <input
@@ -281,12 +310,14 @@ const AddArt: NextPage = () => {
           </div>
         </form>
 
-        <button
-          className="bg-rose-800 text-white p-2 rounded-sm border border-black transform translate-y-4 mb-4 w-full"
-          onClick={handleSubmit2}
-        >
-          Logout
-        </button>
+        <div className="flex justify-center items-center lg:mt-0 mt-4">
+          <button
+            className="bg-rose-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%]"
+            onClick={handleSubmit2}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     );
   } else {

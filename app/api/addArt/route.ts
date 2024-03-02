@@ -14,22 +14,29 @@ const POST = async (req: Request, res: NextApiResponse) => {
             title_Bangla: body.title_Bangla,
             artist: body.artist,
             year: body.year,
+            year_Bangla: body.year_Bangla,
             imageUrl: body.imageUrl,
             description: body.description,
             width: parseInt(body.height),
             height: parseInt(body.width),
-            Medium: body.Medium,
-            Medium_Bangla: body.Medium_Bangla,
-            type: body.type,
+            medium: body.medium,
+            medium_Bangla: body.medium_Bangla,
+            type: body.type.toLowerCase(),
+            publication: body.publication,
             tags: body.tags,
             tags_Bangla: body.tags_Bangla,
           },
         });
 
-        return NextResponse.json({ message: "Successfully Recorded" });
+        return new Response("Artwork successfully recorded", {
+          status: 200
+      })
+
     } catch (error) {
         console.error("Failed to add art:", error);
-        return NextResponse.json({ message: "Artwork not recorded" });
+        return new Response("Artwork not recorded", {
+          status: 500
+      })
     }
 }
 

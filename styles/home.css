@@ -72,7 +72,7 @@
 /* Ensuring the border does not zoom */
 .image-container {
     overflow: hidden;
-    border: 0px solid #ec1f2e;
+    /* border: 0px solid #ec1f2e; */
     /* Make border initially invisible */
     transition: border-color 1s ease-in-out;
     animation: borderAnimation 2s ease-in-out 1.5s forwards;
@@ -217,6 +217,14 @@
     margin-bottom: 2.5em;
 }
 
+.back-button-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 2.5em;
+    margin-bottom: 2.5em;
+}
+
 .next-button {
     background-color: black;
     padding: 1rem;
@@ -232,6 +240,11 @@
         transform: translateY(-50vh);
     }
 
+    .back-button-container {
+        margin: 0 0 0 1.5em;
+        transform: translateY(-50vh);
+    }
+
     .next-button {
         margin: 0;
         padding: 0;
@@ -241,7 +254,7 @@
 }
 
 .menu-item {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.2em;

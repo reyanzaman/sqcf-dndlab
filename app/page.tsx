@@ -3,7 +3,6 @@
 import Image from "next/image";
 import "../styles/home.css";
 import classnames from "classnames";
-import db from "@/modules/db";
 import { FaArrowRight } from "react-icons/fa6";
 import Link from "next/link";
 import { IoMenuOutline } from "react-icons/io5";
@@ -12,11 +11,50 @@ import React, { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import LoadingScreen from './components/LoadingScreen';
 import ErrorScreen from './components/error';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
 
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
+
+  const [currentArtIndex, setCurrentArtIndex] = useState(0);
+  const router = useRouter();
+  const searchParams = useSearchParams()
+
+  const handleNext = (index: number) => {
+    let new_index = index + 1;
+    if (new_index >= arts.length) {
+      new_index = 0;
+    }
+
+    // Construct the new URL with the currentArtIndex parameter
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?currentArtIndex=${new_index}`;
+
+    // Set the window's location to the new URL, triggering a page reload
+    window.location.href = newUrl;
+  };
+
+  const handleBack = (index: number) => {
+    let new_index = index - 1;
+    if (new_index <= -1) {
+      new_index = arts.length - 1;
+    }
+
+    // Construct the new URL with the currentArtIndex parameter
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?currentArtIndex=${new_index}`;
+
+    // Set the window's location to the new URL, triggering a page reload
+    window.location.href = newUrl;
+  };
+
+  const handleMenuItemClick = (index: number) => {
+    // Construct the new URL with the currentArtIndex parameter
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?currentArtIndex=${index}`;
+
+    // Set the window's location to the new URL, triggering a page reload
+    window.location.href = newUrl;
+  };
 
   const toggleMenu = () => {
     setMenuVisible(!isMenuVisible);
@@ -26,41 +64,74 @@ export default function Home() {
     setDescriptionVisible(!isDescriptionVisible);
   };
 
-  const [arts, setArts] = useState({
-    title: "",
-    title_Bangla: "",
-    artist: "",
-    year: "",
-    imageUrl: "",
-    description: "",
-    width: "",
-    height: "",
-    Medium: "",
-    Medium_Bangla: "",
-    type: "",
-    tags: "",
-    tags_Bangla: "",
-  });
+  interface Art {
+    title: string;
+    title_Bangla: string;
+    artist: string;
+    year: string;
+    year_Bangla: string;
+    imageUrl: string;
+    description: string;
+    width: string;
+    height: string;
+    medium: string;
+    medium_Bangla: string;
+    type: string;
+    publication: string;
+    tags: [string];
+    tags_Bangla: [string];
+  }
+
+  const [arts, setArts] = useState<Art[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isReady, setIsReady] = useState(false);
 
-  const specificArtId = "fd91d55d-dc70-4c22-a7d0-6d14208cb33b";
+  const specificArtIdArray = [
+    "5f84f014-cdbb-45fa-822f-8e803ce86e14",
+    "7b676e6c-d861-4e3c-a556-bb8b5f0f981b",
+    "f8e00d90-fa2a-425b-92a4-98759c82a7b9",
+    "1b3b0b87-faf3-44e2-ae8a-5e1c51444e1a",
+    "c6860657-8d4d-4389-a5c3-1e1ff3bb6abf",
+    "da7494bb-5ada-4e0c-a6f1-84b374b1c0d3",
+    "519f069e-86a8-4d78-9019-0008dc3e2e58",
+  ];
+
+  const colorArray = [
+    "#ec1f2e",
+    "#FBA834",
+    "#333A73",
+    "#FF9843",
+    "#402B3A",
+    "#D63484",
+    "#9ADE7B",
+  ];
+
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 3000);
+    const timer = setTimeout(() => setIsReady(true), 2500);
+
+    const indexFromUrl = searchParams.get('currentArtIndex');
+    console.log("Current Index: ", indexFromUrl)
+    if (indexFromUrl) {
+      setCurrentArtIndex(Number(indexFromUrl));
+    } else {
+      setCurrentArtIndex(Number('0'));
+    }
+
     const fetchData = async () => {
       try {
-        const url = `/api/getArt?id=${specificArtId}`;
-        const response = await fetch(url);
-        console.log(response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-
-        setArts(data);
+        const fetchPromises = specificArtIdArray.map(id =>
+          fetch(`/api/getArt?id=${id}`).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+        );
+        const results = await Promise.all(fetchPromises);
+        setArts(results);
       } catch (error) {
         console.error('Failed to fetch arts:', error);
         setError('Failed to load artworks. Please try again later.');
@@ -71,7 +142,7 @@ export default function Home() {
 
     fetchData();
     return () => clearTimeout(timer);
-  }, [specificArtId]);
+  }, [router]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
@@ -84,13 +155,11 @@ export default function Home() {
         {/* Landing Image */}
         <div className="relative w-screen h-screen overflow-hidden">
           <div
-            className={classnames(
-              "m-0 absolute inset-0",
-              "image-container" // Applied class for the container with border
-            )}
+            style={{ borderColor: colorArray[currentArtIndex] || colorArray[0], borderWidth: '0px', borderStyle: 'solid' }}
+            className="m-0 absolute inset-0 image-container"
           >
             <Image
-              src="https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/Home_Paintings/IMG_9587.JPG"
+              src={`${arts[currentArtIndex].imageUrl}`}
               alt="High Noon"
               layout="fill"
               objectFit="cover"
@@ -114,10 +183,10 @@ export default function Home() {
 
         {/* Title */}
         <div className="flex flex-col items-center lg:justify-center justify-end w-screen h-screen absolute">
-            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
+            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : "HIGH NOON"}</h1>
             <div className="lg:mt-14 mt-4 lg:mb-2 mb-6 lg:space-y-4">
-              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</h3>
-              <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">{arts.Medium_Bangla!=="" ? arts.Medium_Bangla : "ম্যাসোনাইট বোর্ডে তেলরং"} - {arts.year!=="" ? arts.year : "১৯৬৮"}</h3>
+              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.3px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
+              <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} - {arts[currentArtIndex].year_Bangla!=="" ? arts[currentArtIndex].year_Bangla : ""}</h3>
               {/* <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">১৩০ সেমি x ১৫০ সেমি</h3> */}
             </div>
             <div>
@@ -134,12 +203,27 @@ export default function Home() {
             </div>
         </div>
 
-        {/* Next Button */}
-        <div className="anim-appear-2 next-button-container">
-          <div className="next-button">
-            <GrNext className="lg:text-4xl text-4xl text-white"/>
-          </div>
-        </div>
+        {/* Next Button only if currentArtIndex is not 6 */}
+        {currentArtIndex !== arts.length - 1 && (
+          <button onClick={() => handleNext(currentArtIndex)}>
+            <div className="anim-appear-2 next-button-container">
+              <div className="next-button">
+                <GrNext className="lg:text-4xl text-4xl text-white"/>
+              </div>
+            </div>
+          </button>
+        )}
+
+        {/* Back Button, only if currentArtIndex is not 0 */}
+        {currentArtIndex !== 0 && (
+          <button onClick={() => handleBack(currentArtIndex)}>
+            <div className="anim-appear-2 back-button-container">
+              <div className="next-button">
+                <GrNext className="lg:text-4xl text-4xl text-white transform rotate-180"/>
+              </div>
+            </div>
+          </button>
+        )}
 
         {/* Menu */}
         <div className="absolute anim-appear-2 top-0 right-0 lg:mr-[2.5em] lg:mt-[2.5em] mr-[1em] mt-[1em]">
@@ -159,9 +243,12 @@ export default function Home() {
         <div className="flex h-screen">
 
           {/* Left part with image */}
-          <div className="w-1/2 h-full relative overflow-hidden image-container hidden lg:flex">
+          <div
+            style={{ borderColor: colorArray[currentArtIndex] || colorArray[0], borderWidth: '0px', borderStyle: 'solid' }}
+            className="w-1/2 h-full relative overflow-hidden image-container hidden lg:flex"
+          >
             <Image
-              src="https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/Home_Paintings/IMG_9587.JPG"
+              src={`${arts[currentArtIndex].imageUrl}`}
               alt="High Noon"
               layout="fill"
               objectFit="cover"
@@ -170,9 +257,9 @@ export default function Home() {
 
             {/* Title */}
             <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3">
-                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
+                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
                 <div className="lg:mt-6 mt-4 lg:mb-0 mb-8 lg:space-y-4">
-                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</h3>
+                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
                 </div>
                 <div>
                   <div className="custom-link">
@@ -189,37 +276,17 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-24 lg:mt-32 mt-0 lg:-translate-y-4 -translate-y-12">
+          <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 -translate-y-12">
             <ul className="">
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;{arts.title!=="" ? arts.title : ""}&quot; <p></p></li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{arts.Medium!=="" ? arts.Medium : ""} - {arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"}</p>
-              </button>
-
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;Independence&quot;</li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Oil on canvas - স্বাধীনতা ১৯৭২</p>
-              </button>
-
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;Collecting Shapla&quot;</li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on paper - শাপলা তোলা ১৯৯৮</p>
-              </button>
-
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;Boat in moonlight&quot;</li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Watercolour - চন্দ্রালোকে নৌকা ১৯৫৭</p>
-              </button>
-
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;Quest for self-63&quot;</li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on canvas - আত্মানুসন্ধান-৬৩ ২০১২</p>
-              </button>
-
-              <button className="flex flex-col">
-                <li className="menu-item text-gray-800 hover-effect-black">&quot;Quest for Self-45&quot;</li>
-                <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">Acrylic on canvas - আত্মানুসন্ধান-৪৫ ২০১১</p>
-              </button>
+              {/* Dynamically generate menu items, excluding the currentArtIndex */}
+              {arts.map((art, index) => (
+                index !== currentArtIndex && (
+                  <button key={index} className="flex flex-col" onClick={() => handleMenuItemClick(index)}>
+                    <li className="menu-item text-gray-800 hover-effect-black">&quot;{art.title !== "" ? art.title : ""}&quot;<p></p></li>
+                    <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{art.medium !== "" ? art.medium : ""} - {art.title_Bangla !== "" ? art.title_Bangla : ""}</p>
+                  </button>
+                )
+              ))}
 
               <button className="flex flex-col">
                 <li className="menu-item text-red-800 hover-effect-red">-View More</li>
@@ -282,7 +349,7 @@ export default function Home() {
             {/* Left part with image */}
             <div className="w-5/6 h-full relative overflow-hidden hidden lg:flex bg-[#f4ecd1]">
               <Image
-                src="https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/Home_Paintings/IMG_9587.JPG"
+                src={`${arts[currentArtIndex].imageUrl}`}
                 alt="High Noon"
                 layout="fill"
                 objectFit="cover"
@@ -291,36 +358,42 @@ export default function Home() {
             </div>
 
             {/* Right part with description */}
-            <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 mt-0 lg:-translate-y-4 translate-y-1">
-              <h1 className="custom-font text-3xl lg:text-[3.5rem] anim-appear text-[#898166]">{arts.title!=="" ? arts.title : "HIGH NOON"}</h1>
+            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit h-auto flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 my-8 lg:-translate-y-12 translate-y-0">
+              <br></br>
 
-              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-2 text-gray-800">{arts.title_Bangla!=="" ? arts.title_Bangla : "মধ্যদুপুর (৯৫৮৭)"} - {arts.artist!=="" ? arts.artist : "শিল্পী কাইয়ুম চৌধুরী"}</p>
+              <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
+
+              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-2 text-gray-800">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</p>
 
               <hr className="anim-appear-2 border w-full my-5 border-[#bbb190]"></hr>
 
-              <p className="lg:mt-2 description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify font-light">
-              {arts.description!=="" ? arts.description : "কাইয়ুম চৌধুরীর শিল্পকর্ম যেমন সরল নির্মল সুন্দর বাংলাদেশের কথা বলে । তিনি ব্যক্তিজীবনেও ছিলেন সরল, নির্মল আর সাদাসিধে। আধুনিক সমকালীন শিল্পকলার প্রবল দ্বিধার ভেতরেও তিনি তাঁর ক্যানভাসের নিজস্ব ভাষা প্রকাশে ছিলেন অবিচন, দৃঢ়। সেখানে তাঁর প্রকাশভঙ্গি ছিল পুরেপুরি লোকজ। নিজের শিকড়ের বাইরে তিনি কখনোই যাননি। দেশের প্রতি তাঁর প্রবল মমতা মাখানো ভালোবাসাকে আলিঙ্গন করে শিল্পী হিসেবে তিনি নিজে যেমন সমৃদ্ধ হয়েছেন, তেমনি সমৃদ্ধ করেছেন বাংলাদেশের চিত্রলোকে। রফি হক, কাইয়ুম চৌধুরী স্মারকগ্রন্থ, পৃষ্ঠা-১৩১"}
+              <p className="lg:mt-2 description text-base lg:text-xl anim-appear-2 text-gray-800 lg:w-5/6 w-[92%] text-justify font-light">
+              {arts[currentArtIndex].description!=="" ? arts[currentArtIndex].description : ""}
+              </p>
+              <p className="mt-3 lg:mb-0 mb-3 description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify font-light">
+              {arts[currentArtIndex].publication!=="" ? arts[currentArtIndex].publication: ""}
               </p>
 
               <p className="lg:mt-4 mt-2 description custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              {arts.height!=="" ? arts.height : "130"}cm x {arts.width!=="" ? arts.width : "150"}cm
+              {arts[currentArtIndex].height!=="" ? arts[currentArtIndex].height : ""}cm x {arts[currentArtIndex].width!=="" ? arts[currentArtIndex].width : ""}cm
               <br></br>
-              {arts.Medium_Bangla!=="" ? arts.Medium_Bangla : "ম্যাসোনাইট বোর্ডে তেলরং "} ({arts.Medium!=="" ? arts.Medium : "Oil on masonite board"})
+              {arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} ({arts[currentArtIndex].medium!=="" ? arts[currentArtIndex].medium : ""})
               </p>
 
               {/* <p className="lg:mt-4 mt-2 custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
               Type: {arts.type!=="" ? arts.type : "Painting"}
               </p> */}
 
-              <p className="custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              Year: {arts.year!=="" ? arts.year : "১৯৬৮"}
+              <p className="custom-font description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
+              Year: {arts[currentArtIndex].year!=="" ? arts[currentArtIndex].year : ""}
               </p>
 
 
-              <p className="lg:mt-4 mt-2 custom-font text-sm lg:text-lg anim-appear-2 text-[#837341] w-5/6 text-justify leading-10 font-light">
-                {Array.isArray(arts?.tags) ? arts.tags.join(', ') : ""}
-                {Array.isArray(arts?.tags_Bangla) ? ', ' + arts.tags_Bangla.join(', ') : ""}
+              <p className="lg:mt-4 mt-2 description custom-font text-sm lg:text-lg anim-appear-2 text-[#837341] w-5/6 text-justify leading-10 font-light">
+                {Array.isArray(arts[currentArtIndex]?.tags) ? arts[currentArtIndex].tags.join(', ') : ""}
+                {Array.isArray(arts[currentArtIndex]?.tags_Bangla) ? ', ' + arts[currentArtIndex].tags_Bangla.join(', ') : ""}
               </p>
+              <br></br>
             </div>
 
             {/* Menu Cross */}
@@ -333,11 +406,13 @@ export default function Home() {
             </div>
 
             {/* Next Button */}
-            <div className="anim-appear-2 absolute bottom-0 right-0">
-              <div className="bg-black m-4 p-4 lg:px-4 px-8">
-                <GrNext className="lg:text-2xl text-xl text-white"/>
+            <button onClick={() => handleNext(currentArtIndex)}>
+              <div className="anim-appear-2 absolute bottom-0 right-0">
+                <div className="bg-black m-4 p-4 lg:px-4 px-8">
+                  <GrNext className="lg:text-2xl text-xl text-white"/>
+                </div>
               </div>
-            </div>
+            </button>
         </div>
       </div>
 
