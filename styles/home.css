@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Tiro+Bangla:ital@0;1&display=swap');
 
+html,body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+}
+
 @keyframes borderAnimation {
     from {
         border-width: 0px;
@@ -7,7 +15,7 @@
     }
 
     to {
-        border-width: 1em;
+        border-width: 16px;
         /* Default final desired border width */
     }
 }
@@ -63,7 +71,7 @@
         }
 
         to {
-            border-width: 2.5em;
+            border-width: 40px;
             /* Increased border width for larger screens */
         }
     }
@@ -72,9 +80,7 @@
 /* Ensuring the border does not zoom */
 .image-container {
     overflow: hidden;
-    /* border: 0px solid #ec1f2e; */
-    /* Make border initially invisible */
-    transition: border-color 1s ease-in-out;
+    /* transition: border-color 1s ease-in-out; */
     animation: borderAnimation 2s ease-in-out 1.5s forwards;
     /* Animation for the border starts after 2s delay */
 }
@@ -119,6 +125,11 @@
 .anim-appear-3 {
     opacity: 0;
     animation: appear 1.5s ease-in-out 0.5s forwards;
+}
+
+.anim-appear-4 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 0.75s forwards;
 }
 
 .hover-effect {

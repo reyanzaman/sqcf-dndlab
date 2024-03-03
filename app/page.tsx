@@ -98,13 +98,20 @@ export default function Home() {
   ];
 
   const colorArray = [
-    "#ec1f2e",
-    "#FBA834",
-    "#333A73",
-    "#FF9843",
-    "#402B3A",
-    "#D63484",
-    "#9ADE7B",
+    // "#ec1f2e",
+    // "#FBA834",
+    // "#333A73",
+    // "#FF9843",
+    // "#402B3A",
+    // "#D63484",
+    // "#9ADE7B",
+    "#000000",
+    "#111111",
+    "#222021",
+    "#222222",
+    "#333333",
+    "#444444",
+    "#555555",
   ];
 
 
@@ -162,7 +169,7 @@ export default function Home() {
   if (error) return <ErrorScreen />;
 
   return (
-    <main className="overflow-hidden">
+    <main className="">
       <div className={classnames("bg-black w-[100vw] h-[100vh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
 
       <div className={`flex flex-col ${isMenuVisible ? 'hidden' : ''} ${isDescriptionVisible ? 'hidden' : ''}`}>
@@ -269,7 +276,7 @@ export default function Home() {
               src={`${arts[currentArtIndex].imageUrl}`}
               alt="High Noon"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="image-zoom"
             />
 
@@ -294,7 +301,7 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:w-1/2 w-fit h-full flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 -translate-y-12">
+          <div className="lg:w-1/2 w-fit h-[100%] flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 -translate-y-12">
             <ul className="">
               {/* Dynamically generate menu items, excluding the currentArtIndex */}
               {arts.map((art, index) => (
@@ -323,7 +330,7 @@ export default function Home() {
           </div>
 
           {/* SQCF Foundation */}
-          <div className="overflow-hidden absolute lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 mt-0">
+          <div className="overflow-clip h-fit lg:absolute fixed lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 my-0">
             <Link href="about">
               <div className="lg:py-4 lg:px-4 py-4 px-6 m-0 bg-black link-comp">
                 <h1 className="text-white text-lg text-center hover-effect">ABOUT SQCF FOUNDATION</h1>
@@ -370,44 +377,44 @@ export default function Home() {
                 src={`${arts[currentArtIndex].imageUrl}`}
                 alt="High Noon"
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
                 className="image-zoom2 drop-shadow-xl border-2 border-black"
               />
             </div>
 
             {/* Right part with description */}
-            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit h-auto flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 my-8 lg:-translate-y-12 translate-y-0">
+            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit lg:h-[84%] h-[88%] flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 my-8 lg:-translate-y-12 translate-y-1">
               <br></br>
 
-              <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
+              <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear-4 text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
 
-              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-2 text-gray-800">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</p>
+              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-4 text-gray-800">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</p>
 
-              <hr className="anim-appear-2 border w-full my-5 border-[#bbb190]"></hr>
+              <hr className="anim-appear-4 border w-full my-5 border-[#bbb190]"></hr>
 
-              <p className="lg:mt-2 description text-base lg:text-xl anim-appear-2 text-gray-800 lg:w-5/6 w-[92%] text-justify font-light">
+              <p className="lg:mt-2 description text-base lg:text-xl anim-appear-4 text-gray-800 lg:w-5/6 w-[92%] text-justify font-light">
               {arts[currentArtIndex].description!=="" ? arts[currentArtIndex].description : ""}
               </p>
-              <p className="mt-3 lg:mb-0 mb-3 description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify font-light">
+              <p className="mt-3 lg:mb-0 mb-3 description text-base lg:text-xl anim-appear-4 text-gray-800 w-5/6 text-justify font-light">
               {arts[currentArtIndex].publication!=="" ? arts[currentArtIndex].publication: ""}
               </p>
 
-              <p className="lg:mt-4 mt-2 description custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
+              <p className="lg:mt-4 mt-2 description custom-font text-base lg:text-xl anim-appear-4 text-gray-800 w-5/6 text-justify leading-10 font-light">
               {arts[currentArtIndex].height!=="" ? arts[currentArtIndex].height : ""}cm x {arts[currentArtIndex].width!=="" ? arts[currentArtIndex].width : ""}cm
               <br></br>
               {arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} ({arts[currentArtIndex].medium!=="" ? arts[currentArtIndex].medium : ""})
               </p>
 
-              {/* <p className="lg:mt-4 mt-2 custom-font text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
+              {/* <p className="lg:mt-4 mt-2 custom-font text-base lg:text-xl anim-appear-4 text-gray-800 w-5/6 text-justify leading-10 font-light">
               Type: {arts.type!=="" ? arts.type : "Painting"}
               </p> */}
 
-              <p className="custom-font description text-base lg:text-xl anim-appear-2 text-gray-800 w-5/6 text-justify leading-10 font-light">
+              <p className="custom-font description text-base lg:text-xl anim-appear-4 text-gray-800 w-5/6 text-justify leading-10 font-light">
               Year: {arts[currentArtIndex].year!=="" ? arts[currentArtIndex].year : ""}
               </p>
 
 
-              <p className="lg:mt-4 mt-2 description custom-font text-sm lg:text-lg anim-appear-2 text-[#837341] w-5/6 text-justify leading-10 font-light">
+              <p className="lg:mt-4 mt-2 description custom-font text-sm lg:text-lg anim-appear-4 text-[#837341] w-5/6 text-justify leading-10 font-light">
                 {Array.isArray(arts[currentArtIndex]?.tags) ? arts[currentArtIndex].tags.join(', ') : ""}
                 {Array.isArray(arts[currentArtIndex]?.tags_Bangla) ? ', ' + arts[currentArtIndex].tags_Bangla.join(', ') : ""}
               </p>
@@ -417,7 +424,7 @@ export default function Home() {
             {/* Menu Cross */}
             <div className="absolute anim-appear-3 top-0 right-0 lg:mr-[1.5em] lg:mt-[1.5em] mr-[0] mt-[0]">
               <button onClick={toggleDescription}>
-                <div className="lg:p-3 p-4 bg-black">
+                <div className="lg:p-3 p-2 bg-black">
                   <IoClose  className="lg:text-4xl text-xl text-white"/>
                 </div>
               </button>
@@ -426,7 +433,7 @@ export default function Home() {
             {/* Next Button */}
             <button onClick={() => handleNext(currentArtIndex)}>
               <div className="anim-appear-2 absolute bottom-0 right-0">
-                <div className="bg-black m-4 p-4 lg:px-4 px-8">
+                <div className="bg-black m-4 lg:p-4 p-3 lg:px-4 px-6">
                   <GrNext className="lg:text-2xl text-xl text-white"/>
                 </div>
               </div>
