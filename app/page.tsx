@@ -301,7 +301,7 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:overflow-hidden overflow-scroll lg:w-1/2 w-[92%] h-fit flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
+          <div className="lg:overflow-hidden overflow-scroll lg:w-1/2 w-[92%] lg:h-fit h-[85dvh] flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
             <ul className="">
               {/* Dynamically generate menu items, excluding the currentArtIndex */}
               {arts.map((art, index) => (
@@ -330,7 +330,10 @@ export default function Home() {
           </div>
 
           {/* SQCF Foundation */}
-          <div className="lg:border-0 border-t-8 border-white overflow-clip h-fit lg:absolute fixed lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 my-0">
+          <div className="
+          overflow-clip h-fit anim-appear-3
+          lg:absolute lg:w-auto lg:top-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em]
+          fixed w-[100dvw] bottom-0 mr-0 my-0">
             <Link href="about">
               <div className="lg:py-4 lg:px-4 py-4 px-6 m-0 bg-black link-comp">
                 <h1 className="text-white text-lg text-center hover-effect">ABOUT SQCF FOUNDATION</h1>
