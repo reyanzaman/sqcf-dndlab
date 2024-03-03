@@ -339,7 +339,7 @@ export default function Home() {
           </div>
 
           {/* Logo */}
-          {/* <div className="absolute top-0 left-0 p-0 anim-appear-3">
+          <div className="absolute top-0 left-0 lg:p-[40px] anim-appear-2">
             <div className="lg:flex items-center justify-center w-[90px] lg:w-[100px] h-[90px] lg:h-[100px] bg-[#f3ecdc] pr-1 hidden">
               <Image
                 src="/images/logo.jpg"
@@ -349,7 +349,7 @@ export default function Home() {
                 className="w-auto lg:h-[90px] h-[70px]"
               />
             </div>
-          </div> */}
+          </div>
 
           {/* Rotated Links */}
           <div className="flex flex-row absolute lg:bottom-0 lg:right-0 lg:left-auto left-0 transform lg:-rotate-90 rotate-0
@@ -372,7 +372,7 @@ export default function Home() {
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
         <div className="flex h-screen bg-whitesmoke">
             {/* Left part with image */}
-            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#FDF0D1]">
+            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#111111]">
               <Image
                 src={`${arts[currentArtIndex].imageUrl}`}
                 alt="High Noon"
