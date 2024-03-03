@@ -365,13 +365,13 @@ export default function Home() {
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
         <div className="flex h-screen bg-whitesmoke">
             {/* Left part with image */}
-            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#f4ecd1]">
+            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#FDF0D1]">
               <Image
                 src={`${arts[currentArtIndex].imageUrl}`}
                 alt="High Noon"
                 layout="fill"
                 objectFit="contain"
-                className="image-zoom2 drop-shadow-xl"
+                className="image-zoom2 drop-shadow-xl border-2 border-black"
               />
             </div>
 
