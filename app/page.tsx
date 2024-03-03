@@ -330,7 +330,7 @@ export default function Home() {
           </div>
 
           {/* SQCF Foundation */}
-          <div className="overflow-clip h-fit lg:absolute fixed lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 my-0">
+          <div className="lg:border-0 border-t-8 border-white overflow-clip h-fit lg:absolute fixed lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 my-0">
             <Link href="about">
               <div className="lg:py-4 lg:px-4 py-4 px-6 m-0 bg-black link-comp">
                 <h1 className="text-white text-lg text-center hover-effect">ABOUT SQCF FOUNDATION</h1>
