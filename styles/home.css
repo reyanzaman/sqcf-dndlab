@@ -19,7 +19,7 @@
     }
 
     to {
-        transform: scale(1.1);
+        transform: scale(1);
         /* Ending scale, creating a zoom effect */
     }
 }
@@ -84,7 +84,6 @@
     height: 100%;
     object-fit: cover;
     animation: zoomEffect 3s ease-in-out forwards;
-    /* Longer zoom effect, independent of border */
 }
 
 .image-zoom2 {
@@ -92,7 +91,6 @@
     height: 100%;
     object-fit: cover;
     animation: zoomEffect2 3s ease-in-out forwards;
-    /* Longer zoom effect, independent of border */
 }
 
 .custom-font {

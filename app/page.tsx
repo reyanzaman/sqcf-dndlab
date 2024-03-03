@@ -258,14 +258,18 @@ export default function Home() {
 
           {/* Left part with image */}
           <div
-            style={{ borderColor: colorArray[currentArtIndex] || colorArray[0], borderWidth: '0px', borderStyle: 'solid' }}
+            style={{ borderColor: colorArray[currentArtIndex] || colorArray[0],
+               borderWidth: '0px',
+               borderStyle: 'solid',
+               backgroundColor: colorArray[currentArtIndex] || colorArray[0]
+              }}
             className="w-1/2 h-full relative overflow-hidden image-container hidden lg:flex"
           >
             <Image
               src={`${arts[currentArtIndex].imageUrl}`}
               alt="High Noon"
               layout="fill"
-              objectFit="cover"
+              objectFit="contain"
               className="image-zoom"
             />
 
@@ -319,7 +323,7 @@ export default function Home() {
           </div>
 
           {/* SQCF Foundation */}
-          <div className="absolute lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 mt-[1em]">
+          <div className="overflow-hidden absolute lg:w-auto w-full anim-appear-3 lg:top-0 bottom-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em] mr-0 mt-0">
             <Link href="about">
               <div className="lg:py-4 lg:px-4 py-4 px-6 m-0 bg-black link-comp">
                 <h1 className="text-white text-lg text-center hover-effect">ABOUT SQCF FOUNDATION</h1>
@@ -328,17 +332,17 @@ export default function Home() {
           </div>
 
           {/* Logo */}
-          <div className="absolute top-0 left-0 lg:p-[2.5em] p-0 anim-appear-3">
-            <div className="lg:flex items-center justify-center w-[90px] lg:w-[150px] h-[90px] lg:h-[150px] bg-[#f3ecdc] pr-1 hidden">
+          {/* <div className="absolute top-0 left-0 p-0 anim-appear-3">
+            <div className="lg:flex items-center justify-center w-[90px] lg:w-[100px] h-[90px] lg:h-[100px] bg-[#f3ecdc] pr-1 hidden">
               <Image
                 src="/images/logo.jpg"
                 alt="Logo"
-                width={75}
-                height={75}
-                className="w-auto lg:h-[140px] h-[70px]"
+                width={90}
+                height={90}
+                className="w-auto lg:h-[90px] h-[70px]"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Rotated Links */}
           <div className="flex flex-row absolute lg:bottom-0 lg:right-0 lg:left-auto left-0 transform lg:-rotate-90 rotate-0
@@ -359,14 +363,14 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
 
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
-        <div className="flex h-screen">
+        <div className="flex h-screen bg-whitesmoke">
             {/* Left part with image */}
-            <div className="w-5/6 h-full relative overflow-hidden hidden lg:flex bg-[#f4ecd1]">
+            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#f4ecd1]">
               <Image
                 src={`${arts[currentArtIndex].imageUrl}`}
                 alt="High Noon"
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
                 className="image-zoom2 drop-shadow-xl"
               />
             </div>
