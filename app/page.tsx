@@ -271,9 +271,9 @@ export default function Home() {
 
             {/* Title */}
             <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3">
-                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
+                <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
                 <div className="lg:mt-6 mt-4 lg:mb-0 mb-8 lg:space-y-4">
-                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
+                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
                 </div>
                 <div>
                   <div className="custom-link">
