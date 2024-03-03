@@ -170,7 +170,7 @@ export default function Home() {
 
   return (
     <main className="">
-      <div className={classnames("bg-black w-[100vw] h-[100vh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
+      <div className={classnames("bg-black w-[100vw] h-[100dvh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
 
       <div className={`flex flex-col ${isMenuVisible ? 'hidden' : ''} ${isDescriptionVisible ? 'hidden' : ''}`}>
         {/* Landing Image */}
