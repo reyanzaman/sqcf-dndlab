@@ -174,7 +174,7 @@ export default function Home() {
 
       <div className={`flex flex-col ${isMenuVisible ? 'hidden' : ''} ${isDescriptionVisible ? 'hidden' : ''}`}>
         {/* Landing Image */}
-        <div className="relative w-screen h-screen overflow-hidden">
+        <div className="relative lg:w-screen lg:h-screen h-[100dvh] w-[100dvw] overflow-hidden">
           <div
             style={{ borderColor: colorArray[currentArtIndex] || colorArray[0], borderWidth: '0px', borderStyle: 'solid' }}
             className="m-0 absolute inset-0 image-container"
@@ -203,7 +203,7 @@ export default function Home() {
         </div>
 
         {/* Title */}
-        <div className="flex flex-col items-center lg:justify-center justify-end w-screen h-screen absolute">
+        <div className="flex flex-col items-center lg:justify-center justify-end w-screen lg:h-screen h-[100dvh] absolute">
             <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : "HIGH NOON"}</h1>
             <div className="lg:mt-14 mt-4 lg:mb-2 mb-6 lg:space-y-4">
               <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.3px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
@@ -261,7 +261,7 @@ export default function Home() {
 
       <div className={`${isMenuVisible ? '' : 'hidden'} ${isDescriptionVisible ? 'hidden' : ''}`}>
 
-        <div className="flex h-screen">
+        <div className="flex lg:h-screen h-[100%]">
 
           {/* Left part with image */}
           <div
@@ -301,7 +301,7 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:w-1/2 w-fit h-[100%] flex flex-col lg:justify-start justify-center items-start bg-gray-100 transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 -translate-y-12">
+          <div className="lg:w-1/2 w-[92%] h-full flex flex-col lg:justify-start justify-center items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
             <ul className="">
               {/* Dynamically generate menu items, excluding the currentArtIndex */}
               {arts.map((art, index) => (
@@ -370,7 +370,7 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
 
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
-        <div className="flex h-screen bg-whitesmoke">
+        <div className="flex lg:h-screen h-[100%] bg-whitesmoke">
             {/* Left part with image */}
             <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#111111]">
               <Image
@@ -432,7 +432,7 @@ export default function Home() {
 
             {/* Next Button */}
             <button onClick={() => handleNext(currentArtIndex)}>
-              <div className="anim-appear-2 absolute bottom-0 right-0">
+              <div className="anim-appear-2 fixed bottom-0 right-0">
                 <div className="bg-black m-4 lg:p-4 p-3 lg:px-4 px-6">
                   <GrNext className="lg:text-2xl text-xl text-white"/>
                 </div>
