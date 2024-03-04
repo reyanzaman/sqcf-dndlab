@@ -194,7 +194,7 @@ html,body {
 
 .hover-effect-red:hover::before {
     margin: 0 0 0 16px;
-    width: 95%;
+    width: 50%;
     visibility: visible;
 }
 
@@ -302,7 +302,7 @@ html,body {
 
     .hover-effect-red:hover::before {
         margin: 0 0 0 4px;
-        width: 100%;
+        width: 55%;
     }
 }
 
