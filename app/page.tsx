@@ -108,12 +108,12 @@ export default function Home() {
     // "#D63484",
     // "#9ADE7B",
     "#000000",
-    "#111111",
-    "#222021",
-    "#222222",
-    "#333333",
-    "#444444",
-    "#555555",
+    "#080402",
+    "#0D0907",
+    "#050100",
+    "#030001",
+    "#040200",
+    "#000302",
   ];
 
 
@@ -386,7 +386,7 @@ export default function Home() {
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
         <div className="flex lg:h-screen h-[100%] bg-whitesmoke">
             {/* Left part with image */}
-            <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#111111]">
+            <div className="w-5/6 h-full overflow-hidden hidden relative lg:flex bg-[#111111]">
               <a
                 data-fancybox-2
                 data-src={`${arts[currentArtIndex].imageUrl}`}
@@ -394,7 +394,7 @@ export default function Home() {
               >
                 <Image
                   src={`${arts[currentArtIndex].imageUrl}`}
-                  alt="High Noon"
+                  alt={`${arts[currentArtIndex].title}`}
                   layout="fill"
                   objectFit="cover"
                   className="image-zoom2 drop-shadow-xl border-2 border-black"
@@ -439,6 +439,27 @@ export default function Home() {
                 {Array.isArray(arts[currentArtIndex]?.tags_Bangla) ? ', ' + arts[currentArtIndex].tags_Bangla.join(', ') : ""}
               </p>
               <br></br>
+
+              {/* Image for mobile */}
+              <div className="lg:hidden visible w-[92dvw] overflow-hidden mb-8">
+                <a
+                  data-fancybox-2
+                  data-src={`${arts[currentArtIndex].imageUrl}`}
+                  data-caption={`${arts[currentArtIndex].title}`}
+                >
+                  <Image
+                    src={`${arts[currentArtIndex].imageUrl}`}
+                    alt={`${arts[currentArtIndex].title}`}
+                    width={500}
+                    height={500}
+                    layout="responsive"
+                    objectFit="cover"
+                    className="relative w-full image-zoom border-8 border-black my-2 shadow-lg"
+                  />
+
+                  <p className="text-center text-sm">CLICK IMAGE TO VIEW FULL PAINTING</p>
+                </a>
+              </div>
             </div>
 
             {/* Menu Cross */}
