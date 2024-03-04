@@ -13,6 +13,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@fancyapps/ui": "^5.0.33",
     "@prisma/client": "^5.10.2",
     "classnames": "^2.5.1",
     "dotenv": "^16.4.5",

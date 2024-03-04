@@ -7,11 +7,13 @@ import { FaArrowRight } from "react-icons/fa6";
 import Link from "next/link";
 import { IoMenuOutline } from "react-icons/io5";
 import { GrNext } from "react-icons/gr";
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/error';
 import { useRouter } from 'next/navigation';
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 export default function Home() {
 
@@ -168,6 +170,9 @@ export default function Home() {
   if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
 
+  Fancybox.bind("[data-fancybox]", {});
+  Fancybox.bind("[data-fancybox-2]", {});
+
   return (
     <main className="">
       <div className={classnames("bg-black w-[100vw] h-[100dvh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
@@ -272,22 +277,28 @@ export default function Home() {
               }}
             className="w-1/2 h-full relative overflow-hidden image-container hidden lg:flex"
           >
-            <Image
-              src={`${arts[currentArtIndex].imageUrl}`}
-              alt="High Noon"
-              layout="fill"
-              objectFit="cover"
-              className="image-zoom"
-            />
+            <a
+              data-fancybox
+              data-src={`${arts[currentArtIndex].imageUrl}`}
+              data-caption={`${arts[currentArtIndex].title}`}
+            >
+              <Image
+                src={`${arts[currentArtIndex].imageUrl}`}
+                alt={`${arts[currentArtIndex].title}`}
+                layout="fill"
+                objectFit="cover"
+                className="image-zoom"
+              />
+            </a>
 
-            {/* Title */}
-            <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3">
+            {/* Title and button */}
+            <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3 pointer-events-none">
                 <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
                 <div className="lg:mt-6 mt-4 lg:mb-0 mb-8 lg:space-y-4">
                   <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
                 </div>
                 <div>
-                  <div className="custom-link">
+                  <div className="custom-link pointer-events-auto">
                   <button onClick={toggleDescription} className="bg-black px-4 lg:py-4 py-3 border-2 border-white lg:px-24 lg:m-6 hover:text-white lg:text-xl text-base flex items-center justify-center relative link-comp">
                     <span className="text-gray-300 flex items-center justify-center hover:text-white duration-300">
                       <span className="relative hover-effect">বিস্তারিত জানুন</span>
@@ -313,10 +324,10 @@ export default function Home() {
                 )
               ))}
 
-              <button className="flex flex-col">
+              <Link href="more" className="flex flex-col">
                 <li className="menu-item text-red-800 hover-effect-red">-View More</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">শিল্পী কাইয়ুম চৌধুরীর আরো শিল্প দেখুন</p>
-              </button>
+              </Link>
             </ul>
           </div>
 
@@ -376,13 +387,19 @@ export default function Home() {
         <div className="flex lg:h-screen h-[100%] bg-whitesmoke">
             {/* Left part with image */}
             <div className="w-5/6 h-full overflow-hidden relative hidden lg:flex bg-[#111111]">
-              <Image
-                src={`${arts[currentArtIndex].imageUrl}`}
-                alt="High Noon"
-                layout="fill"
-                objectFit="cover"
-                className="image-zoom2 drop-shadow-xl border-2 border-black"
-              />
+              <a
+                data-fancybox-2
+                data-src={`${arts[currentArtIndex].imageUrl}`}
+                data-caption={`${arts[currentArtIndex].title}`}
+              >
+                <Image
+                  src={`${arts[currentArtIndex].imageUrl}`}
+                  alt="High Noon"
+                  layout="fill"
+                  objectFit="cover"
+                  className="image-zoom2 drop-shadow-xl border-2 border-black"
+                />
+              </a>
             </div>
 
             {/* Right part with description */}
