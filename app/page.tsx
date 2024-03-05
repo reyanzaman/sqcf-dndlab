@@ -441,7 +441,7 @@ export default function Home() {
               <br></br>
 
               {/* Image for mobile */}
-              <div className="lg:hidden visible w-[92dvw] overflow-hidden mb-8">
+              <div className="lg:hidden visible w-[92dvw] overflow-hidden mb-8 anim-appear">
                 <a
                   data-fancybox-2
                   data-src={`${arts[currentArtIndex].imageUrl}`}
