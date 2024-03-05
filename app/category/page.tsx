@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
 import ErrorScreen from '../../components/error';
 
-export default function More() {
+export default function Category() {
 
   interface Art {
     title: string;

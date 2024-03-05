@@ -324,7 +324,7 @@ export default function Home() {
                 )
               ))}
 
-              <Link href="more" className="flex flex-col">
+              <Link href="home" className="flex flex-col">
                 <li className="menu-item text-red-800 hover-effect-red">-View More</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">শিল্পী কাইয়ুম চৌধুরীর আরো শিল্প দেখুন</p>
               </Link>
