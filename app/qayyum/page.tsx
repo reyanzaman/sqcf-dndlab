@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import "../../styles/innerPage.css";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import React, { useEffect, useState } from 'react';

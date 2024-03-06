@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import "../../styles/innerPage.css";
 import "../../styles/home.css";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
@@ -32,10 +31,6 @@ export default function Home() {
 
   const [arts, setArts] = useState<Art[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [isReady, setIsReady] = useState(false);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -46,22 +41,11 @@ export default function Home() {
     "f8e00d90-fa2a-425b-92a4-98759c82a7b9",
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 2500);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [isReady, setIsReady] = useState(false);
 
-    const preloadImages = (arts: Art[]) => {
-      const loadImage = (src: string) =>
-        new Promise((resolve, reject) => {
-          const img = new window.Image();
-          img.src = src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      // Map each art object to a loadImage promise
-      const imagePromises = arts.map((art) => loadImage(art.imageUrl));
-      // Use Promise.all to wait for all images to be loaded
-      return Promise.all(imagePromises);
-    };
+  useEffect(() => {
 
     const fetchData = async () => {
       try {
@@ -75,7 +59,7 @@ export default function Home() {
         );
         const results = await Promise.all(fetchPromises);
         setArts(results);
-        preloadImages(results);
+        setIsReady(true);
       } catch (error) {
         console.error("Failed to fetch arts:", error);
         setError("Failed to load artworks. Please try again later.");
@@ -83,12 +67,11 @@ export default function Home() {
         setIsLoading(false);
       }
     };
-
     fetchData();
-    return () => clearTimeout(timer);
+    return;
   }, []);
 
-  if (!isReady || isLoading) return <LoadingScreen />;
+  if (!isReady || isLoading) return <div className="bg-black w-full h-full"></div>;
   if (error) return <ErrorScreen />;
 
   Fancybox.bind("[data-fancybox]", {
@@ -96,23 +79,10 @@ export default function Home() {
   });
 
   return (
-    <main className="bg-[#000000] text-white">
-
-      {/* Logo */}
-      {/* <div className="top-0 right-0 appear z-30 border-8 border-[#0c0f0c] absolute hidden lg:block">
-        <div className="flex items-center justify-center w-[80px] h-[80px] bg-[#f3ecdc]">
-          <Image
-            src="/images/logo.jpg"
-            alt="Logo"
-            width={85}
-            height={85}
-            className="w-auto lg:h-[70px] h-[70px]"
-          />
-        </div>
-      </div> */}
+    <main className="bg-[#000000] text-white h-full w-full">
 
       <div className="flex flex-col">
-        <div className="">
+        <div className="anim-appear-3 z-50">
           {/* Navbar */}
           {isMenuOpen ? (
             // Mobile
@@ -271,10 +241,10 @@ export default function Home() {
               Explore the collection of his paintings, drawings, writings and more.
             </p>
             <hr className="my-6 opacity-0"></hr>
-            <Link href="#"
+            <Link href="category"
               className="text-3xl text-gray-300 hover:text-white
               flex flex-row items-center justify-start lg:mx-0 mx-4
-              transform hover:translate-x-2">
+              transform hover:translate-x-1">
                 <FaArrowRight></FaArrowRight>
                 <p className="custom-font text-3xl ml-3 text-gray-300 hover:text-white">Explore</p>
             </Link>

@@ -3,12 +3,13 @@
 import Image from "next/image";
 import "../styles/home.css";
 import classnames from "classnames";
-import { FaArrowRight } from "react-icons/fa6";
 import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import { FaArrowRight } from "react-icons/fa6";
 import { IoMenuOutline } from "react-icons/io5";
 import { GrNext } from "react-icons/gr";
-import React, { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
+import { IoAppsSharp } from "react-icons/io5";
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/error';
 import { useRouter } from 'next/navigation';
@@ -219,7 +220,8 @@ export default function Home() {
               <div className="anim-appear-2 custom-link">
               <button onClick={toggleDescription}
               className="bg-black px-4 lg:py-4 py-3 border-2 border-white lg:px-24 lg:m-6
-            hover:text-white lg:text-xl text-base flex items-center justify-center relative link-comp w-full">
+            hover:text-white lg:text-xl text-base flex items-center justify-center relative link-comp w-full
+            transform lg:-translate-x-6 translate-x-0">
                 <span className="text-gray-300 flex items-center justify-center hover:text-white duration-300">
                   <span className="relative hover-effect">বিস্তারিত জানুন</span>
                   <FaArrowRight className="ml-4 transform lg:-translate-x-1 -translate-x-1"/>
@@ -239,6 +241,26 @@ export default function Home() {
             </div>
           </button>
         )}
+
+        {/* Next Button only if currentArtIndex is 6 */}
+        {currentArtIndex == arts.length - 1 && (
+          <Link href="home">
+            <div className="anim-appear-2 next-button-container">
+              <div className="next-button">
+                <GrNext className="lg:text-4xl text-4xl text-white"/>
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {/* View More Main Page */}
+        <div className="absolute bottom-0 left-0 transform translate-x-[40vw] lg:block hidden anim-appear-2">
+          <Link href="category" className="bg-black p-2 m-16 flex justify-center items-center border-2
+          border-white hover:shadow-lg text-gray-300 hover:text-white">
+            <IoAppsSharp className="text-xl mx-2"/>
+            <h1 className="text-xl mr-2">View More</h1>
+          </Link>
+        </div>
 
         {/* Back Button, only if currentArtIndex is not 0 */}
         {currentArtIndex !== 0 && (
