@@ -117,9 +117,28 @@ export default function Home() {
     "#000302",
   ];
 
+  const imageCache = new Map();
+
+  const preloadImages = (arts: Art[]) => {
+    const loadImage = (src: string) => new Promise((resolve, reject) => {
+      if (imageCache.has(src)) {
+        resolve(imageCache.get(src)); // Use cached image
+        return;
+      }
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => {
+        imageCache.set(src, img); // Add to cache
+        resolve(img);
+      };
+      img.onerror = reject;
+    });
+
+    const imagePromises = arts.map(art => loadImage(art.imageUrl));
+    return Promise.all(imagePromises);
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 2500);
 
     let params = new URLSearchParams(window.location.search);
     let indexFromUrl = params.get('currentArtIndex');
@@ -129,19 +148,6 @@ export default function Home() {
     } else {
       setCurrentArtIndex(Number('0'));
     }
-
-    const preloadImages = (arts: Art[]) => {
-      const loadImage = (src: string) => new Promise((resolve, reject) => {
-        const img = new window.Image();
-        img.src = src;
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-      // Map each art object to a loadImage promise
-      const imagePromises = arts.map(art => loadImage(art.imageUrl));
-      // Use Promise.all to wait for all images to be loaded
-      return Promise.all(imagePromises);
-    };
 
     const fetchData = async () => {
       try {
@@ -155,17 +161,18 @@ export default function Home() {
         );
         const results = await Promise.all(fetchPromises);
         setArts(results);
-        preloadImages(results);
+        await preloadImages(results);
+
       } catch (error) {
         console.error('Failed to fetch arts:', error);
         setError('Failed to load artworks. Please try again later.');
       } finally {
         setIsLoading(false);
+        setIsReady(true);
       }
     };
 
     fetchData();
-    return () => clearTimeout(timer);
   }, [router]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
