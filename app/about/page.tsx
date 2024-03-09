@@ -267,7 +267,7 @@ export default function About() {
                 data-src="/images/zaber.JPG"
                 data-caption="Moinul Islam Zaber"
               >
-              <Image src="/images/zaber.jpg" alt="Moinul Islam Zaber" layout="fill" objectFit="cover"/>
+              <Image src="/images/zaber.JPG" alt="Moinul Islam Zaber" layout="fill" objectFit="cover"/>
               </a>
             </div>
             <div className="py-6">
