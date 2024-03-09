@@ -6,30 +6,11 @@ import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import React, { useEffect, useState } from 'react';
 import ErrorScreen from '../../components/error';
+import LoadingScreen from '../../components/LoadingScreen';
 import "../../styles/home.css";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 export default function About() {
-
-  interface Art {
-    title: string;
-    title_Bangla: string;
-    artist: string;
-    year: string;
-    year_Bangla: string;
-    imageUrl: string;
-    description: string;
-    width: string;
-    height: string;
-    medium: string;
-    medium_Bangla: string;
-    type: string;
-    publication: string;
-    tags: [string];
-    tags_Bangla: [string];
-  }
-
-  const [arts, setArts] = useState<Art[]>([]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -37,41 +18,53 @@ export default function About() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const specificArtIdArray = [
-    "f8e00d90-fa2a-425b-92a4-98759c82a7b9",
-  ];
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isReady, setIsReady] = useState(false);
 
+  const imagePaths: string[] = [
+    "/images/zaber.JPG",
+    "/images/mrittika.jpg",
+    "/images/qc2.jpg",
+    "/images/tariqul.jpg",
+    "/images/tahera.jpg",
+  ];
+
+  const imageCache = new Map();
+
+  const preloadImages = () => {
+    const loadImage = (src: string) => new Promise((resolve, reject) => {
+      if (imageCache.has(src)) {
+        resolve(imageCache.get(src)); // Use cached image
+        return;
+      }
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => {
+        imageCache.set(src, img); // Add to cache
+        resolve(img);
+      };
+      img.onerror = reject;
+    });
+
+    return Promise.all(imagePaths.map(path => loadImage(path)));
+  };
+
   useEffect(() => {
 
-    const fetchData = async () => {
-      try {
-        const fetchPromises = specificArtIdArray.map((id) =>
-          fetch(`/api/getArt?id=${id}`).then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
-        );
-        const results = await Promise.all(fetchPromises);
-        setArts(results);
-        setIsReady(true);
-      } catch (error) {
-        console.error("Failed to fetch arts:", error);
-        setError("Failed to load artworks. Please try again later.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    preloadImages().then((images) => {
+      console.log('All specified images have been preloaded and cached.', images);
+    }).catch(error => {
+      console.error('Error preloading images:', error);
+    });
+
+    setIsLoading(false);
+    setIsReady(true);
     return;
+
   }, []);
 
-  if (!isReady || isLoading) return <div className="bg-black w-[100dvw] h-[100dvh]"></div>;
+  if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
 
   Fancybox.bind("[data-fancybox]", {
@@ -271,7 +264,7 @@ export default function About() {
             <div className="w-full h-80 relative">
               <a
                 data-fancybox
-                data-src="/images/zaber.jpg"
+                data-src="/images/zaber.JPG"
                 data-caption="Moinul Islam Zaber"
               >
               <Image src="/images/zaber.jpg" alt="Moinul Islam Zaber" layout="fill" objectFit="cover"/>
