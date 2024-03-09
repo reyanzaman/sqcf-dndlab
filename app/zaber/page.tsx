@@ -2,15 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import "../../styles/home.css";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../components/LoadingScreen";
-import ErrorScreen from "../../components/error";
-import { FaArrowRight } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react';
+import LoadingScreen from '../../components/LoadingScreen';
+import ErrorScreen from '../../components/error';
 
-export default function Home() {
+export default function Zaber() {
+
   interface Art {
     title: string;
     title_Bangla: string;
@@ -71,18 +70,20 @@ export default function Home() {
     return;
   }, []);
 
-  if (!isReady || isLoading) return <div className="bg-black w-full h-full"></div>;
+  if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
 
   Fancybox.bind("[data-fancybox]", {
     // Your custom options
   });
 
-  return (
-    <main className="bg-[#000000] text-white h-full w-full">
+  Fancybox.bind("[data-fancybox]", {
+    // Your custom options
+  });
 
-      <div className="flex flex-col">
-        <div className="anim-appear-3 z-50">
+  return <main className="bg-[#000000] h-[100dvh] w-[100dvw] text-white p-8">
+    <div className="h-full w-full flex flex-col items-center justify-center">
+      <div className="anim-appear-3 z-50">
           {/* Navbar */}
           {isMenuOpen ? (
             // Mobile
@@ -202,7 +203,7 @@ export default function Home() {
                       <li>
                         <a
                           href="home"
-                          className="py-2 px-3 text-white appear md:p-0 md:py-1 border-b border-white "
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1  "
                           aria-current="page"
                         >
                           Home
@@ -211,7 +212,7 @@ export default function Home() {
                       <li>
                         <a
                           href="category"
-                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1"
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1 border-b border-white"
                         >
                           Arts & Writings
                         </a>
@@ -219,7 +220,7 @@ export default function Home() {
                       <li>
                         <a
                           href="about"
-                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1"
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1 "
                         >
                           About
                         </a>
@@ -230,54 +231,11 @@ export default function Home() {
               </nav>
             </div>
           )}
-        </div>
-
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between anim-appear-4">
-          <div className="lg:w-1/2 px-4 lg:px-16 h-full transform translate-y-[15dvh]">
-            <h1 className="custom-font lg:text-6xl text-5xl lg:mt-0 mt-8 lg:mx-0 mx-4 text-white leading-[4.2rem]">
-              Discover the Life and Work of Artist Qayyum Chowdhury
-            </h1>
-            <p className="custom-font text-2xl text-white mt-8 lg:mx-0 mx-4">
-              Explore the collection of his paintings, drawings, writings and more.
-            </p>
-            <hr className="my-6 opacity-0"></hr>
-            <Link href="category"
-              className="text-3xl text-gray-300 hover:text-white
-              flex flex-row items-center justify-start lg:mx-0 mx-4
-              transform hover:translate-x-1">
-                <FaArrowRight></FaArrowRight>
-                <p className="custom-font text-3xl ml-3 text-gray-300 hover:text-white">Explore</p>
-            </Link>
-          </div>
-          <div className="lg:flex hidden mr-16">
-            <hr className="border-gray-50 mt-14 border-2 mx-auto w-[80dvw] lg:hidden block"></hr>
-            <div className="lg:flex lg:flex-1 lg:justify-center">
-              <div className="overflow-hidden lg:translate-y-[18dvh] translate-y-16 h-fitlg:mx-0 mx-6">
-                <div className="">
-                  <a
-                    data-fancybox
-                    data-src={`${arts[0].imageUrl}`}
-                    data-caption={`${arts[0].title}`}
-                  >
-                    <Image
-                      src={`${arts[0].imageUrl}`}
-                      alt={`${arts[0].title}`}
-                      height={550}
-                      width={550}
-                      objectFit="contain"
-                      className="image-zoom-2 rounded"
-                    />
-                  </a>
-                  <p className="bangla-font text-center my-4 text-xl">{`${arts[0].title_Bangla}`}
-                  &nbsp;- {`${arts[0].artist}`}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-    </main>
-  );
+      <div>
+        <h1 className="text-5xl text-center">Under Development</h1>
+      </div>
+    </div>
+  </main>;
 }

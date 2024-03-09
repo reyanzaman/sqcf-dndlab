@@ -119,7 +119,7 @@ export default function Home() {
 
   const imageCache = new Map();
 
-  const preloadImages = (arts: Art[]) => {
+  const preloadImages = (arts: Art[], currentArtIndex?: number) => {
     const loadImage = (src: string) => new Promise((resolve, reject) => {
       if (imageCache.has(src)) {
         resolve(imageCache.get(src)); // Use cached image
@@ -134,8 +134,11 @@ export default function Home() {
       img.onerror = reject;
     });
 
-    const imagePromises = arts.map(art => loadImage(art.imageUrl));
-    return Promise.all(imagePromises);
+    // Ensure currentArtIndex is a valid index; otherwise, default to 0
+    const validIndex = typeof currentArtIndex === 'number' && currentArtIndex >= 0 && currentArtIndex < arts.length ? currentArtIndex : 0;
+
+    // Load the image at currentArtIndex or 0
+    return loadImage(arts[validIndex].imageUrl);
   };
 
   useEffect(() => {
@@ -182,7 +185,7 @@ export default function Home() {
   Fancybox.bind("[data-fancybox-2]", {});
 
   return (
-    <main className="">
+    <main className="bg-black">
       <div className={classnames("bg-black w-[100vw] h-[100dvh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
 
       <div className={`flex flex-col ${isMenuVisible ? 'hidden' : ''} ${isDescriptionVisible ? 'hidden' : ''}`}>
@@ -295,7 +298,7 @@ export default function Home() {
 
       <div className={`${isMenuVisible ? '' : 'hidden'} ${isDescriptionVisible ? 'hidden' : ''}`}>
 
-        <div className="flex lg:h-screen h-[100%]">
+        <div className="flex lg:h-screen h-[100%] bg-[whitesmoke]">
 
           {/* Left part with image */}
           <div
@@ -401,7 +404,7 @@ export default function Home() {
                 <p>Qayyum Chowdhury</p>
               </Link>
               <Link href="/tahera" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
-                <p>Tahera Khanom</p>
+                <p>Tahera Khanam</p>
               </Link>
           </div>
 
@@ -413,7 +416,7 @@ export default function Home() {
       {/* ----------------------------------------------------------------- */}
 
       <div className={`${isDescriptionVisible ? '' : 'hidden'}`}>
-        <div className="flex lg:h-screen h-[100%] bg-whitesmoke">
+        <div className="flex lg:h-screen h-[100%] bg-[whitesmoke]">
             {/* Left part with image */}
             <div className="w-5/6 h-full overflow-hidden hidden relative lg:flex bg-[#111111]">
               <a

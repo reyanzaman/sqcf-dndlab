@@ -132,6 +132,11 @@ html,body {
     animation: appear 1.5s ease-in-out 0.75s forwards;
 }
 
+.anim-appear-5 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 0.65s forwards;
+}
+
 .hover-effect {
     display: inline-block;
     position: relative;

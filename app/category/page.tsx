@@ -83,7 +83,7 @@ export default function Category() {
 
   return <main className="bg-[#000000] h-[100dvh] w-[100dvw] text-white p-8">
     <div className="h-full w-full flex flex-col items-center justify-center">
-        <div className="anim-appear-3 z-50">
+      <div className="anim-appear-3 z-50">
           {/* Navbar */}
           {isMenuOpen ? (
             // Mobile
@@ -95,7 +95,7 @@ export default function Category() {
                       href="/"
                       className="flex items-center space-x-3 rtl:space-x-reverse"
                     >
-                      <span className="self-center text-2xl font-semibold whitespace-nowrap appear">
+                      <span className="self-center text-2xl text-black font-semibold whitespace-nowrap appear">
                         SQCF
                       </span>
                     </a>
@@ -135,7 +135,7 @@ export default function Category() {
                 <ul className="flex flex-col items-start justify-center px-8 py-4 space-y-10 h-[65dvh]">
 
                   <li>
-                    <h1 className="custom-font text-3xl my-4">Menu</h1>
+                    <h1 className="custom-font text-3xl my-4 text-black">Menu</h1>
                     <hr className="w-[85dvw] border-2 border-gray-800"></hr>
                   </li>
                   <li>
@@ -203,7 +203,7 @@ export default function Category() {
                       <li>
                         <a
                           href="home"
-                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1"
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1  "
                           aria-current="page"
                         >
                           Home
@@ -212,7 +212,7 @@ export default function Category() {
                       <li>
                         <a
                           href="category"
-                          className="py-2 px-3 text-white appear md:p-0 md:py-1 border-b border-white"
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1 border-b border-white"
                         >
                           Arts & Writings
                         </a>
@@ -220,7 +220,7 @@ export default function Category() {
                       <li>
                         <a
                           href="about"
-                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1"
+                          className="py-2 px-3 text-gray-300 hover:text-white appear md:p-0 md:py-1 "
                         >
                           About
                         </a>
@@ -231,11 +231,11 @@ export default function Category() {
               </nav>
             </div>
           )}
-        </div>
+      </div>
 
-        <div>
-          <h1 className="text-5xl text-center">Under Development</h1>
-        </div>
+      <div>
+        <h1 className="text-5xl text-center">Under Development</h1>
+      </div>
     </div>
   </main>;
 }
