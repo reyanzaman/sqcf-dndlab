@@ -220,7 +220,7 @@ export default function Home() {
 
         {/* Title */}
         <div className="flex flex-col items-center lg:justify-center justify-end w-screen lg:h-screen h-[100dvh] absolute">
-            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : "HIGH NOON"}</h1>
+            <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : "Title Not Found"}</h1>
             <div className="lg:mt-14 mt-4 lg:mb-2 mb-6 lg:space-y-4">
               <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.3px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
               <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} - {arts[currentArtIndex].year_Bangla!=="" ? arts[currentArtIndex].year_Bangla : ""}</h3>
@@ -264,9 +264,9 @@ export default function Home() {
         )}
 
         {/* View More Main Page */}
-        <div className="absolute bottom-0 left-0 transform translate-x-[40vw] lg:block hidden anim-appear-2">
-          <Link href="category" className="bg-black p-2 m-16 flex justify-center items-center border-2
-          border-white hover:shadow-lg text-gray-300 hover:text-white">
+        <div className="absolute bottom-0 lg:block hidden anim-appear-2 left-1/2 mb-16">
+          <Link href="category" className="bg-black p-2 flex justify-center items-center border-2
+          border-white hover:shadow-lg text-gray-300 hover:text-white transform -translate-x-1/2">
             <IoAppsSharp className="text-xl mx-2"/>
             <h1 className="text-xl mr-2">View More</h1>
           </Link>

@@ -339,8 +339,8 @@ export default function About() {
 
         {/* About Foundation */}
 
-        <div className="bangla-font border-2 border-zinc-500 hover:border-white lg:mx-16 mx-10 my-4 lg:p-2 p-1 lg:text-center text-justify">
-          <h1 className="text-4xl p-1">ABOUT THE FOUNDATION</h1>
+        <div className="bangla-font border-2 border-zinc-500 hover:border-white lg:mx-16 mx-10 my-4 lg:p-2 p-1 lg:text-center text-justify lg:max-w-[79em] w-[80dvw]">
+          <h1 className="text-4xl p-1 text-center">ABOUT THE FOUNDATION</h1>
           <h1 className="lg:text-2xl text-xl lg:leading-10 leading-8 border-2 border-zinc-500 hover:border-zinc-200 p-4">
               শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন হল একটি প্রতিষ্ঠান যা বাংলাদেশের বরেণ্য শিল্পী কাইয়ুম চৌধুরীর নামে গড়ে উঠেছে। এই ফাউণ্ডেশনের প্রধান উদ্দেশ্য হল শিল্পীর শিল্পকর্ম, শিল্পচিন্তা এবং জীবন দর্শনের আলোকে বাংলাদেশে শিল্প ও সংস্কৃতির চর্চা প্রসার এবং উন্নয়নে অবদান রাখা। এই ফাউণ্ডেশন শিল্পীর অমূল্য শিল্পকর্মগুলির সংরক্ষণ, গবেষণা এবং প্রদর্শনীর মাধ্যমে তাঁর শিল্পচেতনা এবং আদর্শিক ভাবনার প্রচারে অগ্রণী ভূমিকা পালন করে।
               <br></br><br></br>
