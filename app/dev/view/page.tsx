@@ -63,18 +63,19 @@ const ViewArt: NextPage = () => {
     return (
       <div className="">
         <div className="flex-row flex justify-between items-center">
-            <h1 className="m-2 text-4xl font-bold">Art Gallery</h1>
+            <h1 className="m-2 text-4xl font-bold">SQCF ART GALLERY</h1>
             <Link href="/dev/insert"
             className="bg-emerald-950 text-white custom-font text-2xl px-4 py-1 rounded drop-shadow-lg mx-4"
             >Back</Link>
         </div>
         <hr className="border-b-2 border-black mt-2 mb-4 w-full"></hr>
 
-        <div className="grid lg:grid-cols-7 grid-cols-2">
+        <div className="grid lg:grid-cols-8 grid-cols-2">
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-orange-100">Art Count: {arts.length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-rose-100">Painting Count: {arts.filter(art => art.type === "painting" || art.type === "Painting").length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-green-100">Drawing Count: {arts.filter(art => art.type === "drawing" || art.type === "Drawing").length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-amber-100">Sketch Count: {arts.filter(art => art.type === "sketch" || art.type === "Sketch").length}</h1>
+            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-yellow-100">Graphics Design Count: 0</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-fuchsia-100">Book Cover Count: {arts.filter(art => art.type === "book cover" || art.type === "Book cover").length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-pink-100">Poster  Count: {arts.filter(art => art.type === "poster" || art.type === "Poster").length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-emerald-100">Illustration & Cards Count: {arts.filter(art => art.type === "Illustration & cards" || art.type === "illustration & cards").length}</h1>
