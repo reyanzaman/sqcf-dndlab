@@ -134,79 +134,98 @@ const AddArt: NextPage = () => {
 
   const handleSubmit3 = async () => {
     if (!selectedFile) {
-      alert('Please upload a file first.');
+      alert("Please upload a file first.");
       return;
     } else {
-
       const readFile = (file: File): Promise<string | ArrayBuffer> =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          // Check for the result and ensure it's not undefined. If undefined, resolve to an empty string as a fallback.
-          const result = e.target?.result;
-          resolve(result ?? "");
-        };
-        reader.onerror = (e) => reject(e);
-        reader.readAsText(file);
-      });
-
-    try {
-      const text = await readFile(selectedFile);
-      if (typeof text === "string") {
-        Papa.parse<CsvRow>(text, {
-          header: true, // Now treating the first row as headers
-          skipEmptyLines: true,
-          complete: async (result) => {
-            const transformedData = result.data.map((row) => {
-              const imageUrl = `https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${row['Image File Name']}.JPG`;
-
-              const measurement = row['Measurement in English'].toUpperCase().split("X").map((dim) => dim.trim().replace(/ CM$/, ""));
-              const [width, height] = measurement.length === 2 ? measurement : [null, null];
-
-              return {
-                title: row['Title in English'],
-                title_Bangla: row['Title in Bangla'],
-                artist: "শিল্পী কাইয়ুম চৌধুরী",
-                year: row['Year in English'],
-                year_Bangla: row['Year in Bangla'],
-                imageUrl,
-                description: row["Description"] ?? "",
-                width,
-                height,
-                medium: row['Media in English'],
-                medium_Bangla: row['Media in Bangla'],
-                type: row['Category in English'],
-                publication: row['Publication'] ?? "",
-                tags: row['Tags in English'].split(",").map((tag) => tag.trim()) ?? [],
-                tags_Bangla: row['Tags in Bangla'].split(",").map((tag) => tag.trim()) ?? [],
-              };
-            });
-
-            for (const data of transformedData) {
-              try {
-                const response = await fetch("/api/addArt", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(data),
-                });
-
-                if (!response.ok) {
-                  throw new Error("Failed to add artwork");
-                }
-
-                console.log("Artwork added successfully", data);
-              } catch (error) {
-                console.error("Error adding artwork:", error);
-              }
-            }
-          },
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e: ProgressEvent<FileReader>) => {
+            // Check for the result and ensure it's not undefined. If undefined, resolve to an empty string as a fallback.
+            const result = e.target?.result;
+            resolve(result ?? "");
+          };
+          reader.onerror = (e) => reject(e);
+          reader.readAsText(file);
         });
+
+      try {
+        const text = await readFile(selectedFile);
+        let errorOccurred = false;
+
+        if (typeof text === "string") {
+          Papa.parse<CsvRow>(text, {
+            header: true, // Now treating the first row as headers
+            skipEmptyLines: true,
+            complete: async (result) => {
+              const transformedData = result.data.map((row) => {
+                const imageUrl = `https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${row["Image File Name"]}.JPG`;
+
+                const measurement = row["Measurement in English"]
+                  .toUpperCase()
+                  .split("X")
+                  .map((dim) => dim.trim().replace(/ CM$/, ""));
+                const [width, height] =
+                  measurement.length === 2 ? measurement : [null, null];
+
+                return {
+                  title: row["Title in English"],
+                  title_Bangla: row["Title in Bangla"],
+                  artist: "শিল্পী কাইয়ুম চৌধুরী",
+                  year: row["Year in English"],
+                  year_Bangla: row["Year in Bangla"],
+                  imageUrl,
+                  description: row["Description"] ?? "",
+                  width,
+                  height,
+                  medium: row["Media in English"],
+                  medium_Bangla: row["Media in Bangla"],
+                  type: row["Category in English"],
+                  publication: row["Publication"] ?? "",
+                  tags:
+                    row["Tags in English"]
+                      .split(",")
+                      .map((tag) => tag.trim()) ?? [],
+                  tags_Bangla:
+                    row["Tags in Bangla"].split(",").map((tag) => tag.trim()) ??
+                    [],
+                };
+              });
+
+              for (const data of transformedData) {
+                try {
+                  const response = await fetch("/api/addArt", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                  });
+
+                  if (!response.ok) {
+                    errorOccurred = true;
+                    throw new Error(
+                      `Failed to add artwork: ${response.statusText}`
+                    );
+                  }
+
+                  console.log("Artwork added successfully", data);
+                } catch (error: any) {
+                  console.error("Error adding artwork:", error);
+                  alert(`Error adding artwork: ${error.message}`);
+                  return; // Early return on first error
+                }
+              }
+
+              if (!errorOccurred) {
+                alert("All artwork uploaded to database successfully");
+              }
+            },
+          });
+        }
+      } catch (error: any) {
+        console.error("Error reading file:", error);
+        alert(`Error reading file: ${error.message}`);
       }
-    } catch (error) {
-      console.error("Error reading file:", error);
     }
-    }
-    alert('Uploaded to database');
   };
 
 
