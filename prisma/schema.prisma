@@ -28,7 +28,6 @@ model Art {
   medium_Bangla String
   publication String
   type      String
-  type_Bangla String
   tags      String[]
   tags_Bangla String[]
   createdAt DateTime @default(now())

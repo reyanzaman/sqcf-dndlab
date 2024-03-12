@@ -463,16 +463,21 @@ const AddArt: NextPage = () => {
             <option value="drawings">Drawing</option>
             <option value="Home_Paintings">Painting</option>
             <option value="sketches">Sketches</option>
-            <option value="book_covers">Book Covers</option>
-            <option value="posters">Posters</option>
-            <option value="illustrations">Illustrations &amp; Cards</option>
           </select>
         </div>
 
-        <div className='text-center pb-4 pt-8'>
-            <Link href="/dev/view"
-            className='text-2xl font-bold custom-font bg-sky-950 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
-            >VIEW DATA</Link>
+        <div className='grid lg:grid-cols-2 grid-cols-1 lg:w-1/2 w-full mx-auto'>
+            <div className='text-center pb-4 pt-8'>
+                <Link href="/dev/view"
+                className='text-2xl font-bold custom-font bg-sky-950 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
+                >VIEW DATA</Link>
+            </div>
+
+            <div className='text-center pb-4 pt-8'>
+                <Link href="/dev/insertGraphics"
+                className='text-2xl font-bold custom-font bg-indigo-600 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
+                >INSERT Graphics Design</Link>
+            </div>
         </div>
 
         <hr className="my-8 border-b-2 border-orange-800" />

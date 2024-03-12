@@ -68,10 +68,17 @@ const ViewArt: NextPage = () => {
     return (
       <div className="">
         <div className="flex-row flex justify-between items-center">
-            <h1 className="m-2 text-4xl font-bold">SQCF ART GALLERY</h1>
-            <Link href="/dev/insertArt"
-            className="bg-emerald-950 text-white custom-font text-2xl px-4 py-1 rounded drop-shadow-lg mx-4"
-            >Back</Link>
+            <h1 className="m-2 text-3xl font-bold">SQCF ART GALLERY (Viewing Art)</h1>
+            <Link
+              href="javascript:void(0);" // Dummy href to satisfy the requirement
+              onClick={(e) => {
+                e.preventDefault(); // Prevent the default link behavior
+                window.history.back(); // Navigate back to the previous page
+              }}
+              className="bg-emerald-950 text-white custom-font text-2xl px-4 py-1 rounded drop-shadow-lg mx-4"
+            >
+              Back
+            </Link>
         </div>
         <hr className="border-b-2 border-black mt-2 mb-4 w-full"></hr>
 
