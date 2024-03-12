@@ -12,7 +12,6 @@ const POST = async (req: Request, res: NextApiResponse) => {
           data: {
             title: body.title.toUpperCase(),
             title_Bangla: body.title_Bangla,
-            artist: body.artist,
             year: body.year,
             year_Bangla: body.year_Bangla,
             imageUrl: body.imageUrl,

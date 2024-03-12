@@ -13,7 +13,6 @@ interface Art {
   id: string;
   title: string;
   title_Bangla: string;
-  artist: string;
   year: string;
   year_Bangla: string;
   imageUrl: string;
@@ -59,12 +58,18 @@ const ViewArt: NextPage = () => {
     console.log("Refreshed", refreshKey);
   };
 
+  const handleArt = (e: React.MouseEvent<HTMLButtonElement>) => {
+  };
+
+  const handleGraphicsDesign = (e: React.MouseEvent<HTMLButtonElement>) => {
+  };
+
   if (isAuthenticated) {
     return (
       <div className="">
         <div className="flex-row flex justify-between items-center">
             <h1 className="m-2 text-4xl font-bold">SQCF ART GALLERY</h1>
-            <Link href="/dev/insert"
+            <Link href="/dev/insertArt"
             className="bg-emerald-950 text-white custom-font text-2xl px-4 py-1 rounded drop-shadow-lg mx-4"
             >Back</Link>
         </div>
@@ -91,7 +96,6 @@ const ViewArt: NextPage = () => {
                 <th className="border-2 border-black px-4 py-2">
                   Title (Bangla)
                 </th>
-                <th className="border-2 border-black px-4 py-2">Artist</th>
                 <th className="border-2 border-black px-4 py-2">Year</th>
                 <th className="border-2 border-black px-4 py-2">
                   Year (Bangla)
@@ -120,7 +124,6 @@ const ViewArt: NextPage = () => {
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.id}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.title}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.title_Bangla}</div></td>
-                  <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.artist}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.year}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.year_Bangla}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.imageUrl}</div></td>
@@ -139,7 +142,19 @@ const ViewArt: NextPage = () => {
           </table>
         </div>
 
-        <div className="flex flex-row justify-center items-center lg:mt-0 mt-4 mx-8 gap-x-6">
+        <div className="mt-4 grid lg:grid-cols-4 gird-cols-2 mx-4">
+        <button
+            className="bg-zinc-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%] drop-shadow-lg"
+            onClick={handleArt}
+          >
+            View Art
+          </button>
+          <button
+            className="bg-gray-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%] drop-shadow-lg"
+            onClick={handleGraphicsDesign}
+          >
+            View Graphics Design
+          </button>
           <button
             className="bg-sky-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%] drop-shadow-lg"
             onClick={handlerefresh}

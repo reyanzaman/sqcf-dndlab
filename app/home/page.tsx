@@ -14,7 +14,6 @@ export default function Home() {
   interface Art {
     title: string;
     title_Bangla: string;
-    artist: string;
     year: string;
     year_Bangla: string;
     imageUrl: string;
@@ -269,7 +268,7 @@ export default function Home() {
                     />
                   </a>
                   <p className="bangla-font text-center my-4 text-xl">{`${arts[0].title_Bangla}`}
-                  &nbsp;- {`${arts[0].artist}`}</p>
+                  &nbsp;- শিল্পী কাইয়ুম চৌধুরী</p>
                 </div>
               </div>
             </div>

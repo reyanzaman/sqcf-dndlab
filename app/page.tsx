@@ -69,7 +69,6 @@ export default function Home() {
   interface Art {
     title: string;
     title_Bangla: string;
-    artist: string;
     year: string;
     year_Bangla: string;
     imageUrl: string;
@@ -222,7 +221,7 @@ export default function Home() {
         <div className="flex flex-col items-center lg:justify-center justify-end w-screen lg:h-screen h-[100dvh] absolute">
             <h1 className="text-4xl lg:text-[5rem] font-extrabold text-white text-center anim-appear custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : "Title Not Found"}</h1>
             <div className="lg:mt-14 mt-4 lg:mb-2 mb-6 lg:space-y-4">
-              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.3px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
+              <h3 className="text-lg lg:text-[2.1rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.3px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - শিল্পী কাইয়ুম চৌধুরী</h3>
               <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.9)]">{arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} - {arts[currentArtIndex].year_Bangla!=="" ? arts[currentArtIndex].year_Bangla : ""}</h3>
               {/* <h3 className="text-base lg:text-[1.4rem] text-white text-center anim-appear bangla-font">১৩০ সেমি x ১৫০ সেমি</h3> */}
             </div>
@@ -327,7 +326,7 @@ export default function Home() {
             <div className="flex flex-col w-full items-center justify-end h-full anim-appear-3 pointer-events-none">
                 <h1 className="text-2xl lg:text-[3rem] font-extrabold text-white text-center custom-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
                 <div className="lg:mt-6 mt-4 lg:mb-0 mb-8 lg:space-y-4">
-                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</h3>
+                  <h3 className="text-lg lg:text-[1.5rem] text-white text-center bangla-font drop-shadow-[0_2px_1.2px_rgba(0,0,0,0.8)]">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - শিল্পী কাইয়ুম চৌধুরী</h3>
                 </div>
                 <div>
                   <div className="custom-link pointer-events-auto">
@@ -440,7 +439,7 @@ export default function Home() {
 
               <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear-4 text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
 
-              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-4 text-gray-800">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - {arts[currentArtIndex].artist!=="" ? arts[currentArtIndex].artist : ""}</p>
+              <p className="description lg:mt-6 custom-font text-lg lg:text-xl anim-appear-4 text-gray-800">{arts[currentArtIndex].title_Bangla!=="" ? arts[currentArtIndex].title_Bangla : ""} - শিল্পী কাইয়ুম চৌধুরী</p>
 
               <hr className="anim-appear-4 border w-full my-5 border-[#bbb190]"></hr>
 

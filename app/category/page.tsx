@@ -13,7 +13,6 @@ export default function Category() {
   interface Art {
     title: string;
     title_Bangla: string;
-    artist: string;
     year: string;
     year_Bangla: string;
     imageUrl: string;

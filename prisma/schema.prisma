@@ -4,8 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,11 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Art {
   id        String   @id @default(uuid())
   title     String
   title_Bangla String
-  artist    String
   year      String
   year_Bangla String
   imageUrl  String
@@ -30,6 +28,7 @@ model Art {
   medium_Bangla String
   publication String
   type      String
+  type_Bangla String
   tags      String[]
   tags_Bangla String[]
   createdAt DateTime @default(now())
@@ -37,4 +36,65 @@ model Art {
 
   @@index([createdAt])
   @@map("arts")
+}
+
+model BookCover {
+  id        String   @id @default(uuid())
+  title     String
+  title_Bangla String
+  author    String
+  author_Bangla    String
+  publisher String
+  publisher_Bangla String
+  date      String
+  date_Bangla String
+  imageUrl  String
+  description String
+  publication String
+  type      String
+  type_Bangla String
+  tags      String[]
+  tags_Bangla String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@map("book_covers")
+}
+
+model Poster {
+  id        String   @id @default(uuid())
+  title     String
+  title_Bangla String
+  imageUrl  String
+  description String
+  category      String
+  tags      String[]
+  tags_Bangla String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@map("posters")
+}
+
+model IllustrationCard {
+  id        String   @id @default(uuid())
+  title     String
+  title_Bangla String
+  subtitle  String
+  subtitle_Bangla String
+  publisher String
+  publisher_Bangla String
+  year      String
+  year_Bangla String
+  imageUrl  String
+  description String
+  tags      String[]
+  tags_Bangla String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@map("illustrations_cards")
 }

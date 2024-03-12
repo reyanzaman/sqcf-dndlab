@@ -14,7 +14,6 @@ const AddArt: NextPage = () => {
   const [formData, setFormData] = useState({
     title: "",
     title_Bangla: "",
-    artist: "শিল্পী কাইয়ুম চৌধুরী",
     year: "",
     year_Bangla: "",
     imageUrl: "",
@@ -68,7 +67,6 @@ const AddArt: NextPage = () => {
         setFormData({
           title: "",
           title_Bangla: "",
-          artist: "শিল্পী কাইয়ুম চৌধুরী",
           year: "",
           year_Bangla: "",
           imageUrl: "",
@@ -107,6 +105,7 @@ const AddArt: NextPage = () => {
   interface CsvRow {
     'Title (English)': string;
     'Title (Bangla)': string;
+    'Description': string;
     'Year (English)': string;
     'Year (Bangla)': string;
     'Image name': string;
@@ -171,7 +170,6 @@ const AddArt: NextPage = () => {
                 return {
                   title: row["Title in English"],
                   title_Bangla: row["Title in Bangla"],
-                  artist: "শিল্পী কাইয়ুম চৌধুরী",
                   year: row["Year in English"],
                   year_Bangla: row["Year in Bangla"],
                   imageUrl,
@@ -266,19 +264,6 @@ const AddArt: NextPage = () => {
                 />
               </label>
             </div>
-            {/* <div className="py-2">
-              <label>
-                Artist (Bangla):
-                <input
-                  className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                  type="text"
-                  name="artist"
-                  value={formData.artist}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div> */}
             <div className="py-2">
               <label>
                 Year (English):
