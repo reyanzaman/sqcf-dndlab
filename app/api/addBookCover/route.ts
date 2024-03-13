@@ -7,32 +7,32 @@ const POST = async (req: Request, res: NextApiResponse) => {
     let body = await req.json()
     try {
         console.log("FROM ROUTE", body)
-        const art = await prisma.art.create({
+        const bookcover = await prisma.bookCover.create({
           data: {
-            title: body.title.toUpperCase(),
+            title: body.title,
             title_Bangla: body.title_Bangla,
-            year: body.year,
-            year_Bangla: body.year_Bangla,
+            author: body.author,
+            author_Bangla: body.author_Bangla,
+            publisher: body.publisher,
+            publisher_Bangla: body.publisher_Bangla,
+            date: body.date,
+            date_Bangla: body.date_Bangla,
             imageUrl: body.imageUrl,
             description: body.description,
-            width: parseInt(body.height),
-            height: parseInt(body.width),
-            medium: body.medium,
-            medium_Bangla: body.medium_Bangla,
-            type: body.type.toLowerCase(),
-            publication: body.publication,
+            type: body.type,
+            type_Bangla: body.type_Bangla,
             tags: body.tags,
             tags_Bangla: body.tags_Bangla,
           },
         });
 
-        return new Response("Artwork successfully recorded", {
+        return new Response("Book Cover successfully recorded", {
           status: 200
       })
 
     } catch (error) {
-        console.error("Failed to add art:", error);
-        return new Response("Artwork not recorded", {
+        console.error("Failed to add Book Cover:", error);
+        return new Response("Book Cover not recorded", {
           status: 500
       })
     }

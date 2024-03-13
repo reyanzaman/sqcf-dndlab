@@ -7,32 +7,30 @@ const POST = async (req: Request, res: NextApiResponse) => {
     let body = await req.json()
     try {
         console.log("FROM ROUTE", body)
-        const art = await prisma.art.create({
+        const poster = await prisma.poster.create({
           data: {
-            title: body.title.toUpperCase(),
+            title: body.title,
             title_Bangla: body.title_Bangla,
-            year: body.year,
-            year_Bangla: body.year_Bangla,
             imageUrl: body.imageUrl,
             description: body.description,
-            width: parseInt(body.height),
-            height: parseInt(body.width),
-            medium: body.medium,
-            medium_Bangla: body.medium_Bangla,
-            type: body.type.toLowerCase(),
-            publication: body.publication,
+            category: body.category,
             tags: body.tags,
             tags_Bangla: body.tags_Bangla,
+            year: body.year,
+            year_Bangla: body.year_Bangla,
+            for_whom: body.for_whom,
+            width: parseFloat(body.width),
+            height: parseFloat(body.height),
           },
         });
 
-        return new Response("Artwork successfully recorded", {
+        return new Response("Poster successfully recorded", {
           status: 200
       })
 
     } catch (error) {
-        console.error("Failed to add art:", error);
-        return new Response("Artwork not recorded", {
+        console.error("Failed to add poster:", error);
+        return new Response("Poster not recorded", {
           status: 500
       })
     }

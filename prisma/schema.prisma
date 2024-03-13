@@ -49,7 +49,6 @@ model BookCover {
   date_Bangla String
   imageUrl  String
   description String
-  publication String
   type      String
   type_Bangla String
   tags      String[]
@@ -68,6 +67,11 @@ model Poster {
   imageUrl  String
   description String
   category      String
+  year    String
+  year_Bangla String
+  for_whom  String
+  width     Float
+  height    Float
   tags      String[]
   tags_Bangla String[]
   createdAt DateTime @default(now())
