@@ -78,7 +78,7 @@ export default function Home() {
   });
 
   return (
-    <main className="bg-[#000000] text-white h-full w-full">
+    <main className="bg-[#000000] text-white h-max-screen w-full">
 
       <div className="flex flex-col">
         <div className="anim-appear-3 z-50">
@@ -231,8 +231,8 @@ export default function Home() {
           )}
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between anim-appear-4">
-          <div className="lg:w-1/2 px-4 lg:px-16 h-full transform translate-y-[15dvh]">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between anim-appear-4 mt-20">
+          <div className="lg:w-1/2 px-4 lg:px-16 h-full mt-20">
             <h1 className="custom-font lg:text-6xl text-5xl lg:mt-0 mt-8 lg:mx-0 mx-4 text-white leading-[4.2rem]">
               Discover the Life and Work of Artist Qayyum Chowdhury
             </h1>
@@ -248,10 +248,10 @@ export default function Home() {
                 <p className="custom-font text-3xl ml-3 text-gray-300 hover:text-white">Explore</p>
             </Link>
           </div>
-          <div className="lg:flex hidden mr-16">
+          <div className="lg:flex hidden mr-16 mt-20">
             <hr className="border-gray-50 mt-14 border-2 mx-auto w-[80dvw] lg:hidden block"></hr>
-            <div className="lg:flex lg:flex-1 lg:justify-center">
-              <div className="overflow-hidden lg:translate-y-[18dvh] translate-y-16 h-fitlg:mx-0 mx-6">
+            <div className="lg:flex lg:justify-center">
+              <div className="lg:mx-0 mx-6">
                 <div className="">
                   <a
                     data-fancybox

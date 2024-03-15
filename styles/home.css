@@ -6,6 +6,7 @@ html,body {
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
+    background-color: black;
 }
 
 @keyframes borderAnimation {
@@ -137,6 +138,11 @@ html,body {
     animation: appear 1.5s ease-in-out 0.65s forwards;
 }
 
+.anim-appear-6 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 1s forwards;
+}
+
 .hover-effect {
     display: inline-block;
     position: relative;
@@ -153,6 +159,30 @@ html,body {
     background-color: white;
     visibility: hidden;
     transition: all 0.3s ease-in-out;
+}
+
+.hover-effect-white {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.hover-effect-white::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 5px;
+    left: 0;
+    background-color: white;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect-white:hover::before {
+    margin: 0 0 0 14px;
+    width: 95%;
+    visibility: visible;
 }
 
 .hover-effect-black {

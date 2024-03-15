@@ -229,13 +229,13 @@ const AddArt: NextPage = () => {
 
   if (isAuthenticated) {
     return (
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px" }} className='text-white'>
         <h2 className="text-4xl font-bold custom-font border-b border-black lg:mb-2 mb-8 text-center">
           Add New Artwork Manually
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-row bg-orange-100 lg:p-8 lg:pt-2 pt-4 p-4 rounded-xl drop-shadow-md lg:space-x-8 space-x-4 lg:m-8 m-0"
+          className="text-black flex flex-row bg-orange-100 lg:p-8 lg:pt-2 pt-4 p-4 rounded-xl drop-shadow-md lg:space-x-8 space-x-4 lg:m-8 m-0"
         >
           <div className="mx-2 w-1/2">
             <div className="py-2">
@@ -433,9 +433,9 @@ const AddArt: NextPage = () => {
 
         <hr className="my-8 border-b-2 border-orange-800" />
 
-        <div className="lg:grid-cols-2 grid-cols-1 flex flex-col lg:gap-y-6 gap-y-4 items-center justify-center">
-          <h1 className="text-4xl font-bold text-center">Automated using csv file</h1>
-          <div className='text-black text-xl'>{fileName ? fileName : 'No File Uploaded'}</div> {/* Display the uploaded file name */}
+        <div className="lg:grid-cols-2 grid-cols-1 flex flex-col lg:gap-y-6 gap-y-4 items-center justify-center text-black">
+          <h1 className="text-white text-4xl font-bold text-center">Automated using csv file</h1>
+          <div className='text-white text-xl'>{fileName ? fileName : 'No File Uploaded'}</div> {/* Display the uploaded file name */}
           <div className="flex flex-row gap-x-4 items-center justify-center">
             <label className="bg-orange-200 p-2 rounded-sm border border-black w-[10em] cursor-pointer text-center my-auto">
               Upload
@@ -459,7 +459,7 @@ const AddArt: NextPage = () => {
 
         <div className='flex flex-row items-center justify-center my-4'>
           <label htmlFor="category-select">Choose a category:</label>
-          <select className='bg-pink-100 mx-2 rounded p-1 border-black border' id="category-select" value={selectedCategory} onChange={handleCategoryChange}>
+          <select className='text-black bg-pink-100 mx-2 rounded p-1 border-black border' id="category-select" value={selectedCategory} onChange={handleCategoryChange}>
             <option value="drawings">Drawing</option>
             <option value="Home_Paintings">Painting</option>
             <option value="sketches">Sketches</option>

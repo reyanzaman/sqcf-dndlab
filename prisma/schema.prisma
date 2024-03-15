@@ -101,3 +101,34 @@ model IllustrationCard {
   @@index([createdAt])
   @@map("illustrations_cards")
 }
+
+model Writings {
+  id        String   @id @default(uuid())
+  title     String
+  title_Bangla String
+  subtitle  String
+  subtitle_Bangla String
+  publisher String
+  publisher_Bangla String
+  link      String
+  writer  String
+  writer_Bangla String
+  category String //Poem, Prose etc.
+  type String //By QC or On QC etc.
+  day       String
+  day_Bangla String
+  month     String
+  month_Bangla String
+  year      String
+  year_Bangla String
+  imageUrl  String
+  imageAlt  String
+  text String
+  tags      String[]
+  tags_Bangla String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@map("writings")
+}

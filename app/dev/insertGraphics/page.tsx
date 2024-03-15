@@ -10,7 +10,7 @@ import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 
-const AddArt: NextPage = () => {
+const AddGraphics: NextPage = () => {
   const { isAuthenticated, login, logout } = useAuth();
   const prisma = new PrismaClient();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -251,7 +251,7 @@ const AddArt: NextPage = () => {
 
   if (isAuthenticated) {
     return (
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px" }} className="text-white">
         <h2 className="text-4xl font-bold custom-font lg:mb-2 mb-8 text-center">
           Insert New Graphics Design
         </h2>
@@ -264,11 +264,11 @@ const AddArt: NextPage = () => {
           <h1 className="text-4xl font-bold text-center">
             Automated insert using csv file
           </h1>
-          <div className="text-black text-xl">
+          <div className="text-white text-xl">
             {fileName ? fileName : "No File Uploaded"}
           </div>{" "}
           {/* Display the uploaded file name */}
-          <div className="flex flex-row gap-x-4 items-center justify-center">
+          <div className="flex flex-row gap-x-4 items-center justify-cente text-black">
             <label className="bg-orange-200 p-2 rounded-sm border border-black w-[10em] cursor-pointer text-center my-auto">
               Upload
               <input
@@ -279,7 +279,7 @@ const AddArt: NextPage = () => {
               />
             </label>
             <button
-              className="bg-rose-300 p-2 rounded-sm border border-black w-[10em] text-center mb-2"
+              className="bg-rose-300 text-black p-2 rounded-sm border border-black w-[10em] text-center mb-2"
               type="button" // Changed to type="button" to prevent form submission
               style={{ marginTop: "10px" }}
               onClick={() =>
@@ -294,7 +294,7 @@ const AddArt: NextPage = () => {
         <div className="flex flex-row items-center justify-center my-4">
           <label htmlFor="category-select">Choose a category:</label>
           <select
-            className="bg-pink-100 mx-2 rounded p-1 border-black border"
+            className="bg-pink-100 mx-2 rounded p-1 border-black border text-black"
             id="category-select"
             value={selectedCategory}
             onChange={handleCategoryChange}
@@ -346,4 +346,4 @@ const AddArt: NextPage = () => {
   }
 };
 
-export default AddArt;
+export default AddGraphics;

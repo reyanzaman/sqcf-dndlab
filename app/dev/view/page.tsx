@@ -153,7 +153,7 @@ const ViewArt: NextPage = () => {
     return (
       <div className="">
         <div className="flex-row flex justify-between items-center">
-        <h1 className="m-2 text-3xl font-bold">
+        <h1 className="m-2 text-3xl font-bold text-white">
           {artType === "art" ? "SQCF ART GALLERY (Viewing Art)" : artType === "graphicsDesign" ? "SQCF ART GALLERY (Viewing Graphics Design)" : ""}
         </h1>
             <Link
@@ -167,7 +167,7 @@ const ViewArt: NextPage = () => {
               Back
             </Link>
         </div>
-        <hr className="border-b-2 border-black mt-2 mb-4 w-full"></hr>
+        <hr className="border-b-2 border-white mt-2 mb-4 w-full"></hr>
 
         <div className="grid lg:grid-cols-8 grid-cols-2">
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-orange-100">Art Count: {arts.length}</h1>
@@ -182,7 +182,7 @@ const ViewArt: NextPage = () => {
 
         {/* For Art */}
         {artType == 'art' && (
-        <div className="overflow-x-scroll m-4 border-4 border-black h-[75dvh]">
+        <div className="overflow-x-scroll m-4 border-4 border-zinc-500 h-[75dvh]">
           <table className="bg-slate-200 min-w-full ">
             <thead className="text-left align-top border-2">
               <tr>

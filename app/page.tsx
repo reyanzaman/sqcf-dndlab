@@ -343,7 +343,7 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="lg:overflow-hidden overflow-scroll lg:w-1/2 w-[92%] lg:h-fit h-[80dvh] flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
+          <div className="overflow-y-scroll lg:w-1/2 w-[92%] lg:h-fit h-[80dvh] flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
             <ul className="">
               {/* Dynamically generate menu items, excluding the currentArtIndex */}
               {arts.map((art, index) => (
