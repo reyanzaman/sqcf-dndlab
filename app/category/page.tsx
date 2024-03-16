@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LoadingScreen from "../../components/LoadingScreen";
 import ErrorScreen from "../../components/error";
 import "/styles/home.css";
@@ -12,6 +12,9 @@ import axios from "axios";
 import { IoMdSearch } from "react-icons/io";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { AiOutlineLoading } from 'react-icons/ai';
+import { debounce } from 'lodash';
+import levenshtein from 'fast-levenshtein';
 
 interface Art {
   id: string;
@@ -127,11 +130,63 @@ export default function Category() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  type SearchResult = Art | BookCover | Poster | Illustration;
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+
+  const similarityThreshold = 50; // Percentage of dissimilarity allowed
+
+  const calculateSimilarity = (tag: any, query: string) => {
+    const distance = levenshtein.get(tag.toLowerCase(), query.toLowerCase());
+    const longestLength = Math.max(tag.length, query.length);
+    const similarityPercentage = (1 - distance / longestLength) * 100;
+    return similarityPercentage;
+  };
+
+  const performSearch = (query: string) => {
+    if (!query) {
+      setSearchResults([]);
+      setIsSearchLoading(false);
+      return;
+    }
+
+    setIsSearchLoading(true);
+    // Simulate fetching data
+    setTimeout(() => {
+      const allItems = [...arts, ...bookcovers, ...posters, ...illustrations]; // Combine all items
+      const matchedItems = allItems.filter(item =>
+        calculateSimilarity(item.title, query) >= (100 - similarityThreshold) ||
+        calculateSimilarity(item.title_Bangla, query) >= (100 - similarityThreshold) ||
+        item.tags.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold)) ||
+        item.tags_Bangla.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold))
+      );
+
+      setSearchResults(matchedItems); // Update with filtered items
+      setIsSearchLoading(false);
+    }, 2000);
+  };
+
+  const debouncedSearch = useCallback(debounce((query: string) => {
+    performSearch(query);
+  }, 500), []);
+
+  const handleSearch = (e: any) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    debouncedSearch.cancel(); // Cancel any pending debounced calls to avoid duplicate searches
+    performSearch(searchQuery); // Perform the search immediately with the current query
+  };
+
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    if (searchQuery) {
+      debouncedSearch(searchQuery);
+    }
+
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/getAllArt");
@@ -150,8 +205,8 @@ export default function Category() {
       }
     };
     fetchData();
-    return;
-  }, []);
+    return () => debouncedSearch.cancel();
+  }, [searchQuery, debouncedSearch]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
@@ -329,21 +384,30 @@ export default function Category() {
 
           {/* Search Bar */}
           <div className="flex lg:flex-cols flex-row justify-between items-end z-0 anim-appear-6">
+
             <div className="mt-12">
+
               <div className="relative w-full">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="lg:w-[25dvw] w-full h-10 pl-4 pr-12 text-white shadow focus:outline-none bg-black"
-                />
-                <button
-                  type="submit"
-                  className="absolute inset-y-0 right-0 flex items-center px-1 text-2xl text-white"
-                >
-                  <IoMdSearch />
-                </button>
+                <form onSubmit={handleSearch}>
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="lg:w-[25vw] w-full h-10 pl-4 pr-12 text-white shadow focus:outline-none bg-black"
+                    value={searchQuery} // Control component
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    className="absolute inset-y-0 right-0 flex items-center px-1 text-2xl text-white"
+                  >
+                    <IoMdSearch />
+                  </button>
+                </form>
               </div>
+
             </div>
+
+            {/* Item Count */}
             <div className="hidden lg:block">
               <h1 className="text-sm lg:mb-2 mb-1 lg:mt-0 mt-6 custom-font text-right">
                 <span className="text-amber-200">0</span>{" "}
@@ -373,11 +437,13 @@ export default function Category() {
                 Illustrations {" "}
               </h1>
             </div>
+
           </div>
 
           <hr className="my-4 border anim-appear-6"></hr>
 
           {/* Drop Downs */}
+          {searchQuery === '' ? (
           <div className="flex lg:flex-row flex-col justify-between anim-appear">
             <div className="flex lg:flex-row flex-col">
 
@@ -578,8 +644,14 @@ export default function Category() {
               <h1 className="text-3xl lg:text-right text-center">Showing {selectedCategory}</h1>
             </div>
           </div>
+          ):(
+            <div></div>
+          )}
 
-          <div className="mt-12 anim-appear-2">
+          {searchQuery === '' ? (
+          <div className="mt-12 anim-appear">
+
+            {/* Images */}
             <div className="grid lg:grid-cols-4 grid-cols-2 gap-2 items-center justify-center">
               {selectedCategory === "Paintings" &&
                 arts
@@ -598,7 +670,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -631,7 +703,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -664,7 +736,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -696,7 +768,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -728,7 +800,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -760,7 +832,7 @@ export default function Category() {
                           width={500}
                           height={500}
                           objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2"
+                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
                         />
                       </a>
                       <div className="mb-2">
@@ -778,13 +850,14 @@ export default function Category() {
                   ))}
             </div>
 
+            {/* Pagination */}
             <div className="my-12">
-              <div
-                className="flex flex-row justify-between mt-4 items-center"
-                onClick={handlePreviousPage}
-              >
+
+              <div className="flex flex-row justify-between mt-4 items-center">
+
+                {/* Previous Page Button */}
                 {currentPage > 1 && (
-                  <div className="flex flex-row gap-2 items-center cursor-pointer">
+                  <div className="flex flex-row gap-2 items-center cursor-pointer" onClick={handlePreviousPage}>
                     <FaArrowLeftLong className="lg:text-2xl text-4xl text-white " />
                     <h1 className="text-2xl lg:block hidden text-zinc-300 hover:text-white">
                       Previous Page
@@ -798,47 +871,160 @@ export default function Category() {
                   </div>
                 )}
 
-                {selectedCategory === "Paintings" && (
-                  <h1 className="text-center lg:text-base text-sm">
-                    Page: {currentPage} of{" "}
-                    {Math.ceil(
-                      arts.filter((art) => art.type === "painting").length /
-                        itemsPerPage
-                    )}
-                  </h1>
-                )}
 
-                {currentPage <
-                  Math.ceil(
-                    arts.filter((art) => art.type === "painting").length /
-                      itemsPerPage
-                  ) && (
-                  <div
-                    className="flex flex-row gap-2 items-center cursor-pointer"
-                    onClick={handleNextPage}
-                  >
-                    <h1 className="text-2xl lg:block hidden text-zinc-300 hover:text-white">
-                      Next Page
-                    </h1>
-                    <FaArrowRightLong className="lg:text-2xl text-4xl text-white" />
-                  </div>
-                )}
-                {currentPage >=
-                  Math.ceil(
-                    arts.filter((art) => art.type === "painting").length /
-                      itemsPerPage
-                  ) && (
-                  <div
-                    className="flex flex-row gap-2 items-center cursor-not-allowed text-zinc-800 hover:text-zinc-900"
-                    onClick={handleNextPage}
-                  >
-                    <h1 className="text-2xl lg:block hidden">Next Page</h1>
-                    <FaArrowRightLong className="lg:text-2xl text-4xl" />
-                  </div>
-                )}
+                {/* Page Number */}
+                <div>
+                  {
+                    (() => {
+                      let totalItems;
+                      switch (selectedCategory) {
+                        case "Paintings":
+                          totalItems = arts.filter((art) => art.type === "painting").length;
+                          break;
+                        case "Drawings":
+                          totalItems = arts.filter((art) => art.type === "drawing").length;
+                          break;
+                        case "Sketches":
+                          totalItems = arts.filter((art) => art.type === "sketch").length;
+                          break;
+                        case "Book Covers":
+                          totalItems = bookcovers.length;
+                          break;
+                        case "Posters":
+                          totalItems = posters.length;
+                          break;
+                        case "Illustrations & Cards":
+                          totalItems = illustrations.length;
+                          break;
+                        case "Writings on QC":
+                        case "Poems":
+                        case "Prose":
+                          totalItems = 1; // Assuming these categories inherently have only 1 page of items or are treated as such
+                          break;
+                        default:
+                          totalItems = 0; // Default or error case
+                      }
+
+                      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                      return (
+                        <h1 className="text-center lg:text-base text-sm">
+                          Page: {currentPage} of {totalPages}
+                        </h1>
+                      );
+                    })()
+                  }
+                </div>
+
+
+                {/* Next Page Button */}
+                {
+                  (() => {
+                    let totalItems;
+                    switch (selectedCategory) {
+                      case "Paintings":
+                        totalItems = arts.filter((art) => art.type === "painting").length;
+                        break;
+                      case "Drawings":
+                        totalItems = arts.filter((art) => art.type === "drawing").length;
+                        break;
+                      case "Sketches":
+                        totalItems = arts.filter((art) => art.type === "sketch").length;
+                        break;
+                      case "Book Covers":
+                        totalItems = bookcovers.length;
+                        break;
+                      case "Posters":
+                        totalItems = posters.length;
+                        break;
+                      case "Illustrations & Cards":
+                        totalItems = illustrations.length;
+                        break;
+                      // Include other categories with their respective logic for totalItems
+                      default:
+                        totalItems = 0; // Handle any categories not explicitly mentioned
+                    }
+
+                    const totalPages = Math.ceil(totalItems / itemsPerPage);
+                    const isLastPage = currentPage >= totalPages;
+
+                    return (
+                      <div
+                        className={`flex flex-row gap-2 items-center ${
+                          isLastPage ? "cursor-not-allowed text-zinc-800 hover:text-zinc-900" : "cursor-pointer"
+                        }`}
+                        onClick={!isLastPage ? handleNextPage : undefined}
+                      >
+                        <h1 className={`text-2xl lg:block hidden ${isLastPage ? "" : "text-zinc-300 hover:text-white"}`}>
+                          Next Page
+                        </h1>
+                        <FaArrowRightLong className={`lg:text-2xl text-4xl ${isLastPage ? "" : "text-white"}`} />
+                      </div>
+                    );
+                  })()
+                }
+
+
               </div>
             </div>
+
           </div>
+          ):(
+            <div  className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
+              {/* Search Results */}
+              {isSearchLoading ? (
+                <div className="flex justify-center items-center mt-64">
+                  <AiOutlineLoading className="animate-spin text-7xl font-bold text-white" />
+                </div>
+              ) : (
+                searchResults.map((result, index) => (
+                  <div key={index} className="" >
+                    <a
+                      data-fancybox
+                      data-src={`${result.imageUrl}`}
+                      data-caption={`${result.title}`}
+                    >
+                      <Image
+                        src={result.imageUrl}
+                        alt={result.title}
+                        width={500}
+                        height={500}
+                        objectFit="cover"
+                        className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                      />
+                    </a>
+                    <div className="mb-2 custom-font">
+                      <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                        {result.title}
+                      </h1>
+                      <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                        ( {result.title_Bangla} )
+                      </h1>
+
+                      {'width' in result && 'height' in result ? (
+                        <h1 className="text-center text-xs px-1">
+                          {result.width} cm X {result.height} cm
+                        </h1>
+                      ) : 'publisher_Bangla' in result ? (
+                        <h1 className="text-center text-xs px-1">
+                          {result.publisher_Bangla}
+                        </h1>
+                      ) : null}
+
+                      <h1 className="text-center text-xs px-1 text-amber-200 custom-font">
+                        {result.tags.join(', ')}
+                      </h1>
+                      <h1 className="text-center text-xs px-1 text-amber-200 bangla-font">
+                        {result.tags_Bangla.join(', ')}
+                      </h1>
+
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
         </div>
       </div>
     </main>
