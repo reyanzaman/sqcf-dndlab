@@ -5,12 +5,14 @@ import Link from "next/link";
 import "../../styles/home.css";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import LoadingScreen from "../../components/LoadingScreen";
 import ErrorScreen from "../../components/error";
 import { FaArrowRight } from "react-icons/fa6";
 
 export default function Home() {
+
+  // Retrieving Data
   interface Art {
     title: string;
     title_Bangla: string;
@@ -252,11 +254,11 @@ export default function Home() {
             <hr className="border-gray-50 mt-14 border-2 mx-auto w-[80dvw] lg:hidden block"></hr>
             <div className="lg:flex lg:justify-center">
               <div className="lg:mx-0 mx-6">
-                <div className="">
+                <div className="perspective-container">
                   <a
                     data-fancybox
                     data-src={`${arts[0].imageUrl}`}
-                    data-caption={`${arts[0].title}`}
+                    data-caption={`<div style='text-align: center;'>${arts[0].title}<br><div style='color: #fde68a;'>${arts[0].tags.join(', ')}<br>${arts[0].tags_Bangla.join(', ')}</div></div>`}
                   >
                     <Image
                       src={`${arts[0].imageUrl}`}
@@ -264,7 +266,7 @@ export default function Home() {
                       height={550}
                       width={550}
                       objectFit="contain"
-                      className="image-zoom-2 rounded"
+                      className="image-zoom-2 rounded image-3d-hover"
                     />
                   </a>
                   <p className="bangla-font text-center my-4 text-xl">{`${arts[0].title_Bangla}`}

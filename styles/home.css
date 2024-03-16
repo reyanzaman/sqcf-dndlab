@@ -361,3 +361,20 @@ html,body {
     0% { opacity: 1; }
     100% { opacity: 0; }
   }
+
+.perspective-container {
+    perspective: 1000px; /* Adjust the depth of the effect */
+    margin-bottom: 2rem; /* Optional: Spacing below the container */
+  }
+
+  .image-3d-hover {
+    transition: transform 1.6s ease-in-out; /* Smooth transition */
+    transform-origin: center; /* Ensures the rotation pivots around the center */
+    display: block; /* Required to apply transformations */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+  }
+
+  .perspective-container:hover .image-3d-hover {
+    transform: rotateY(-25deg) rotateX(15deg); /* Adjust the 3D effect angles */
+  }
+
