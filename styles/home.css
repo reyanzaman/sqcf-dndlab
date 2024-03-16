@@ -143,6 +143,16 @@ html,body {
     animation: appear 1.5s ease-in-out 1s forwards;
 }
 
+.anim-appear-7 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 1.5s forwards;
+}
+
+.anim-appear-8 {
+    opacity: 0;
+    animation: appear 1.5s ease-in-out 2s forwards;
+}
+
 .hover-effect {
     display: inline-block;
     position: relative;

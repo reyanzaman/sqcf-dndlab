@@ -98,9 +98,9 @@ export default function Category() {
   const [bookcovers, setBookCovers] = useState<BookCover[]>([]);
   const [posters, setPosters] = useState<Poster[]>([]);
   const [illustrations, setIllustrations] = useState<Illustration[]>([]);
-  const [isArtOpen, setIsArtOpen] = useState(true);
-  const [isGPOpen, setIsGPOpen] = useState(true);
-  const [isWriteOpen, setIsWriteOpen] = useState(true);
+  const [isArtOpen, setIsArtOpen] = useState(false);
+  const [isGPOpen, setIsGPOpen] = useState(false);
+  const [isWriteOpen, setIsWriteOpen] = useState(false);
   const [selectedCategory, setselectedCategory] = useState("Paintings");
 
   const itemsPerPage = 8;
@@ -132,10 +132,18 @@ export default function Category() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchLoading, setIsSearchLoading] = useState(false);
-  type SearchResult = Art | BookCover | Poster | Illustration;
+
+  interface SearchResultBase {
+    source?: string;
+  }
+  type ExtendedArt = Art & SearchResultBase;
+  type ExtendedBookCover = BookCover & SearchResultBase;
+  type ExtendedPoster = Poster & SearchResultBase;
+  type ExtendedIllustration = Illustration & SearchResultBase;
+  type SearchResult = ExtendedArt | ExtendedBookCover | ExtendedPoster | ExtendedIllustration;
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-  const similarityThreshold = 50; // Percentage of dissimilarity allowed
+  const similarityThreshold = 50;
 
   const calculateSimilarity = (tag: any, query: string) => {
     const distance = levenshtein.get(tag.toLowerCase(), query.toLowerCase());
@@ -154,12 +162,20 @@ export default function Category() {
     setIsSearchLoading(true);
     // Simulate fetching data
     setTimeout(() => {
-      const allItems = [...arts, ...bookcovers, ...posters, ...illustrations]; // Combine all items
+      // Enhance items with a source field for identification
+      const allItems = [
+        ...arts.map(item => ({ ...item, source: 'Art' })) as (Art & SearchResultBase)[],
+        ...bookcovers.map(item => ({ ...item, source: 'BookCover' })) as (BookCover & SearchResultBase)[],
+        ...posters.map(item => ({ ...item, source: 'Poster' })) as (Poster & SearchResultBase)[],
+        ...illustrations.map(item => ({ ...item, source: 'Illustration' })) as (Illustration & SearchResultBase)[],
+      ];
       const matchedItems = allItems.filter(item =>
-        calculateSimilarity(item.title, query) >= (100 - similarityThreshold) ||
-        calculateSimilarity(item.title_Bangla, query) >= (100 - similarityThreshold) ||
-        item.tags.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold)) ||
-        item.tags_Bangla.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold))
+        item.title.toLowerCase().includes(query.toLowerCase()) ||
+        item.title_Bangla.toLowerCase().includes(query.toLowerCase()) ||
+        // item.tags.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold)) ||
+        // item.tags_Bangla.some(tag => calculateSimilarity(tag, query) >= (100 - similarityThreshold))
+        item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase())) ||
+        item.tags_Bangla.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
       );
 
       setSearchResults(matchedItems); // Update with filtered items
@@ -167,24 +183,48 @@ export default function Category() {
     }, 2000);
   };
 
-  const debouncedSearch = useCallback(debounce((query: string) => {
-    performSearch(query);
-  }, 500), []);
-
   const handleSearch = (e: any) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    debouncedSearch.cancel(); // Cancel any pending debounced calls to avoid duplicate searches
     performSearch(searchQuery); // Perform the search immediately with the current query
   };
 
+  const groupedResults = searchResults.reduce((acc, item) => {
+    let categoryName = item.source === 'BookCover' ? 'Book Cover'
+                      : item.source === 'Illustration' ? 'Illustrations & Cards'
+                      : item.source || 'Unknown';
+
+    // Directly use the item's type as the category name if it's from the Art source
+    if (item.source === 'Art' && 'type' in item) {
+        categoryName = capitalizeFirstLetter(item.type);
+    }
+
+    // Initialize the category array if it does not exist
+    if (!acc[categoryName]) {
+        acc[categoryName] = [];
+    }
+
+    acc[categoryName].push(item);
+    return acc;
+  }, {} as Record<string, SearchResult[]>);
+
+
+  // Helper function to capitalize the first letter of a string (e.g., "sketch" -> "Sketch")
+  function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    // Define the debounced function directly inside the effect
+    const debouncedPerformSearch = debounce(() => {
+      performSearch(searchQuery);
+    }, 500);
+
     if (searchQuery) {
-      debouncedSearch(searchQuery);
+      debouncedPerformSearch();
     }
 
     const fetchData = async () => {
@@ -205,8 +245,8 @@ export default function Category() {
       }
     };
     fetchData();
-    return () => debouncedSearch.cancel();
-  }, [searchQuery, debouncedSearch]);
+    return () => debouncedPerformSearch.cancel();
+  }, [searchQuery]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen />;
@@ -444,7 +484,7 @@ export default function Category() {
 
           {/* Drop Downs */}
           {searchQuery === '' ? (
-          <div className="flex lg:flex-row flex-col justify-between anim-appear">
+          <div className="flex lg:flex-row flex-col justify-between anim-appear-7">
             <div className="flex lg:flex-row flex-col">
 
               <div className="relative mt-2 w-[7rem]">
@@ -639,7 +679,7 @@ export default function Category() {
                 )}
               </div>
             </div>
-            <hr className="my-4 border anim-appear-6 block lg:hidden"></hr>
+            <hr className="my-4 border anim-appear-7 block lg:hidden"></hr>
             <div className="mt-4">
               <h1 className="text-3xl lg:text-right text-center">Showing {selectedCategory}</h1>
             </div>
@@ -649,7 +689,7 @@ export default function Category() {
           )}
 
           {searchQuery === '' ? (
-          <div className="mt-12 anim-appear">
+          <div className="mt-12 anim-appear-8">
 
             {/* Images */}
             <div className="grid lg:grid-cols-4 grid-cols-2 gap-2 items-center justify-center">
@@ -662,7 +702,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title}`}
+                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -695,7 +735,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title}`}
+                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -728,7 +768,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title}`}
+                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -760,7 +800,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title_Bangla}`}
+                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -792,7 +832,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title_Bangla}`}
+                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -824,7 +864,7 @@ export default function Category() {
                       <a
                         data-fancybox
                         data-src={`${art.imageUrl}`}
-                        data-caption={`${art.title_Bangla}`}
+                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
                       >
                         <Image
                           src={art.imageUrl}
@@ -970,61 +1010,57 @@ export default function Category() {
 
           </div>
           ):(
-            <div  className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
-              {/* Search Results */}
+            <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
               {isSearchLoading ? (
-                <div className="flex justify-center items-center mt-64">
+                <div className="flex justify-center items-center mt-64 mx-auto col-span-3">
                   <AiOutlineLoading className="animate-spin text-7xl font-bold text-white" />
                 </div>
               ) : (
-                searchResults.map((result, index) => (
-                  <div key={index} className="" >
-                    <a
-                      data-fancybox
-                      data-src={`${result.imageUrl}`}
-                      data-caption={`${result.title}`}
-                    >
-                      <Image
-                        src={result.imageUrl}
-                        alt={result.title}
-                        width={500}
-                        height={500}
-                        objectFit="cover"
-                        className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                      />
-                    </a>
-                    <div className="mb-2 custom-font">
-                      <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                        {result.title}
-                      </h1>
-                      <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                        ( {result.title_Bangla} )
-                      </h1>
-
-                      {'width' in result && 'height' in result ? (
-                        <h1 className="text-center text-xs px-1">
-                          {result.width} cm X {result.height} cm
-                        </h1>
-                      ) : 'publisher_Bangla' in result ? (
-                        <h1 className="text-center text-xs px-1">
-                          {result.publisher_Bangla}
-                        </h1>
-                      ) : null}
-
-                      <h1 className="text-center text-xs px-1 text-amber-200 custom-font">
-                        {result.tags.join(', ')}
-                      </h1>
-                      <h1 className="text-center text-xs px-1 text-amber-200 bangla-font">
-                        {result.tags_Bangla.join(', ')}
-                      </h1>
-
+                Object.entries(groupedResults).map(([source, items]) => (
+                  <div key={source} className="col-span-3">
+                    <h2 className="text-2xl font-bold mb-4">{source}</h2>
+                    <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center">
+                      {items.map((result, index) => (
+                        <div key={index} className="anim-appear-3">
+                          <a
+                            data-fancybox
+                            data-src={`${result.imageUrl}`}
+                            data-caption={`<div style='text-align: center;'>${result.title}<br><div style='color: #fde68a;'>${result.tags.join(', ')}<br>${result.tags_Bangla.join(', ')}</div></div>`}
+                          >
+                            <Image
+                              src={result.imageUrl}
+                              alt={result.title}
+                              width={500}
+                              height={500}
+                              objectFit="cover"
+                              className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                            />
+                          </a>
+                          <div className="mb-2 custom-font">
+                            <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              {result.title}
+                            </h1>
+                            <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              ( {result.title_Bangla} )
+                            </h1>
+                            {'width' in result && 'height' in result ? (
+                              <h1 className="text-center text-xs px-1">
+                                {result.width} cm X {result.height} cm
+                              </h1>
+                            ) : 'publisher_Bangla' in result ? (
+                              <h1 className="text-center text-xs px-1">
+                                {result.publisher_Bangla}
+                              </h1>
+                            ) : null}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ))
               )}
             </div>
           )}
-
         </div>
       </div>
     </main>
