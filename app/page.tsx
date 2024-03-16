@@ -187,8 +187,6 @@ export default function Home() {
     <main className="bg-black">
       <div className={classnames("bg-black w-[100vw] h-[100dvh] absolute top-0 left-0 z-50", {"fade-in": !isLoading && isReady} )}></div>
 
-      <div className="anim-appear-2 fixed lg:bottom-1 lg:top-auto top-0 w-full z-50 text-center text-amber-200 lg:mb-2 mb-0 text-[0.65em] opacity-50">Design Inspired by Van Gogh Museum</div>
-
       <div className={`flex flex-col ${isMenuVisible ? 'hidden' : ''} ${isDescriptionVisible ? 'hidden' : ''}`}>
         {/* Landing Image */}
         <div className="relative lg:w-screen lg:h-screen h-[100dvh] w-[100dvw] overflow-hidden">
@@ -204,6 +202,8 @@ export default function Home() {
               className="image-zoom" // Applied zoom-in class to the image
             />
           </div>
+          {/* Inspiration */}
+          <div className="anim-appear-2 fixed lg:bottom-1 lg:top-auto top-0 w-full z-50 text-center text-amber-200 lg:mb-2 mb-0 text-[0.65em] opacity-50">Design Inspired by Van Gogh Museum</div>
         </div>
 
         {/* Logo */}
