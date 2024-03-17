@@ -143,14 +143,14 @@ export default function Category() {
   type SearchResult = ExtendedArt | ExtendedBookCover | ExtendedPoster | ExtendedIllustration;
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-  const similarityThreshold = 50;
+  // const similarityThreshold = 50;
 
-  const calculateSimilarity = (tag: any, query: string) => {
-    const distance = levenshtein.get(tag.toLowerCase(), query.toLowerCase());
-    const longestLength = Math.max(tag.length, query.length);
-    const similarityPercentage = (1 - distance / longestLength) * 100;
-    return similarityPercentage;
-  };
+  // const calculateSimilarity = (tag: any, query: string) => {
+  //   const distance = levenshtein.get(tag.toLowerCase(), query.toLowerCase());
+  //   const longestLength = Math.max(tag.length, query.length);
+  //   const similarityPercentage = (1 - distance / longestLength) * 100;
+  //   return similarityPercentage;
+  // };
 
   const performSearch = (query: string) => {
     if (!query) {
@@ -254,9 +254,10 @@ export default function Category() {
   Fancybox.bind("[data-fancybox]", {});
 
   return (
-    <main className="bg-[#000000] h-max-screen text-white p-8">
+    <main className="text-white">
       <div className="h-full w-full">
 
+        {/* Navbar */}
         <div className="anim-appear-3 relative z-40">
           {/* Navbar */}
           {isMenuOpen ? (
@@ -419,501 +420,548 @@ export default function Category() {
           )}
         </div>
 
-        <div className="mt-32 lg:mx-32 mx-0">
-          <h1 className="lg:text-6xl text-4xl custom-font anim-appear-3">ARTS & WRITINGS</h1>
+        {!isMenuOpen ? (
+        <div>
+          {/* Main Code */}
+          <div className="mt-32 lg:mx-32 mx-0 lg:px-0 lg:py-8 p-8">
+            <h1 className="lg:text-6xl text-4xl custom-font anim-appear-3">ARTS & WRITINGS</h1>
 
-          {/* Search Bar */}
-          <div className="flex lg:flex-cols flex-row justify-between items-end z-0 anim-appear-6">
+            {/* Search Bar */}
+            <div className="flex lg:flex-cols flex-row justify-between items-end z-0 anim-appear-6">
 
-            <div className="mt-12">
+              <div className="mt-12">
 
-              <div className="relative w-full">
-                <form onSubmit={handleSearch}>
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="lg:w-[25vw] w-full h-10 pl-4 pr-12 text-white shadow focus:outline-none bg-black"
-                    value={searchQuery} // Control component
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+                <div className="relative w-full">
+                  <form onSubmit={handleSearch}>
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      className="lg:w-[25vw] w-full h-10 pl-4 pr-12 text-white shadow focus:outline-none bg-black"
+                      value={searchQuery} // Control component
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button
+                      type="submit"
+                      className="absolute inset-y-0 right-0 flex items-center px-1 text-2xl text-white"
+                    >
+                      <IoMdSearch />
+                    </button>
+                  </form>
+                </div>
+
+              </div>
+
+              {/* Item Count */}
+              <div className="hidden lg:block">
+                <h1 className="text-sm lg:mb-2 mb-1 lg:mt-0 mt-6 custom-font text-right">
+                  <span className="text-amber-200">0</span>{" "}
+                  Writings on QC {" "}
+                  | <span className="text-amber-200">0</span>{" "}
+                  Poems {" "}
+                  | <span className="text-amber-200">0</span>{" "}
+                  Prose {" "}
+                </h1>
+                <h1 className="text-sm mb-1 custom-font text-right">
+                  <span className="text-amber-200">
+                    {arts.filter((art) => art.type === "painting").length}
+                  </span>{" "}
+                  Painting |{" "}
+                  <span className="text-amber-200">
+                    {arts.filter((art) => art.type === "drawing").length}
+                  </span>{" "}
+                  Drawing |{" "}
+                  <span className="text-amber-200">
+                    {arts.filter((art) => art.type === "sketch").length}
+                  </span>{" "}
+                  Sketch |{" "}
+                  <span className="text-amber-200">{bookcovers.length}</span> Book
+                  Covers |{" "}
+                  <span className="text-amber-200">{posters.length}</span> Posters
+                  | <span className="text-amber-200">{illustrations.length}</span>{" "}
+                  Illustrations {" "}
+                </h1>
+              </div>
+
+            </div>
+
+            <hr className="my-4 border anim-appear-6"></hr>
+
+            {/* Drop Downs */}
+            {searchQuery === '' ? (
+            <div className="flex lg:flex-row flex-col justify-between anim-appear-7">
+              <div className="flex lg:flex-row flex-col">
+
+                <div className="relative mt-2 w-[7rem]">
                   <button
-                    type="submit"
-                    className="absolute inset-y-0 right-0 flex items-center px-1 text-2xl text-white"
+                    className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
+                    type="button"
+                    onClick={() => setIsArtOpen(!isArtOpen)}
                   >
-                    <IoMdSearch />
+                    Art
+                    <svg
+                      className="ml-2 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
                   </button>
-                </form>
-              </div>
+                  {isArtOpen && (
+                    <div className="z-10 w-44 mt-2 bg-black">
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Paintings");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Painting
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Drawings");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Drawing
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Sketches");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Sketch
+                      </a>
+                    </div>
+                  )}
+                </div>
 
-            </div>
-
-            {/* Item Count */}
-            <div className="hidden lg:block">
-              <h1 className="text-sm lg:mb-2 mb-1 lg:mt-0 mt-6 custom-font text-right">
-                <span className="text-amber-200">0</span>{" "}
-                Writings on QC {" "}
-                | <span className="text-amber-200">0</span>{" "}
-                Poems {" "}
-                | <span className="text-amber-200">0</span>{" "}
-                Prose {" "}
-              </h1>
-              <h1 className="text-sm mb-1 custom-font text-right">
-                <span className="text-amber-200">
-                  {arts.filter((art) => art.type === "painting").length}
-                </span>{" "}
-                Painting |{" "}
-                <span className="text-amber-200">
-                  {arts.filter((art) => art.type === "drawing").length}
-                </span>{" "}
-                Drawing |{" "}
-                <span className="text-amber-200">
-                  {arts.filter((art) => art.type === "sketch").length}
-                </span>{" "}
-                Sketch |{" "}
-                <span className="text-amber-200">{bookcovers.length}</span> Book
-                Covers |{" "}
-                <span className="text-amber-200">{posters.length}</span> Posters
-                | <span className="text-amber-200">{illustrations.length}</span>{" "}
-                Illustrations {" "}
-              </h1>
-            </div>
-
-          </div>
-
-          <hr className="my-4 border anim-appear-6"></hr>
-
-          {/* Drop Downs */}
-          {searchQuery === '' ? (
-          <div className="flex lg:flex-row flex-col justify-between anim-appear-7">
-            <div className="flex lg:flex-row flex-col">
-
-              <div className="relative mt-2 w-[7rem]">
-                <button
-                  className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
-                  type="button"
-                  onClick={() => setIsArtOpen(!isArtOpen)}
-                >
-                  Art
-                  <svg
-                    className="ml-2 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className="relative mt-2 w-[16rem]">
+                  <button
+                    className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
+                    type="button"
+                    onClick={() => setIsGPOpen(!isGPOpen)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {isArtOpen && (
-                  <div className="z-10 w-44 mt-2 bg-black">
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Paintings");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                    Graphics Design
+                    <svg
+                      className="ml-2 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      Painting
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Drawings");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Drawing
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Sketches");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Sketch
-                    </a>
-                  </div>
-                )}
-              </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
+                  </button>
+                  {isGPOpen && (
+                    <div className="z-10 w-44 mt-2 bg-black">
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Book Covers");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Book Cover
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Posters");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Poster
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Illustrations & Cards");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Illustration & Cards
+                      </a>
+                    </div>
+                  )}
+                </div>
 
-              <div className="relative mt-2 w-[16rem]">
-                <button
-                  className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
-                  type="button"
-                  onClick={() => setIsGPOpen(!isGPOpen)}
-                >
-                  Graphics Design
-                  <svg
-                    className="ml-2 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className="relative mt-2 w-[14rem]">
+                  <button
+                    className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
+                    type="button"
+                    onClick={() => setIsWriteOpen(!isWriteOpen)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {isGPOpen && (
-                  <div className="z-10 w-44 mt-2 bg-black">
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Book Covers");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                    Writing
+                    <svg
+                      className="ml-2 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      Book Cover
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Posters");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Poster
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Illustrations & Cards");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Illustration & Cards
-                    </a>
-                  </div>
-                )}
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
+                  </button>
+                  {isWriteOpen && (
+                    <div className="z-10 w-44 mt-2 bg-black">
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Writings on QC");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Writings on QC
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Poems");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Poems
+                      </a>
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentIndex(0);
+                          setCurrentPage(1);
+                          setselectedCategory("Prose");
+                        }}
+                        className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                      >
+                        Prose
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="relative mt-2 w-[14rem]">
-                <button
-                  className="text-zinc-300 hover:text-white text-2xl custom-font px-4 py-2.5 text-center inline-flex items-center"
-                  type="button"
-                  onClick={() => setIsWriteOpen(!isWriteOpen)}
-                >
-                  Writing
-                  <svg
-                    className="ml-2 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {isWriteOpen && (
-                  <div className="z-10 w-44 mt-2 bg-black">
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Writings on QC");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Writings on QC
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Poems");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Poems
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentIndex(0);
-                        setCurrentPage(1);
-                        setselectedCategory("Prose");
-                      }}
-                      className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
-                    >
-                      Prose
-                    </a>
-                  </div>
-                )}
+              <hr className="my-4 border anim-appear-7 block lg:hidden"></hr>
+              <div className="mt-4">
+                <h1 className="text-3xl lg:text-right text-center">Showing {selectedCategory}</h1>
               </div>
             </div>
-            <hr className="my-4 border anim-appear-7 block lg:hidden"></hr>
-            <div className="mt-4">
-              <h1 className="text-3xl lg:text-right text-center">Showing {selectedCategory}</h1>
-            </div>
-          </div>
-          ):(
-            <div></div>
-          )}
+            ):(
+              <div></div>
+            )}
 
-          {searchQuery === '' ? (
-          <div className="mt-12 anim-appear-8">
+            {searchQuery === '' ? (
+            <div className="mt-12 anim-appear-8">
 
-            {/* Images */}
-            <div className="grid lg:grid-cols-4 grid-cols-2 gap-2 items-center justify-center">
-              {selectedCategory === "Paintings" &&
-                arts
-                  .filter((art) => art.type === "painting")
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1>
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          {art.width} cm X {art.height} cm
-                        </h1>
+              {/* Images */}
+              <div className="grid lg:grid-cols-4 grid-cols-2 gap-2 items-center justify-center">
+                {selectedCategory === "Paintings" &&
+                  arts
+                    .filter((art) => art.type === "painting")
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1>
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            {art.width} cm X {art.height} cm
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              {selectedCategory === "Drawings" &&
-                arts
-                  .filter((art) => art.type === "drawing")
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1>
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          {art.width} cm X {art.height} cm
-                        </h1>
+                    ))}
+                {selectedCategory === "Drawings" &&
+                  arts
+                    .filter((art) => art.type === "drawing")
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1>
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            {art.width} cm X {art.height} cm
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              {selectedCategory === "Sketches" &&
-                arts
-                  .filter((art) => art.type === "sketch")
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1>
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          {art.width} cm X {art.height} cm
-                        </h1>
+                    ))}
+                {selectedCategory === "Sketches" &&
+                  arts
+                    .filter((art) => art.type === "sketch")
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1>
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            {art.width} cm X {art.height} cm
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              {selectedCategory === "Book Covers" &&
-                bookcovers
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1> */}
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          By {art.author_Bangla}
-                        </h1>
+                    ))}
+                {selectedCategory === "Book Covers" &&
+                  bookcovers
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1> */}
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            By {art.author_Bangla}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              {selectedCategory === "Posters" &&
-                posters
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1> */}
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          For {art.for_whom}
-                        </h1>
+                    ))}
+                {selectedCategory === "Posters" &&
+                  posters
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1> */}
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            For {art.for_whom}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              {selectedCategory === "Illustrations & Cards" &&
-                illustrations
-                  .slice(currentIndex, currentIndex + itemsPerPage)
-                  .map((art, index) => (
-                    <div className="" key={index}>
-                      <a
-                        data-fancybox
-                        data-src={`${art.imageUrl}`}
-                        data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
-                      >
-                        <Image
-                          src={art.imageUrl}
-                          alt={art.title}
-                          width={500}
-                          height={500}
-                          objectFit="cover"
-                          className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                        />
-                      </a>
-                      <div className="mb-2">
-                        {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          {art.title}
-                        </h1> */}
-                        <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                          ( {art.title_Bangla} )
-                        </h1>
-                        <h1 className="text-center text-xs px-1">
-                          {art.publisher_Bangla}
-                        </h1>
+                    ))}
+                {selectedCategory === "Illustrations & Cards" &&
+                  illustrations
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <a
+                          data-fancybox
+                          data-src={`${art.imageUrl}`}
+                          data-caption={`<div style='text-align: center;'>${art.title_Bangla}<br><div style='color: #fde68a;'>${art.tags.join(', ')}<br>${art.tags_Bangla.join(', ')}</div></div>`}
+                        >
+                          <Image
+                            src={art.imageUrl}
+                            alt={art.title}
+                            width={500}
+                            height={500}
+                            objectFit="cover"
+                            className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                          />
+                        </a>
+                        <div className="mb-2">
+                          {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1> */}
+                          <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            ( {art.title_Bangla} )
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            {art.publisher_Bangla}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-            </div>
+                    ))}
+              </div>
 
-            {/* Pagination */}
-            <div className="my-12">
+              {/* Pagination */}
+              <div className="my-12">
 
-              <div className="flex flex-row justify-between mt-4 items-center">
+                <div className="flex flex-row justify-between mt-4 items-center">
 
-                {/* Previous Page Button */}
-                {currentPage > 1 && (
-                  <div className="flex flex-row gap-2 items-center cursor-pointer" onClick={handlePreviousPage}>
-                    <FaArrowLeftLong className="lg:text-2xl text-4xl text-white " />
-                    <h1 className="text-2xl lg:block hidden text-zinc-300 hover:text-white">
-                      Previous Page
-                    </h1>
+                  {/* Previous Page Button */}
+                  {currentPage > 1 && (
+                    <div className="flex flex-row gap-2 items-center cursor-pointer" onClick={handlePreviousPage}>
+                      <FaArrowLeftLong className="lg:text-2xl text-4xl text-white " />
+                      <h1 className="text-2xl lg:block hidden text-zinc-300 hover:text-white">
+                        Previous Page
+                      </h1>
+                    </div>
+                  )}
+                  {currentPage <= 1 && (
+                    <div className="flex flex-row gap-2 items-center cursor-not-allowed text-zinc-800 hover:text-zinc-900">
+                      <FaArrowLeftLong className="lg:text-2xl text-4xl" />
+                      <h1 className="text-2xl hidden lg:block">Previous Page</h1>
+                    </div>
+                  )}
+
+
+                  {/* Page Number */}
+                  <div>
+                    {
+                      (() => {
+                        let totalItems;
+                        switch (selectedCategory) {
+                          case "Paintings":
+                            totalItems = arts.filter((art) => art.type === "painting").length;
+                            break;
+                          case "Drawings":
+                            totalItems = arts.filter((art) => art.type === "drawing").length;
+                            break;
+                          case "Sketches":
+                            totalItems = arts.filter((art) => art.type === "sketch").length;
+                            break;
+                          case "Book Covers":
+                            totalItems = bookcovers.length;
+                            break;
+                          case "Posters":
+                            totalItems = posters.length;
+                            break;
+                          case "Illustrations & Cards":
+                            totalItems = illustrations.length;
+                            break;
+                          case "Writings on QC":
+                          case "Poems":
+                          case "Prose":
+                            totalItems = 1; // Assuming these categories inherently have only 1 page of items or are treated as such
+                            break;
+                          default:
+                            totalItems = 0; // Default or error case
+                        }
+
+                        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                        return (
+                          <h1 className="text-center lg:text-base text-sm">
+                            Page: {currentPage} of {totalPages}
+                          </h1>
+                        );
+                      })()
+                    }
                   </div>
-                )}
-                {currentPage <= 1 && (
-                  <div className="flex flex-row gap-2 items-center cursor-not-allowed text-zinc-800 hover:text-zinc-900">
-                    <FaArrowLeftLong className="lg:text-2xl text-4xl" />
-                    <h1 className="text-2xl hidden lg:block">Previous Page</h1>
-                  </div>
-                )}
 
 
-                {/* Page Number */}
-                <div>
+                  {/* Next Page Button */}
                   {
                     (() => {
                       let totalItems;
@@ -936,132 +984,90 @@ export default function Category() {
                         case "Illustrations & Cards":
                           totalItems = illustrations.length;
                           break;
-                        case "Writings on QC":
-                        case "Poems":
-                        case "Prose":
-                          totalItems = 1; // Assuming these categories inherently have only 1 page of items or are treated as such
-                          break;
+                        // Include other categories with their respective logic for totalItems
                         default:
-                          totalItems = 0; // Default or error case
+                          totalItems = 0; // Handle any categories not explicitly mentioned
                       }
 
                       const totalPages = Math.ceil(totalItems / itemsPerPage);
+                      const isLastPage = currentPage >= totalPages;
 
                       return (
-                        <h1 className="text-center lg:text-base text-sm">
-                          Page: {currentPage} of {totalPages}
-                        </h1>
+                        <div
+                          className={`flex flex-row gap-2 items-center ${
+                            isLastPage ? "cursor-not-allowed text-zinc-800 hover:text-zinc-900" : "cursor-pointer"
+                          }`}
+                          onClick={!isLastPage ? handleNextPage : undefined}
+                        >
+                          <h1 className={`text-2xl lg:block hidden ${isLastPage ? "" : "text-zinc-300 hover:text-white"}`}>
+                            Next Page
+                          </h1>
+                          <FaArrowRightLong className={`lg:text-2xl text-4xl ${isLastPage ? "" : "text-white"}`} />
+                        </div>
                       );
                     })()
                   }
+
+
                 </div>
-
-
-                {/* Next Page Button */}
-                {
-                  (() => {
-                    let totalItems;
-                    switch (selectedCategory) {
-                      case "Paintings":
-                        totalItems = arts.filter((art) => art.type === "painting").length;
-                        break;
-                      case "Drawings":
-                        totalItems = arts.filter((art) => art.type === "drawing").length;
-                        break;
-                      case "Sketches":
-                        totalItems = arts.filter((art) => art.type === "sketch").length;
-                        break;
-                      case "Book Covers":
-                        totalItems = bookcovers.length;
-                        break;
-                      case "Posters":
-                        totalItems = posters.length;
-                        break;
-                      case "Illustrations & Cards":
-                        totalItems = illustrations.length;
-                        break;
-                      // Include other categories with their respective logic for totalItems
-                      default:
-                        totalItems = 0; // Handle any categories not explicitly mentioned
-                    }
-
-                    const totalPages = Math.ceil(totalItems / itemsPerPage);
-                    const isLastPage = currentPage >= totalPages;
-
-                    return (
-                      <div
-                        className={`flex flex-row gap-2 items-center ${
-                          isLastPage ? "cursor-not-allowed text-zinc-800 hover:text-zinc-900" : "cursor-pointer"
-                        }`}
-                        onClick={!isLastPage ? handleNextPage : undefined}
-                      >
-                        <h1 className={`text-2xl lg:block hidden ${isLastPage ? "" : "text-zinc-300 hover:text-white"}`}>
-                          Next Page
-                        </h1>
-                        <FaArrowRightLong className={`lg:text-2xl text-4xl ${isLastPage ? "" : "text-white"}`} />
-                      </div>
-                    );
-                  })()
-                }
-
-
               </div>
-            </div>
 
-          </div>
-          ):(
-            <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
-              {isSearchLoading ? (
-                <div className="flex justify-center items-center mt-64 mx-auto col-span-3">
-                  <AiOutlineLoading className="animate-spin text-7xl font-bold text-white" />
-                </div>
-              ) : (
-                Object.entries(groupedResults).map(([source, items]) => (
-                  <div key={source} className="col-span-3">
-                    <h2 className="text-2xl font-bold mb-4">{source}</h2>
-                    <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center">
-                      {items.map((result, index) => (
-                        <div key={index} className="anim-appear-3">
-                          <a
-                            data-fancybox
-                            data-src={`${result.imageUrl}`}
-                            data-caption={`<div style='text-align: center;'>${result.title}<br><div style='color: #fde68a;'>${result.tags.join(', ')}<br>${result.tags_Bangla.join(', ')}</div></div>`}
-                          >
-                            <Image
-                              src={result.imageUrl}
-                              alt={result.title}
-                              width={500}
-                              height={500}
-                              objectFit="cover"
-                              className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                            />
-                          </a>
-                          <div className="mb-2 custom-font">
-                            <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                              {result.title}
-                            </h1>
-                            <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                              ( {result.title_Bangla} )
-                            </h1>
-                            {'width' in result && 'height' in result ? (
-                              <h1 className="text-center text-xs px-1">
-                                {result.width} cm X {result.height} cm
-                              </h1>
-                            ) : 'publisher_Bangla' in result ? (
-                              <h1 className="text-center text-xs px-1">
-                                {result.publisher_Bangla}
-                              </h1>
-                            ) : null}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              )}
             </div>
-          )}
+            ):(
+              <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
+                {isSearchLoading ? (
+                  <div className="flex justify-center items-center mt-64 mx-auto col-span-3">
+                    <AiOutlineLoading className="animate-spin text-7xl font-bold text-white" />
+                  </div>
+                ) : (
+                  Object.entries(groupedResults).map(([source, items]) => (
+                    <div key={source} className="col-span-3">
+                      <h2 className="text-2xl font-bold mb-4">{source}</h2>
+                      <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center">
+                        {items.map((result, index) => (
+                          <div key={index} className="anim-appear-3">
+                            <a
+                              data-fancybox
+                              data-src={`${result.imageUrl}`}
+                              data-caption={`<div style='text-align: center;'>${result.title}<br><div style='color: #fde68a;'>${result.tags.join(', ')}<br>${result.tags_Bangla.join(', ')}</div></div>`}
+                            >
+                              <Image
+                                src={result.imageUrl}
+                                alt={result.title}
+                                width={500}
+                                height={500}
+                                objectFit="cover"
+                                className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                              />
+                            </a>
+                            <div className="mb-2 custom-font">
+                              <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                {result.title}
+                              </h1>
+                              <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                ( {result.title_Bangla} )
+                              </h1>
+                              {'width' in result && 'height' in result ? (
+                                <h1 className="text-center text-xs px-1">
+                                  {result.width} cm X {result.height} cm
+                                </h1>
+                              ) : 'publisher_Bangla' in result ? (
+                                <h1 className="text-center text-xs px-1">
+                                  {result.publisher_Bangla}
+                                </h1>
+                              ) : null}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
         </div>
+        ):(<div></div>)}
       </div>
     </main>
   );

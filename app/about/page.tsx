@@ -74,6 +74,7 @@ export default function About() {
   return <main className="bg-[#000000] text-white h-fit w-full">
     <div className="flex flex-col">
 
+      {/* Navbar */}
       <div className="anim-appear-3 z-50">
           {/* Navbar */}
           {isMenuOpen ? (
@@ -224,159 +225,162 @@ export default function About() {
           )}
       </div>
 
-      <div className="flex flex-col items-center justify-center pt-16 pb-4 mt-20 lg:px-24 px-0 anim-appear-5">
-        {/* Header */}
-        <header className="text-center mb-12 px-8">
-          <h1 className="lg:text-8xl text-6xl lg:text-center text-left font-bold">Shilpi Qayyum Chowdhury Foundation</h1>
-          <p className="text-3xl mt-8 lg:text-center text-left">Meet the team behind the scenes</p>
-        </header>
+      {/* Main Code */}
+      {!isMenuOpen ? (
+        <div className="flex flex-col items-center justify-center pt-16 pb-4 mt-20 lg:px-24 px-0 anim-appear-5">
+          {/* Header */}
+          <header className="text-center mb-12 px-8">
+            <h1 className="lg:text-8xl text-6xl lg:text-center text-left font-bold">Shilpi Qayyum Chowdhury Foundation</h1>
+            <p className="text-3xl mt-8 lg:text-center text-left">Meet the team behind the scenes</p>
+          </header>
 
-        {/* Team Members */}
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-2 px-0">
-          {/* Person 1 */}
-          <div className="shadow-lg overflow-hidden">
-            <div className="w-full h-80 relative">
-              <a
-                data-fancybox
-                data-src="/images/tahera.jpg"
-                data-caption="Tahera Khanam"
-              >
-              <Image src="/images/tahera.jpg" alt="Tahera Khanam" layout="fill" objectFit="cover" objectPosition="0% 20%"/>
-              </a>
-            </div>
-            <div className="py-6">
-              <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">তাহেরা খানম</h2>
-              <p className="bangla-font text-center lg:text-base text-lg">প্রতিষ্ঠাতা ও সভাপতি</p>
-              <p className="bangla-font text-center lg:text-base text-lg">শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন</p>
-
-              <div className="w-full mx-auto lg:my-4 my-6">
-                <Link href="tahera" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
-                border-white hover:shadow-lg text-zinc-400 hover:text-white">
-                  <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
-                </Link>
+          {/* Team Members */}
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-2 px-0">
+            {/* Person 1 */}
+            <div className="shadow-lg overflow-hidden">
+              <div className="w-full h-80 relative">
+                <a
+                  data-fancybox
+                  data-src="/images/tahera.jpg"
+                  data-caption="Tahera Khanam"
+                >
+                <Image src="/images/tahera.jpg" alt="Tahera Khanam" layout="fill" objectFit="cover" objectPosition="0% 20%"/>
+                </a>
               </div>
+              <div className="py-6">
+                <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">তাহেরা খানম</h2>
+                <p className="bangla-font text-center lg:text-base text-lg">প্রতিষ্ঠাতা ও সভাপতি</p>
+                <p className="bangla-font text-center lg:text-base text-lg">শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন</p>
 
+                <div className="w-full mx-auto lg:my-4 my-6">
+                  <Link href="tahera" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
+                  border-white hover:shadow-lg text-zinc-400 hover:text-white">
+                    <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
+                  </Link>
+                </div>
+
+              </div>
             </div>
+
+            {/* Person 2 */}
+            <div className="shadow-lg overflow-hidden">
+              <div className="w-full h-80 relative">
+                <a
+                  data-fancybox
+                  data-src="/images/zaber.JPG"
+                  data-caption="Moinul Islam Zaber"
+                >
+                <Image src="/images/zaber.JPG" alt="Moinul Islam Zaber" layout="fill" objectFit="cover"/>
+                </a>
+              </div>
+              <div className="py-6">
+                <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মইনুল ইসলাম জাবের</h2>
+                <p className="bangla-font text-center lg:text-base text-lg">অধ্যাপক, কম্পিউটার সায়েন্স এন্ড ইঞ্জিনিয়ারিং বিভাগ</p>
+                <p className="bangla-font text-center lg:text-base text-lg">ঢাকা বিশ্ববিদ্যালয়</p>
+
+                <div className="w-full mx-auto lg:my-4 my-6">
+                  <Link href="zaber" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
+                  border-white hover:shadow-lg text-zinc-400 hover:text-white">
+                    <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
+                  </Link>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Person 3 */}
+            <div className="shadow-lg overflow-hidden">
+              <div className="w-full h-80 relative">
+                <a
+                  data-fancybox
+                  data-src="/images/mrittika.jpg"
+                  data-caption="Mrittika Shahita"
+                >
+                <Image src="/images/mrittika.jpg" alt="Mrittika Shahita" layout="fill" objectFit="cover"/>
+                </a>
+              </div>
+              <div className="py-6">
+                <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মৃত্তিকা সহিতা</h2>
+                <p className="bangla-font text-center lg:text-base text-lg">সহযোগী অধ্যাপক, ইতিহাস বিভাগ</p>
+                <p className="bangla-font text-center lg:text-base text-lg">ঢাকা বিশ্ববিদ্যালয়</p>
+
+                <div className="w-full mx-auto lg:my-4 my-6">
+                  <Link href="mrittika" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
+                  border-white hover:shadow-lg text-zinc-400 hover:text-white">
+                    <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Person 4 */}
+            <div className="shadow-lg overflow-hidden">
+              <div className="w-full h-80 relative">
+                <a
+                  data-fancybox
+                  data-src="/images/tariqul.jpg"
+                  data-caption="Tariqul Islam"
+                >
+                <Image src="/images/tariqul.jpg" alt="Tariqul Islam" layout="fill" objectFit="cover" objectPosition="0% 40%"/>
+                </a>
+              </div>
+              <div className="py-6">
+                <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মো: তরিকুল ইসলাম</h2>
+                <p className="bangla-font text-center lg:text-base text-lg">প্রধান নির্বাহী</p>
+                <p className="bangla-font text-center lg:text-base text-lg">শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন</p>
+
+                <div className="w-full mx-auto lg:my-4 my-6">
+                  <Link href="tariqul" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
+                  border-white hover:shadow-lg text-zinc-400 hover:text-white">
+                    <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          {/* Person 2 */}
-          <div className="shadow-lg overflow-hidden">
-            <div className="w-full h-80 relative">
-              <a
-                data-fancybox
-                data-src="/images/zaber.JPG"
-                data-caption="Moinul Islam Zaber"
-              >
-              <Image src="/images/zaber.JPG" alt="Moinul Islam Zaber" layout="fill" objectFit="cover"/>
-              </a>
-            </div>
-            <div className="py-6">
-              <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মইনুল ইসলাম জাবের</h2>
-              <p className="bangla-font text-center lg:text-base text-lg">অধ্যাপক, কম্পিউটার সায়েন্স এন্ড ইঞ্জিনিয়ারিং বিভাগ</p>
-              <p className="bangla-font text-center lg:text-base text-lg">ঢাকা বিশ্ববিদ্যালয়</p>
+          {/* About Foundation */}
 
-              <div className="w-full mx-auto lg:my-4 my-6">
-                <Link href="zaber" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
-                border-white hover:shadow-lg text-zinc-400 hover:text-white">
-                  <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
-                </Link>
-              </div>
-
-            </div>
+          <div className="bangla-font border-2 border-zinc-500 hover:border-white lg:mx-16 mx-10 my-4 lg:p-2 p-1 lg:text-center text-justify lg:max-w-[79em] w-[80dvw]">
+            <h1 className="text-4xl p-1 text-center">ABOUT THE FOUNDATION</h1>
+            <h1 className="lg:text-2xl text-xl lg:leading-10 leading-8 border-2 border-zinc-500 hover:border-zinc-200 p-4">
+                শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন হল একটি প্রতিষ্ঠান যা বাংলাদেশের বরেণ্য শিল্পী কাইয়ুম চৌধুরীর নামে গড়ে উঠেছে। এই ফাউণ্ডেশনের প্রধান উদ্দেশ্য হল শিল্পীর শিল্পকর্ম, শিল্পচিন্তা এবং জীবন দর্শনের আলোকে বাংলাদেশে শিল্প ও সংস্কৃতির চর্চা প্রসার এবং উন্নয়নে অবদান রাখা। এই ফাউণ্ডেশন শিল্পীর অমূল্য শিল্পকর্মগুলির সংরক্ষণ, গবেষণা এবং প্রদর্শনীর মাধ্যমে তাঁর শিল্পচেতনা এবং আদর্শিক ভাবনার প্রচারে অগ্রণী ভূমিকা পালন করে।
+                <br></br><br></br>
+                ফাউণ্ডেশনটি বিভিন্ন শিল্পকর্ম ও শিল্প উপকরণের প্রদর্শনী, ওয়ার্কশপ, সেমিনার এবং শিক্ষামূলক প্রোগ্রাম আয়োজন করে থাকে, যা শিল্প ও সংস্কৃতির প্রতি আগ্রহী ব্যক্তিদের মধ্যে জ্ঞান ও দক্ষতা বিকাশে সহায়তা করে। এর মাধ্যমে শিল্পী কাইয়ুম চৌধুরীর শিল্পাদর্শ ও চেতনা নতুন প্রজন্মের মধ্যে ছড়িয়ে দেওয়ার একটি প্রয়াস চালিয়ে যায় ফাউণ্ডেশনটি।
+                <br></br><br></br>
+                এই ফাউণ্ডেশন তাঁর স্মৃতি এবং শিল্পকর্মগুলিকে সংরক্ষণ করে একটি অমূল্য সম্পদ হিসাবে দেশের জন্য রেখে দিতে চায়। তাঁর কর্ম ও জীবনদর্শন থেকে অনুপ্রাণিত হয়ে আসছে অসংখ্য শিল্পী ও শিল্পানুরাগী। ফাউণ্ডেশনটি তাঁর অবদানকে স্মরণ করে এবং ভবিষ্যত প্রজন্মকে শিল্প সাধনা ও সৃজনশীল প্রকাশে উদ্বুদ্ধ করে চলেছে।
+                <br></br><br></br>
+                শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন একটি অগ্রণী প্ল্যাটফর্ম হিসেবে কাজ করে যেখানে শিল্প, সংস্কৃতি, দর্শন এবং সাহিত্যের চর্চা ও গবেষণাকে প্রোত্সাহিত করা হয়। এটি শিল্পী কাইয়ুম চৌধুরীর জীবন ও কর্মকে একটি অমূল্য শিক্ষা ও অনুপ্রেরণার উৎস হিসেবে প্রতিষ্ঠিত করেছে, যা আমাদের সমাজে শিল্প ও সংস্কৃতির উন্নতি ও বিকাশে অবদান রাখছে।
+            </h1>
           </div>
 
-          {/* Person 3 */}
-          <div className="shadow-lg overflow-hidden">
-            <div className="w-full h-80 relative">
+          {/* Person main */}
+          <div className="shadow-lg lg:w-[100%] lg:max-w-[79em] w-[81dvw] overflow-hidden pt-8 pb-2">
+            <div className="mx-0 h-[30em] relative">
               <a
                 data-fancybox
-                data-src="/images/mrittika.jpg"
-                data-caption="Mrittika Shahita"
+                data-src="/images/qc2.jpg"
+                data-caption="Qayyum Chowdhury"
               >
-              <Image src="/images/mrittika.jpg" alt="Mrittika Shahita" layout="fill" objectFit="cover"/>
+              <Image src="/images/qc2.jpg" alt="Qayyum Chowdhury" layout="fill" objectFit="cover" objectPosition="75% 30%"/>
               </a>
             </div>
             <div className="py-6">
-              <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মৃত্তিকা সহিতা</h2>
-              <p className="bangla-font text-center lg:text-base text-lg">সহযোগী অধ্যাপক, ইতিহাস বিভাগ</p>
-              <p className="bangla-font text-center lg:text-base text-lg">ঢাকা বিশ্ববিদ্যালয়</p>
+              <h2 className="text-3xl pb-2 text-center font-semibold mb-2 custom-font">শিল্পী কাইয়ুম চৌধুরী</h2>
 
-              <div className="w-full mx-auto lg:my-4 my-6">
-                <Link href="mrittika" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
+              <div className="lg:w-2/4 w-full mx-auto lg:my-4 my-6">
+                <Link href="qayyum" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
                 border-white hover:shadow-lg text-zinc-400 hover:text-white">
                   <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
                 </Link>
               </div>
-            </div>
-          </div>
 
-          {/* Person 4 */}
-          <div className="shadow-lg overflow-hidden">
-            <div className="w-full h-80 relative">
-              <a
-                data-fancybox
-                data-src="/images/tariqul.jpg"
-                data-caption="Tariqul Islam"
-              >
-              <Image src="/images/tariqul.jpg" alt="Tariqul Islam" layout="fill" objectFit="cover" objectPosition="0% 40%"/>
-              </a>
-            </div>
-            <div className="py-6">
-              <h2 className="lg:text-3xl text-3xl pb-2 text-center font-semibold mb-2 custom-font">মো: তরিকুল ইসলাম</h2>
-              <p className="bangla-font text-center lg:text-base text-lg">প্রধান নির্বাহী</p>
-              <p className="bangla-font text-center lg:text-base text-lg">শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন</p>
-
-              <div className="w-full mx-auto lg:my-4 my-6">
-                <Link href="tariqul" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
-                border-white hover:shadow-lg text-zinc-400 hover:text-white">
-                  <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
-                </Link>
-              </div>
             </div>
           </div>
 
         </div>
-
-        {/* About Foundation */}
-
-        <div className="bangla-font border-2 border-zinc-500 hover:border-white lg:mx-16 mx-10 my-4 lg:p-2 p-1 lg:text-center text-justify lg:max-w-[79em] w-[80dvw]">
-          <h1 className="text-4xl p-1 text-center">ABOUT THE FOUNDATION</h1>
-          <h1 className="lg:text-2xl text-xl lg:leading-10 leading-8 border-2 border-zinc-500 hover:border-zinc-200 p-4">
-              শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন হল একটি প্রতিষ্ঠান যা বাংলাদেশের বরেণ্য শিল্পী কাইয়ুম চৌধুরীর নামে গড়ে উঠেছে। এই ফাউণ্ডেশনের প্রধান উদ্দেশ্য হল শিল্পীর শিল্পকর্ম, শিল্পচিন্তা এবং জীবন দর্শনের আলোকে বাংলাদেশে শিল্প ও সংস্কৃতির চর্চা প্রসার এবং উন্নয়নে অবদান রাখা। এই ফাউণ্ডেশন শিল্পীর অমূল্য শিল্পকর্মগুলির সংরক্ষণ, গবেষণা এবং প্রদর্শনীর মাধ্যমে তাঁর শিল্পচেতনা এবং আদর্শিক ভাবনার প্রচারে অগ্রণী ভূমিকা পালন করে।
-              <br></br><br></br>
-              ফাউণ্ডেশনটি বিভিন্ন শিল্পকর্ম ও শিল্প উপকরণের প্রদর্শনী, ওয়ার্কশপ, সেমিনার এবং শিক্ষামূলক প্রোগ্রাম আয়োজন করে থাকে, যা শিল্প ও সংস্কৃতির প্রতি আগ্রহী ব্যক্তিদের মধ্যে জ্ঞান ও দক্ষতা বিকাশে সহায়তা করে। এর মাধ্যমে শিল্পী কাইয়ুম চৌধুরীর শিল্পাদর্শ ও চেতনা নতুন প্রজন্মের মধ্যে ছড়িয়ে দেওয়ার একটি প্রয়াস চালিয়ে যায় ফাউণ্ডেশনটি।
-              <br></br><br></br>
-              এই ফাউণ্ডেশন তাঁর স্মৃতি এবং শিল্পকর্মগুলিকে সংরক্ষণ করে একটি অমূল্য সম্পদ হিসাবে দেশের জন্য রেখে দিতে চায়। তাঁর কর্ম ও জীবনদর্শন থেকে অনুপ্রাণিত হয়ে আসছে অসংখ্য শিল্পী ও শিল্পানুরাগী। ফাউণ্ডেশনটি তাঁর অবদানকে স্মরণ করে এবং ভবিষ্যত প্রজন্মকে শিল্প সাধনা ও সৃজনশীল প্রকাশে উদ্বুদ্ধ করে চলেছে।
-              <br></br><br></br>
-              শিল্পী কাইয়ুম চৌধুরী ফাউণ্ডেশন একটি অগ্রণী প্ল্যাটফর্ম হিসেবে কাজ করে যেখানে শিল্প, সংস্কৃতি, দর্শন এবং সাহিত্যের চর্চা ও গবেষণাকে প্রোত্সাহিত করা হয়। এটি শিল্পী কাইয়ুম চৌধুরীর জীবন ও কর্মকে একটি অমূল্য শিক্ষা ও অনুপ্রেরণার উৎস হিসেবে প্রতিষ্ঠিত করেছে, যা আমাদের সমাজে শিল্প ও সংস্কৃতির উন্নতি ও বিকাশে অবদান রাখছে।
-          </h1>
-        </div>
-
-        {/* Person main */}
-        <div className="shadow-lg lg:w-[100%] lg:max-w-[79em] w-[81dvw] overflow-hidden pt-8 pb-2">
-          <div className="mx-0 h-[30em] relative">
-            <a
-              data-fancybox
-              data-src="/images/qc2.jpg"
-              data-caption="Qayyum Chowdhury"
-            >
-            <Image src="/images/qc2.jpg" alt="Qayyum Chowdhury" layout="fill" objectFit="cover" objectPosition="75% 30%"/>
-            </a>
-          </div>
-          <div className="py-6">
-            <h2 className="text-3xl pb-2 text-center font-semibold mb-2 custom-font">শিল্পী কাইয়ুম চৌধুরী</h2>
-
-            <div className="lg:w-2/4 w-full mx-auto lg:my-4 my-6">
-              <Link href="qayyum" className="bg-black p-2 lg:mx-16 mx-0 flex justify-center items-center border-2
-              border-white hover:shadow-lg text-zinc-400 hover:text-white">
-                <MdOutlineArrowForwardIos className="text-2xl mr-2" /><h1 className="text-base text-center">বিস্তারিত জানুন</h1>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
+      ) : (<div></div>)}
 
     </div>
   </main>;

@@ -5,8 +5,6 @@ import type { NextPage } from "next";
 import "../../../styles/home.css";
 import useAuth from "../../../hooks/useAuth";
 import { Login } from "../../../components/login";
-import Papa from 'papaparse';
-import Link from 'next/link';
 
 const AddWriting: NextPage = () => {
   const { isAuthenticated, login, logout } = useAuth();
@@ -14,16 +12,24 @@ const AddWriting: NextPage = () => {
   const [formData, setFormData] = useState({
     title: "",
     title_Bangla: "",
+    subtitle: "",
+    subtitle_Bangla: "",
+    publisher: "",
+    publisher_Bangla: "",
+    link: "",
+    writer: "",
+    writer_Bangla: "",
+    category: "", //Poem, Prose etc.
+    type: "", //By QC or On QC etc.
+    day: "",
+    day_Bangla: "",
+    month: "",
+    month_Bangla: "",
     year: "",
     year_Bangla: "",
     imageUrl: "",
-    description: "",
-    width: "",
-    height: "",
-    medium: "",
-    medium_Bangla: "",
-    type: "",
-    publication: "",
+    imageAlt: "",
+    text: "",
     tags: "",
     tags_Bangla: "",
   });
@@ -47,15 +53,12 @@ const AddWriting: NextPage = () => {
     // Convert tags to arrays
     const dataToSend = {
       ...formData,
-      year: formData.year,
-      width: parseInt(formData.width),
-      height: parseInt(formData.height),
       tags: formData.tags.split(",").map((tag) => tag.trim()),
       tags_Bangla: formData.tags_Bangla.split(",").map((tag) => tag.trim()),
     };
 
     try {
-      const response = await fetch("/api/addArt", {
+      const response = await fetch("/api/addWriting", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,23 +70,31 @@ const AddWriting: NextPage = () => {
         setFormData({
           title: "",
           title_Bangla: "",
+          subtitle: "",
+          subtitle_Bangla: "",
+          publisher: "",
+          publisher_Bangla: "",
+          link: "",
+          writer: "",
+          writer_Bangla: "",
+          category: "", //Poem, Prose etc.
+          type: "", //By QC or On QC etc.
+          day: "",
+          day_Bangla: "",
+          month: "",
+          month_Bangla: "",
           year: "",
           year_Bangla: "",
           imageUrl: "",
-          description: "",
-          width: "",
-          height: "",
-          medium: "",
-          medium_Bangla: "",
-          type: "",
-          publication: "",
+          imageAlt: "",
+          text: "",
           tags: "",
           tags_Bangla: "",
         });
-        alert("Artwork added successfully");
+        alert("Writing added successfully");
       } else {
-        console.error("Failed to add artwork");
-        alert("Failed to add artwork");
+        console.error("Failed to add Writing");
+        alert("Failed to add Writing");
       }
     } catch (error) {
       console.error("Failed to submit the form", error);
@@ -95,9 +106,12 @@ const AddWriting: NextPage = () => {
   if (isAuthenticated) {
     return (
       <div style={{ padding: "20px" }} className='text-white'>
+        {/* Header */}
         <h2 className="text-4xl font-bold custom-font border-b border-black lg:mb-2 mb-8 text-center">
           Add New Writings Manually
         </h2>
+
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="bg-orange-100 lg:p-8 lg:pt-2 pt-4 p-4 rounded-xl drop-shadow-md lg:m-8 m-0 text-black"
@@ -132,14 +146,171 @@ const AddWriting: NextPage = () => {
               </div>
               <div className="py-2">
                 <label>
-                  Year (English):
+                  Subtitle:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="subtitle"
+                    value={formData.subtitle}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Subtitle (Bangla):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="subtitle_Bangla"
+                    value={formData.subtitle_Bangla}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Publisher:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="publisher"
+                    value={formData.publisher}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Publisher (Bangla):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="publisher_Bangla"
+                    value={formData.publisher_Bangla}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Text Link:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="link"
+                    value={formData.link}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Writer:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="writer"
+                    value={formData.writer}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Writer (Bangla):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="writer_Bangla"
+                    value={formData.writer_Bangla}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Category (Poem, Prose, etc.):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Type (By QC, On QC, etc.):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="mx-2 w-1/2">
+              <div className="py-2">
+                <label>
+                  Day:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="day"
+                    value={formData.day}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Day (Bangla):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="day_Bangla"
+                    value={formData.day_Bangla}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Month:
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="month"
+                    value={formData.month}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Month (Bangla):
+                  <input
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    type="text"
+                    name="month_Bangla"
+                    value={formData.month_Bangla}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Year:
                   <input
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                     type="text"
                     name="year"
                     value={formData.year}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -152,7 +323,6 @@ const AddWriting: NextPage = () => {
                     name="year_Bangla"
                     value={formData.year_Bangla}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -162,99 +332,20 @@ const AddWriting: NextPage = () => {
                   <input
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                     type="text"
-                    name="imageUrl"
+                    name="imageURL"
                     value={formData.imageUrl}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
               <div className="py-2">
                 <label>
-                  Description (Bangla):
-                  <textarea
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                  />
-                </label>
-              </div>
-            </div>
-            <div className="mx-2 w-1/2">
-              <div className="py-2">
-                <label>
-                  Width (English) (cm):
-                  <input
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="number"
-                    name="width"
-                    value={formData.width}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-              </div>
-              <div className="py-2">
-                <label>
-                  Height (English) (cm):
-                  <input
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="number"
-                    name="height"
-                    value={formData.height}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-              </div>
-              <div className="py-2">
-                <label>
-                  Medium:
+                  Image Description:
                   <input
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                     type="text"
-                    name="medium"
-                    value={formData.medium}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-              </div>
-              <div className="py-2">
-                <label>
-                  Medium (Bangla):
-                  <input
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="text"
-                    name="medium_Bangla"
-                    value={formData.medium_Bangla}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-              </div>
-              <div className="py-2">
-                <label>
-                  Type (English):
-                  <input
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="text"
-                    name="type"
-                    value={formData.type}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-              </div>
-              <div className="py-2">
-                <label>
-                  Publication (Bangla):
-                  <input
-                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="text"
-                    name="publication"
-                    value={formData.publication}
+                    name="imageAlt"
+                    value={formData.imageAlt}
                     onChange={handleChange}
                   />
                 </label>
@@ -297,7 +388,6 @@ const AddWriting: NextPage = () => {
         </form>
 
         {/* Logout */}
-
         <div className="flex justify-center items-center lg:mt-0 mt-4">
           <button
             className="bg-rose-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%]"
