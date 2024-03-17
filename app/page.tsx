@@ -345,7 +345,7 @@ export default function Home() {
           </div>
 
           {/* Right part with menu */}
-          <div className="overflow-y-scroll lg:w-1/2 w-[92%] h-[80dvh] flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
+          <div className="overflow-y-scroll lg:w-1/2 w-[92%] h-[75dvh] flex flex-col justify-start items-start transform translate-x-4 lg:translate-x-16 lg:mt-32 mt-0 lg:translate-y-2 translate-y-14">
             <ul className="">
               {/* Dynamically generate menu items, excluding the currentArtIndex */}
               {arts.map((art, index) => (
@@ -436,7 +436,7 @@ export default function Home() {
             </div>
 
             {/* Right part with description */}
-            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit lg:h-[84%] h-[88%] flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-12 lg:mt-32 my-8 lg:-translate-y-12 translate-y-1">
+            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit lg:h-[84%] h-[88%] flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-8 lg:mt-32 my-8 lg:-translate-y-12 translate-y-1">
               <br></br>
 
               <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear-4 text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
