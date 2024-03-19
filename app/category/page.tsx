@@ -92,12 +92,39 @@ interface Illustration {
   updatedAt: Date;
 }
 
+interface Writing {
+  id: string;
+  title: string;
+  title_Bangla: string;
+  subtitle: string;
+  subtitle_Bangla: string;
+  publisher: string;
+  publisher_Bangla: string;
+  link: string;
+  writer: string;
+  writer_Bangla: string;
+  category: string;
+  type: string;
+  day: string;
+  day_Bangla: string;
+  month: string;
+  month_Bangla: string;
+  year: string;
+  year_Bangla: string;
+  imageUrl: string;
+  imageAlt: string;
+  text: string;
+  tags: string[];
+  tags_Bangla: string[];
+}
+
 export default function Category() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [arts, setArts] = useState<Art[]>([]);
   const [bookcovers, setBookCovers] = useState<BookCover[]>([]);
   const [posters, setPosters] = useState<Poster[]>([]);
   const [illustrations, setIllustrations] = useState<Illustration[]>([]);
+  const [writings, setWritings] = useState<Writing[]>([]);
   const [isArtOpen, setIsArtOpen] = useState(false);
   const [isGPOpen, setIsGPOpen] = useState(false);
   const [isWriteOpen, setIsWriteOpen] = useState(false);
@@ -140,7 +167,8 @@ export default function Category() {
   type ExtendedBookCover = BookCover & SearchResultBase;
   type ExtendedPoster = Poster & SearchResultBase;
   type ExtendedIllustration = Illustration & SearchResultBase;
-  type SearchResult = ExtendedArt | ExtendedBookCover | ExtendedPoster | ExtendedIllustration;
+  type ExtendedWriting = Writing & SearchResultBase;
+  type SearchResult = ExtendedArt | ExtendedBookCover | ExtendedPoster | ExtendedIllustration | ExtendedWriting;
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
   // const similarityThreshold = 50;
@@ -168,6 +196,7 @@ export default function Category() {
         ...bookcovers.map(item => ({ ...item, source: 'BookCover' })) as (BookCover & SearchResultBase)[],
         ...posters.map(item => ({ ...item, source: 'Poster' })) as (Poster & SearchResultBase)[],
         ...illustrations.map(item => ({ ...item, source: 'Illustration' })) as (Illustration & SearchResultBase)[],
+        ...writings.map(item => ({ ...item, source: 'Writing' })) as (Writing & SearchResultBase)[],
       ];
       const matchedItems = allItems.filter(item =>
         item.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -213,6 +242,10 @@ export default function Category() {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  function isExtendedWriting(item: SearchResult): item is ExtendedWriting {
+    return (item as ExtendedWriting).writer_Bangla !== undefined;
+  }
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isReady, setIsReady] = useState(false);
@@ -233,12 +266,14 @@ export default function Category() {
         const response2 = await axios.get("/api/getAllBookCovers");
         const response3 = await axios.get("/api/getAllPosters");
         const response4 = await axios.get("/api/getAllIllustrations");
+        const response5 = await axios.get("/api/getAllWriting");
         setArts(response.data);
         setBookCovers(response2.data);
         setPosters(response3.data);
         setIllustrations(response4.data);
+        setWritings(response5.data);
       } catch (error) {
-        console.error("Failed to fetch arts:", error);
+        console.error("Failed to fetch data:", error);
       } finally {
         setIsReady(true);
         setIsLoading(false);
@@ -454,11 +489,11 @@ export default function Category() {
               {/* Item Count */}
               <div className="hidden lg:block">
                 <h1 className="text-sm lg:mb-2 mb-1 lg:mt-0 mt-6 custom-font text-right">
-                  <span className="text-amber-200">0</span>{" "}
+                  <span className="text-amber-200">{writings.filter((writing) => writing.type === "Writings on QC").length}</span>{" "}
                   Writings on QC {" "}
-                  | <span className="text-amber-200">0</span>{" "}
+                  | <span className="text-amber-200">{writings.filter((writing) => writing.category === "Poem").length}</span>{" "}
                   Poems {" "}
-                  | <span className="text-amber-200">0</span>{" "}
+                  | <span className="text-amber-200">{writings.filter((writing) => writing.category === "Prose").length}</span>{" "}
                   Prose {" "}
                 </h1>
                 <h1 className="text-sm mb-1 custom-font text-right">
@@ -820,10 +855,13 @@ export default function Category() {
                             {art.title}
                           </h1> */}
                           <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                            ( {art.title_Bangla} )
+                            {art.title_Bangla}
                           </h1>
                           <h1 className="text-center text-xs px-1">
-                            By {art.author_Bangla}
+                            Written By {art.author_Bangla}
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            Published By {art.publisher_Bangla}
                           </h1>
                         </div>
                       </div>
@@ -852,7 +890,7 @@ export default function Category() {
                             {art.title}
                           </h1> */}
                           <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                            ( {art.title_Bangla} )
+                            {art.title_Bangla}
                           </h1>
                           <h1 className="text-center text-xs px-1">
                             For {art.for_whom}
@@ -884,7 +922,7 @@ export default function Category() {
                             {art.title}
                           </h1> */}
                           <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                            ( {art.title_Bangla} )
+                            {art.title_Bangla}
                           </h1>
                           <h1 className="text-center text-xs px-1">
                             {art.publisher_Bangla}
@@ -892,6 +930,126 @@ export default function Category() {
                         </div>
                       </div>
                     ))}
+                {selectedCategory === "Poems" &&
+                  writings
+                    .filter((writing) => writing.category === "Poem")
+                    .slice(currentIndex, currentIndex + itemsPerPage)
+                    .map((art, index) => (
+                      <div className="" key={index}>
+                        <Link href={`/category/writing/${art.id}`}>
+                          <div className="relative group cursor-pointer">
+                            {art.imageUrl ? (
+                              <Image
+                                src={art.imageUrl}
+                                alt={art.title_Bangla}
+                                width={500}
+                                height={500}
+                                objectFit="cover"
+                                className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 transition-all duration-500 ease-in-out group-hover:brightness-[.2] group-hover:border-8"
+                              />
+                            ) : (
+                              <div className="w-full lg:h-[20vw] h-[35vw] flex items-center justify-center border-4 border-black mb-2 bg-gray-100 transition-all duration-500 ease-in-out group-hover:brightness-[0.2] group-hover:border-8 group-hover:text-gray-100 text-black">
+                                <span className="lg:text-4xl text-2xl font-bold z-50 text-center overflow-hidden text-ellipsis p-4">{art.title_Bangla}</span>
+                              </div>
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                              <h1 className="text-white text-3xl font-bold z-10 custom-font">View Writing</h1>
+                            </div>
+                          </div>
+                        </Link>
+                        <div className="mb-2">
+                          {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title}
+                          </h1> */}
+                          <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                            {art.title_Bangla}
+                          </h1>
+                          <h1 className="text-center text-xs px-1">
+                            Published In: {art.publisher}
+                          </h1>
+                        </div>
+                      </div>
+                    ))}
+                    {selectedCategory === "Prose" &&
+                    writings
+                      .filter((writing) => writing.category === "Prose")
+                      .slice(currentIndex, currentIndex + itemsPerPage)
+                      .map((art, index) => (
+                        <div className="" key={index}>
+                          <Link href={`/category/writing/${art.id}`}>
+                            <div className="relative group cursor-pointer">
+                              {art.imageUrl ? (
+                                <Image
+                                  src={art.imageUrl}
+                                  alt={art.title_Bangla}
+                                  width={500}
+                                  height={500}
+                                  objectFit="cover"
+                                  className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 transition-all duration-500 ease-in-out group-hover:brightness-[.2] group-hover:border-8"
+                                />
+                              ) : (
+                                <div className="w-full lg:h-[20vw] h-[35vw] flex items-center justify-center border-4 border-black mb-2 bg-gray-100 transition-all duration-500 ease-in-out group-hover:brightness-[0.2] group-hover:border-8 group-hover:text-gray-100 text-black">
+                                  <span className="lg:text-4xl text-2xl font-bold z-50 text-center overflow-hidden text-ellipsis p-4">{art.title_Bangla}</span>
+                                </div>
+                              )}
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                                <h1 className="text-white text-3xl font-bold z-10 custom-font">View Writing</h1>
+                              </div>
+                            </div>
+                          </Link>
+                          <div className="mb-2">
+                            {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              {art.title}
+                            </h1> */}
+                            <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              {art.title_Bangla}
+                            </h1>
+                            <h1 className="text-center text-xs px-1">
+                              Published In: {art.publisher_Bangla}
+                            </h1>
+                          </div>
+                        </div>
+                      ))}
+                      {selectedCategory === "Writings on QC" &&
+                      writings
+                      .filter((writing) => writing.type === "Writings on QC")
+                      .slice(currentIndex, currentIndex + itemsPerPage)
+                      .map((art, index) => (
+                        <div className="" key={index}>
+                          <Link href={`/category/writing/${art.id}`}>
+                            <div className="relative group cursor-pointer">
+                              {art.imageUrl ? (
+                                <Image
+                                  src={art.imageUrl}
+                                  alt={art.title_Bangla ? art.title_Bangla : art.title}
+                                  width={500}
+                                  height={500}
+                                  objectFit="cover"
+                                  className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 transition-all duration-500 ease-in-out group-hover:brightness-[.2] group-hover:border-8"
+                                />
+                              ) : (
+                                <div className="w-full lg:h-[20vw] h-[35vw] flex items-center justify-center border-4 border-black mb-2 bg-gray-100 transition-all duration-500 ease-in-out group-hover:brightness-[0.2] group-hover:border-8 group-hover:text-gray-100 text-black">
+                                  <span className="lg:text-4xl text-2xl font-bold z-50 text-center overflow-hidden text-ellipsis p-4">{art.title_Bangla ? art.title_Bangla : art.title}</span>
+                                </div>
+                              )}
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                                <h1 className="text-white text-3xl font-bold z-10 custom-font">View Writing</h1>
+                              </div>
+                            </div>
+                          </Link>
+                          <div className="mb-2">
+                            {/* <h1 className="text-center text-sm px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              {art.title}
+                            </h1> */}
+                            <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                              {art.title_Bangla ? art.title_Bangla : art.title}
+                            </h1>
+                            <h1 className="text-center text-xs px-1">
+                              Published In: {art.publisher_Bangla ? art.publisher_Bangla : art.publisher}
+                            </h1>
+                          </div>
+                        </div>
+                      ))}
               </div>
 
               {/* Pagination */}
@@ -1014,6 +1172,7 @@ export default function Category() {
 
             </div>
             ):(
+              // Search Screen
               <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center mt-12">
                 {isSearchLoading ? (
                   <div className="flex justify-center items-center mt-64 mx-auto col-span-3">
@@ -1026,27 +1185,72 @@ export default function Category() {
                       <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 items-center justify-center">
                         {items.map((result, index) => (
                           <div key={index} className="anim-appear-3">
-                            <a
-                              data-fancybox
-                              data-src={`${result.imageUrl}`}
-                              data-caption={`<div style='text-align: center;'>${result.title}<br><div style='color: #fde68a;'>${result.tags.join(', ')}<br>${result.tags_Bangla.join(', ')}</div></div>`}
-                            >
-                              <Image
-                                src={result.imageUrl}
-                                alt={result.title}
-                                width={500}
-                                height={500}
-                                objectFit="cover"
-                                className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
-                              />
-                            </a>
+                            {result.source!=="Writing" ? (
+                              <a
+                                data-fancybox
+                                data-src={`${result.imageUrl}`}
+                                data-caption={`<div style='text-align: center;'>${result.title}<br><div style='color: #fde68a;'>${result.tags.join(', ')}<br>${result.tags_Bangla.join(', ')}</div></div>`}
+                              >
+                                <Image
+                                  src={result.imageUrl}
+                                  alt={result.title}
+                                  width={500}
+                                  height={500}
+                                  objectFit="cover"
+                                  className="w-full lg:h-[25vw] h-[40vw] object-cover border-4 border-black mb-2 hover:scale-105"
+                                />
+                              </a>
+                            ) : (
+                              <div>
+                                <Link href={`/category/writing/${result.id}`}>
+                                  <div className="relative group cursor-pointer">
+                                    {result.imageUrl ? (
+                                      <Image
+                                        src={result.imageUrl}
+                                        alt={result.title_Bangla}
+                                        width={500}
+                                        height={500}
+                                        objectFit="cover"
+                                        className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 transition-all duration-500 ease-in-out group-hover:brightness-[.2] group-hover:border-8"
+                                      />
+                                    ) : (
+                                      <div className="w-full lg:h-[20vw] h-[35vw] flex items-center justify-center border-4 border-black mb-2 bg-gray-100 transition-all duration-500 ease-in-out group-hover:brightness-[0.2] group-hover:border-8 group-hover:text-gray-100 text-black">
+                                        <span className="lg:text-4xl text-2xl font-bold z-50 text-center overflow-hidden text-ellipsis p-4">{result.title_Bangla}</span>
+                                      </div>
+                                    )}
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                                      <h1 className="text-white text-3xl font-bold z-10 custom-font">View Writing</h1>
+                                    </div>
+                                  </div>
+                                </Link>
+                              </div>
+                            )}
+
                             <div className="mb-2 custom-font">
                               <h1 className="text-center text-base font-bold px-1 whitespace-nowrap text-ellipsis overflow-hidden">
                                 {result.title}
                               </h1>
-                              <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                                ( {result.title_Bangla} )
-                              </h1>
+                              {result.source!=="Writing" ? (
+                                <h1 className="text-center bangla-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                  ( {result.title_Bangla} )
+                                </h1>
+                              ) : (
+                               <div>
+                                 <h1 className="text-center bangla-font text-2xl px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                   {result.title_Bangla}
+                                 </h1>
+                                 {isExtendedWriting(result) && (
+                                    <div>
+                                      <h1 className="text-center custom-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                        Written By: {result.writer_Bangla}
+                                      </h1>
+                                      <h1 className="text-center custom-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                                        Published By: {result.publisher}
+                                      </h1>
+                                    </div>
+                                  )}
+                               </div>
+                              )}
                               {'width' in result && 'height' in result ? (
                                 <h1 className="text-center text-xs px-1">
                                   {result.width} cm X {result.height} cm

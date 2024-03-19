@@ -127,7 +127,6 @@ const AddWriting: NextPage = () => {
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -140,33 +139,28 @@ const AddWriting: NextPage = () => {
                     name="title_Bangla"
                     value={formData.title_Bangla}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
               <div className="py-2">
                 <label>
                   Subtitle:
-                  <input
+                  <textarea
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="text"
                     name="subtitle"
                     value={formData.subtitle}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
               <div className="py-2">
                 <label>
                   Subtitle (Bangla):
-                  <input
+                  <textarea
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
-                    type="text"
                     name="subtitle_Bangla"
                     value={formData.subtitle_Bangla}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -179,7 +173,6 @@ const AddWriting: NextPage = () => {
                     name="publisher"
                     value={formData.publisher}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -260,7 +253,6 @@ const AddWriting: NextPage = () => {
                     name="day"
                     value={formData.day}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -273,7 +265,6 @@ const AddWriting: NextPage = () => {
                     name="day_Bangla"
                     value={formData.day_Bangla}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -286,7 +277,6 @@ const AddWriting: NextPage = () => {
                     name="month"
                     value={formData.month}
                     onChange={handleChange}
-                    required
                   />
                 </label>
               </div>
@@ -332,7 +322,7 @@ const AddWriting: NextPage = () => {
                   <input
                     className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
                     type="text"
-                    name="imageURL"
+                    name="imageUrl"
                     value={formData.imageUrl}
                     onChange={handleChange}
                   />
@@ -346,6 +336,17 @@ const AddWriting: NextPage = () => {
                     type="text"
                     name="imageAlt"
                     value={formData.imageAlt}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="py-2">
+                <label>
+                  Writing Text:
+                  <textarea
+                    className="rounded-sm p-2 text-left w-full bg-orange-50 drop-shadow-sm"
+                    name="text"
+                    value={formData.text}
                     onChange={handleChange}
                   />
                 </label>
