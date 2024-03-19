@@ -248,6 +248,9 @@ export default function Writing({ params }: { params: { writingId: string } }) {
                 <h1 className="lg:text-xl text-base font-bold mb-2">
                   Published By: {writings[0].publisher ? writings[0].publisher : writings[0].publisher_Bangla}
                 </h1>
+                <h1 className="text-base mb-2">
+                  {writings[0].subtitle_Bangla ? writings[0].subtitle_Bangla : writings[0].subtitle}
+                </h1>
                 <h1 className="text-sm mb-8">
                   Published On: {writings[0].day}/{writings[0].month}/
                   {writings[0].year}
