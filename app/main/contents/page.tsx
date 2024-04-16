@@ -352,8 +352,14 @@ export default function Category() {
         setIsLoading(false);
       }
     };
-    fetchData();
-    return () => debouncedPerformSearch.cancel();
+    const fetchDataTimeout = setTimeout(() => {
+      fetchData(); // Call fetchData after the timeout
+    }, 2000);
+
+    return () => {
+      clearTimeout(fetchDataTimeout);
+      debouncedPerformSearch.cancel();
+    }
   }, [searchQuery]);
 
   if (!isReady || isLoading) return <LoadingScreen />;

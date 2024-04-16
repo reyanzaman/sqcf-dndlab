@@ -54,8 +54,11 @@ export default function Writing({ params }: { params: { writingId: string } }) {
         setIsLoading(false);
       }
     };
-    fetchData();
-    return;
+    const fetchDataTimeout = setTimeout(() => {
+      fetchData(); // Call fetchData after the timeout
+    }, 2000);
+
+    return () => clearTimeout(fetchDataTimeout);
   }, []);
 
   if (!isReady || isLoading) return <LoadingScreen />;

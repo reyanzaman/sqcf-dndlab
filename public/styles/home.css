@@ -82,22 +82,22 @@ html,body {
 .image-container {
     overflow: hidden;
     /* transition: border-color 1s ease-in-out; */
-    animation: borderAnimation 2s ease-in-out 1.5s forwards;
-    /* Animation for the border starts after 2s delay */
+    animation: borderAnimation 2.8s ease-in-out 0s forwards;
+    /* Animation for the border starts after 0s delay */
 }
 
 .image-zoom {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: zoomEffect 3s ease-in-out forwards;
+    animation: zoomEffect 6s ease-in-out forwards;
 }
 
 .image-zoom2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: zoomEffect2 3s ease-in-out forwards;
+    animation: zoomEffect2 2.5s ease-in-out forwards;
 }
 
 .custom-font {
@@ -115,27 +115,27 @@ html,body {
 
 .anim-appear {
     opacity: 0;
-    animation: appear 1.5s ease-in-out 2.5s forwards;
+    animation: appear 1.5s ease-in-out 1.7s forwards;
 }
 
 .anim-appear-2 {
     opacity: 0;
-    animation: appear 1.5s ease-in-out 3s forwards;
+    animation: appear 1.5s ease-in-out 2.2s forwards;
 }
 
 .anim-appear-3 {
     opacity: 0;
-    animation: appear 1.5s ease-in-out 0.5s forwards;
+    animation: appear 1.5s ease-in-out 0.25s forwards;
 }
 
 .anim-appear-4 {
     opacity: 0;
-    animation: appear 1.5s ease-in-out 0.75s forwards;
+    animation: appear 1.5s ease-in-out 0.35s forwards;
 }
 
 .anim-appear-5 {
     opacity: 0;
-    animation: appear 1.5s ease-in-out 0.65s forwards;
+    animation: appear 1.5s ease-in-out 0.5s forwards;
 }
 
 .anim-appear-6 {
@@ -352,7 +352,7 @@ html,body {
 }
 
 .fade-in {
-    animation: fadeInAnimation ease-in 2.5s;
+    animation: fadeInAnimation ease-in 1s;
     animation-fill-mode: both;
     pointer-events: none;
   }

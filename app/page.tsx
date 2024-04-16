@@ -152,6 +152,7 @@ export default function Home() {
     }
 
     const fetchData = async () => {
+
       try {
         const fetchPromises = specificArtTitleArray.map(title =>
           fetch(`/api/getArt?title=${title}`).then(response => {
@@ -165,17 +166,22 @@ export default function Home() {
         const results = await Promise.all(fetchPromises);
         setArts(results);
         await preloadImages(results);
-
       } catch (error) {
         console.error('Failed to fetch arts:', error);
         setError('Failed to load artworks. Please try again later.');
+
       } finally {
         setIsLoading(false);
         setIsReady(true);
       }
     };
 
-    fetchData();
+    const fetchDataTimeout = setTimeout(() => {
+      fetchData(); // Call fetchData after the timeout
+    }, 2000);
+
+    return () => clearTimeout(fetchDataTimeout);
+
   }, [router]);
 
   if (!isReady || isLoading) return <LoadingScreen />;
@@ -286,7 +292,7 @@ export default function Home() {
         {/* Menu */}
         <div className="absolute anim-appear-2 top-0 right-0 lg:mr-[2.5em] lg:mt-[2.5em] mr-[1em] mt-[1em]">
           <button onClick={toggleMenu}>
-            <div className="lg:p-3 p-4 bg-black border-white lg:border-[4px] border-[3px]">
+            <div className="lg:p-3 p-4 bg-black border-white border-[3px]">
               <IoMenuOutline className="lg:text-4xl text-xl text-white"/>
             </div>
           </button>

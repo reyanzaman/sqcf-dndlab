@@ -57,11 +57,16 @@ export default function About() {
       console.log('All specified images have been preloaded and cached.', images);
     }).catch(error => {
       console.error('Error preloading images:', error);
+    }).finally(() => {
+      setIsLoading(false);
+      setIsReady(true);
     });
 
-    setIsLoading(false);
-    setIsReady(true);
-    return;
+    const fetchDataTimeout = setTimeout(() => {
+      preloadImages(); // Call fetchData after the timeout
+    }, 2000);
+
+    return () => clearTimeout(fetchDataTimeout);
 
   }, []);
 

@@ -13,23 +13,29 @@ const quotes = [
 
 const LoadingScreen = () => {
   const [randomQuote, setRandomQuote] = useState(quotes[0]); // Set an initial quote
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     // Function to select a random quote
     const getRandomQuote = () => {
       const randomIndex = Math.floor(Math.random() * quotes.length);
       setRandomQuote(quotes[randomIndex]);
+      setTimeout(() => setShowLoading(false), 5000); // Minimum duration
     };
 
     // Call the function to get a random quote after a short delay
-    const timer = setTimeout(getRandomQuote, 1000); // Adjust the delay as necessary
+    const timer = setTimeout(getRandomQuote, 5000); // Adjust the delay as necessary
 
     // Clean up the timer to avoid memory leaks
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center lg:h-screen h-[100dvh] bg-black">
+    <div
+      className={`flex flex-col justify-center items-center lg:h-screen h-[100dvh] bg-black ${
+        showLoading ? '' : 'hidden'
+      }`}
+    >
       {/* Loading text */}
       <div className="text-white lg:mb-8 mb-20 lg:text-[2em] text-2xl text-center w-[85%] leading-tight appear">
         {randomQuote}
