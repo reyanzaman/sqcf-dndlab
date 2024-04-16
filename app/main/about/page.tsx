@@ -9,7 +9,7 @@ import ErrorScreen from '@/components/error';
 import LoadingScreen from '@/components/LoadingScreen';
 import "/public/styles/home.css";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 
 export default function About() {
 

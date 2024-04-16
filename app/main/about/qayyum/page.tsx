@@ -2,7 +2,7 @@
 
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import React, { useState } from 'react';
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 
 export default function Qayyum() {
 

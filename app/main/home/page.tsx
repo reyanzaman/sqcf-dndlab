@@ -8,7 +8,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import React, { useRef, useEffect, useState } from "react";
 import ErrorScreen from "@/components/error";
 import { FaArrowRight } from "react-icons/fa6";
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 
 export default function Home() {
 

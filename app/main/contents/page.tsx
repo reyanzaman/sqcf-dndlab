@@ -14,7 +14,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { AiOutlineLoading } from "react-icons/ai";
 import { debounce } from "lodash";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 // import levenshtein from "fast-levenshtein";
 
 interface Art {

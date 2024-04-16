@@ -9,7 +9,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ErrorScreen from "@/components/error";
 import axios from "axios";
 import "/public/styles/home.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 
 interface Writing {
   id: string;
