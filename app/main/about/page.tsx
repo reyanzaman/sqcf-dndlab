@@ -225,7 +225,7 @@ export default function About() {
           </div>
 
           <div className="">
-            <p className="text-zinc-200 px-4 text-center lg:text-sm text-xs">This website's design has been inspired from Van Gogh Museum.</p>
+            <p className="text-zinc-200 px-4 text-center lg:text-sm text-xs">This website&apos;s design has been inspired from Van Gogh Museum.</p>
           </div>
 
         </div>
