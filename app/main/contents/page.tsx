@@ -1428,7 +1428,7 @@ export default function Category() {
                                     {isExtendedWriting(result) && (
                                       <div>
                                         <h1 className="text-center custom-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                                          Written By: {result.writer_Bangla}
+                                          Written By: {result.author}
                                         </h1>
                                         <h1 className="text-center custom-font text-base px-1 whitespace-nowrap text-ellipsis overflow-hidden">
                                           Published By: {result.publisher}
@@ -1437,15 +1437,15 @@ export default function Category() {
                                     )}
                                   </div>
                                 )}
-                                {"width" in result && "height" in result ? (
+                                {/* {"width" in result && "height" in result ? (
                                   <h1 className="text-center text-xs px-1">
-                                    {result.width} cm X {result.height} cm
+                                    {result.measurement}
                                   </h1>
                                 ) : "publisher_Bangla" in result ? (
                                   <h1 className="text-center text-xs px-1">
-                                    {result.publisher_Bangla}
+                                    {result.publisher}
                                   </h1>
-                                ) : null}
+                                ) : null} */}
                               </div>
                             </div>
                           ))}
