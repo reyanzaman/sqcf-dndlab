@@ -8,10 +8,6 @@ const nextConfig = {
             },
         ],
     },
-    webpack(config, options) {
-        config.resolve.alias['@'] = path.resolve(__dirname, './app');
-        return config;
-    },
 };
 
 export default nextConfig;
