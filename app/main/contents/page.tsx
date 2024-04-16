@@ -278,7 +278,7 @@ export default function Category() {
 
       setSearchResults(matchedItems); // Update with filtered items
       setIsSearchLoading(false);
-    }, 2000);
+    }, 2500);
   };
 
   const handleSearch = (e: any) => {
@@ -354,7 +354,7 @@ export default function Category() {
     };
     const fetchDataTimeout = setTimeout(() => {
       fetchData(); // Call fetchData after the timeout
-    }, 2000);
+    }, 2500);
 
     return () => {
       clearTimeout(fetchDataTimeout);

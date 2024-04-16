@@ -178,7 +178,7 @@ export default function Home() {
 
     const fetchDataTimeout = setTimeout(() => {
       fetchData(); // Call fetchData after the timeout
-    }, 2000);
+    }, 2500);
 
     return () => clearTimeout(fetchDataTimeout);
 

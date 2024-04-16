@@ -64,7 +64,7 @@ export default function About() {
 
     const fetchDataTimeout = setTimeout(() => {
       preloadImages(); // Call fetchData after the timeout
-    }, 2000);
+    }, 2500);
 
     return () => clearTimeout(fetchDataTimeout);
 
