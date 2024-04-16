@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import "../styles/home.css";
+import "/public/styles/home.css";
 import classnames from "classnames";
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
@@ -10,8 +10,8 @@ import { IoMenuOutline } from "react-icons/io5";
 import { GrNext } from "react-icons/gr";
 import { IoClose } from "react-icons/io5";
 import { IoAppsSharp } from "react-icons/io5";
-import LoadingScreen from '../components/LoadingScreen';
-import ErrorScreen from '../components/error';
+import LoadingScreen from '@/components/LoadingScreen';
+import ErrorScreen from '@/components/error';
 import { useRouter } from 'next/navigation';
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
@@ -73,8 +73,8 @@ export default function Home() {
     year_Bangla: string;
     imageUrl: string;
     description: string;
-    width: string;
-    height: string;
+    measurement: string;
+    measurement_Bangla: string;
     medium: string;
     medium_Bangla: string;
     type: string;
@@ -89,14 +89,14 @@ export default function Home() {
   const [error, setError] = useState('');
   const [isReady, setIsReady] = useState(false);
 
-  const specificArtIdArray = [
-    "5f84f014-cdbb-45fa-822f-8e803ce86e14",
-    "7b676e6c-d861-4e3c-a556-bb8b5f0f981b",
-    "f8e00d90-fa2a-425b-92a4-98759c82a7b9",
-    "1b3b0b87-faf3-44e2-ae8a-5e1c51444e1a",
-    "c6860657-8d4d-4389-a5c3-1e1ff3bb6abf",
-    "da7494bb-5ada-4e0c-a6f1-84b374b1c0d3",
-    "519f069e-86a8-4d78-9019-0008dc3e2e58",
+  const specificArtTitleArray = [
+    "Boat in moonlight",
+    "High noon",
+    "Independence",
+    "Collecting Shapla",
+    "Quest for Self-9",
+    "Quest for Self-45",
+    "Quest for self-63",
   ];
 
   const colorArray = [
@@ -153,11 +153,12 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        const fetchPromises = specificArtIdArray.map(id =>
-          fetch(`/api/getArt?id=${id}`).then(response => {
+        const fetchPromises = specificArtTitleArray.map(title =>
+          fetch(`/api/getArt?title=${title}`).then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
+            // console.log("Response: ", response.json())
             return response.json();
           })
         );
@@ -202,8 +203,6 @@ export default function Home() {
               className="image-zoom" // Applied zoom-in class to the image
             />
           </div>
-          {/* Inspiration */}
-          <div className="anim-appear-2 fixed lg:bottom-1 lg:top-auto top-0 w-full z-50 text-center text-amber-200 lg:mb-2 mb-0 text-[0.65em] opacity-50">Design Inspired by Van Gogh Museum</div>
         </div>
 
         {/* Logo */}
@@ -255,7 +254,7 @@ export default function Home() {
 
         {/* Next Button only if currentArtIndex is 6 */}
         {currentArtIndex == arts.length - 1 && (
-          <Link href="home">
+          <Link href="/main/home">
             <div className="anim-appear-2 next-button-container">
               <div className="next-button">
                 <GrNext className="lg:text-4xl text-4xl text-white"/>
@@ -266,7 +265,7 @@ export default function Home() {
 
         {/* View More Main Page */}
         <div className="absolute bottom-0 lg:block hidden anim-appear-2 left-1/2 mb-16">
-          <Link href="category" className="bg-black p-2 flex justify-center items-center border-2
+          <Link href="/main/contents" className="bg-black p-2 flex justify-center items-center border-2
           border-white hover:shadow-lg text-gray-300 hover:text-white transform -translate-x-1/2">
             <IoAppsSharp className="text-xl mx-2"/>
             <h1 className="text-xl mr-2">View More</h1>
@@ -352,12 +351,12 @@ export default function Home() {
                 index !== currentArtIndex && (
                   <button key={index} className="flex flex-col" onClick={() => handleMenuItemClick(index)}>
                     <li className="menu-item text-gray-800 hover-effect-black">&quot;{art.title !== "" ? art.title : ""}&quot;<p></p></li>
-                    <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{art.medium !== "" ? art.medium : ""} - {art.title_Bangla !== "" ? art.title_Bangla : ""}</p>
+                    <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">{art.medium !== "" ? art.medium : ""} - {art.title_Bangla !== "" ? art.title_Bangla : ""} ({art.year_Bangla})</p>
                   </button>
                 )
               ))}
 
-              <Link href="home" className="flex flex-col">
+              <Link href="/main/home" className="flex flex-col">
                 <li className="menu-item text-red-800 hover-effect-red">-View More</li>
                 <p className="lg:ml-5 ml-3 lg:pt-0 pt-1 lg:text-base text-sm">শিল্পী কাইয়ুম চৌধুরীর আরো শিল্প দেখুন</p>
               </Link>
@@ -378,7 +377,7 @@ export default function Home() {
           overflow-clip h-fit anim-appear-3
           lg:absolute lg:w-auto lg:top-0 lg:right-0 lg:mr-[5.75em] lg:mt-[1.5em]
           fixed w-[100dvw] bottom-0 mr-0 my-0">
-            <Link href="about">
+            <Link href="/main/about">
               <div className="lg:py-4 lg:px-4 py-4 px-6 m-0 bg-black link-comp">
                 <h1 className="text-white text-lg text-center hover-effect">ABOUT SQCF FOUNDATION</h1>
               </div>
@@ -401,10 +400,10 @@ export default function Home() {
           {/* Rotated Links */}
           <div className="flex flex-row absolute lg:bottom-0 lg:right-0 lg:left-auto left-0 transform lg:-rotate-90 rotate-0
           lg:-translate-y-44 -translate-y-[0px] lg:translate-x-[135px] -translate-x-0 text-gray-800">
-              <Link href="/qayyum" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
+              <Link href="/main/about/qayyum" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
                 <p>Qayyum Chowdhury</p>
               </Link>
-              <Link href="/tahera" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
+              <Link href="/main/about/tahera" className="bg-black text-white lg:text-base text-xs p-3 hover:bg-red-900">
                 <p>Tahera Khanam</p>
               </Link>
           </div>
@@ -436,7 +435,7 @@ export default function Home() {
             </div>
 
             {/* Right part with description */}
-            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit lg:h-[84%] h-[88%] flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-8 lg:mt-32 my-8 lg:-translate-y-12 translate-y-1">
+            <div className="overflow-y-scroll overflow-x-hidden lg:w-1/2 w-fit lg:h-[84%] h-[88%] flex flex-col lg:justify-start justify-start items-start bg-gray-100 transform translate-x-4 lg:translate-x-8 lg:mt-32 my-8 lg:-translate-y-12 translate-y-1 px-2">
               <br></br>
 
               <h1 className="w-[90%] custom-font leading-tight text-3xl lg:text-[2.5rem] anim-appear-4 text-[#898166]">{arts[currentArtIndex].title!=="" ? arts[currentArtIndex].title : ""}</h1>
@@ -453,7 +452,7 @@ export default function Home() {
               </p>
 
               <p className="lg:mt-4 mt-2 description custom-font text-base lg:text-xl anim-appear-4 text-gray-800 w-5/6 text-justify leading-10 font-light">
-              {arts[currentArtIndex].height!=="" ? arts[currentArtIndex].height : ""}cm x {arts[currentArtIndex].width!=="" ? arts[currentArtIndex].width : ""}cm
+              {arts[currentArtIndex].measurement!=="" ? arts[currentArtIndex].measurement : ""}
               <br></br>
               {arts[currentArtIndex].medium_Bangla!=="" ? arts[currentArtIndex].medium_Bangla : ""} ({arts[currentArtIndex].medium!=="" ? arts[currentArtIndex].medium : ""})
               </p>

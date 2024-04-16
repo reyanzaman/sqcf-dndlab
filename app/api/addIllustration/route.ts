@@ -1,28 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '@/api/prismaClient';
 
 const POST = async (req: Request, res: NextApiResponse) => {
     let item = await req.json()
     try {
-        console.log("FROM ROUTE", item)
         const illustration = await prisma.illustrationCard.create({
           data: {
             title: item.title,
-            title_Bangla: item.title_Bangla,
             subtitle: item.subtitle,
-            subtitle_Bangla: item.subtitle_Bangla,
             publisher: item.publisher,
-            publisher_Bangla: item.publisher_Bangla,
             year: item.year,
             year_Bangla: item.year_Bangla,
             imageUrl: item.imageUrl,
-            description: item.description,
             tags: item.tags,
             tags_Bangla: item.tags_Bangla,
           },
         });
+
+        console.log(illustration);
 
         return new Response("Illustration successfully recorded", {
           status: 200

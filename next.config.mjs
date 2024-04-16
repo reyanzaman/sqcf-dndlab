@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'dndlab-sqcf.s3.ap-southeast-1.amazonaws.com',
+                hostname: 'sqcf.s3.ap-southeast-1.amazonaws.com',
             },
         ],
     },

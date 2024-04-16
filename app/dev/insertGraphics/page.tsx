@@ -2,22 +2,18 @@
 
 import React, { ChangeEvent, useState } from "react";
 import type { NextPage } from "next";
-import "../../../styles/home.css";
-import useAuth from "../../../hooks/useAuth";
-import { Login } from "../../../components/login";
+import "/public/styles/home.css";
+import useAuth from "@/hooks/useAuth";
+import { Login } from "@/components/login";
 import Papa from "papaparse";
 import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
 
 const AddGraphics: NextPage = () => {
   const { isAuthenticated, login, logout } = useAuth();
-  const prisma = new PrismaClient();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
   const [selectedCategory, setSelectedCategory] =
     useState<string>("book_covers"); // Default category
-  const [csvData, setCsvData] = useState([]);
 
   // Function to set filename
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +29,7 @@ const AddGraphics: NextPage = () => {
     }
   };
 
+  // Driver function
   const handleSubmit = async (selectedFile: File, selectedCategory: string) => {
     if (!selectedFile) {
       alert("Please upload a file first.");
@@ -90,19 +87,15 @@ const AddGraphics: NextPage = () => {
     }
   };
 
-  // Define your data processing functions
+  // Data Processing Functions for each Categories
+
   async function processBookCovers(data: any[]) {
     const transformedData = data.map((item) => ({
-      title: item["Book Name (English)"],
-      title_Bangla: item["Book Name (Bangla)"],
-      author: item["Author/Editor (English)"],
-      author_Bangla: item["Author/Editor (Bangla)"],
-      publisher: item["Publisher (English)"],
-      publisher_Bangla: item["Publisher (Bangla)"],
-      date: item["Publication date (English)"],
-      date_Bangla: item["Publication date (Bangla)"],
-      imageUrl: `https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}.JPG`,
-      description: item["Description"] ?? "",
+      title: item["Title"],
+      author: item["Author/Editor"],
+      publisher: item["Publisher"],
+      date: item["Publication Date"],
+      imageUrl: `https://sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}`,
       type: item["Type (English)"],
       type_Bangla: item["Type (Bangla)"],
       tags: item["Tags in English"].split(","),
@@ -147,16 +140,14 @@ const AddGraphics: NextPage = () => {
         measurement.length === 2 ? measurement : [null, null];
 
       return {
-        title: item["Title in English"] ?? "",
-        title_Bangla: item["Title in Bangla"] ?? "",
-        imageUrl: `https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}.JPG`,
-        description: item["Description"] ?? "",
-        category: item["Catagory"],
-        year: item["Year of Publication in English"] ?? "",
-        year_Bangla: item["Year of Publication in Bangla"] ?? "",
-        for_whom: item["For Whom in Bangla"],
-        width: width,
-        height: height,
+        title: item["Title"] ?? "",
+        imageUrl: `https://sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}`,
+        category: item["Category"],
+        year: item["Year in English"] ?? "",
+        year_Bangla: item["Year in Bangla"] ?? "",
+        for_whom: item["For Whom"],
+        measurement: item["Measurement in English"],
+        measurement_Bangla: item["Measurement in Bangla"],
         tags: item["Tags in English"]
           .split(",")
           .map((tag: string) => tag.trim()),
@@ -195,16 +186,12 @@ const AddGraphics: NextPage = () => {
 
   async function processIllustrationCards(data: any[]) {
     const transformedData = data.map((item) => ({
-      title: item["Title in English"],
-      title_Bangla: item["Title in Bangla"],
-      subtitle: item["Sub Title in English"] ?? "",
-      subtitle_Bangla: item["Sub Title"],
-      publisher: item["Organization/Person/Publisher in English"] ?? "",
-      publisher_Bangla: item["Organization/Person/Publisher"],
+      title: item["Title"],
+      subtitle: item["Subtitle"] ?? "",
+      publisher: item["Organization/Person/Publisher"],
       year: item["Year in English"],
       year_Bangla: item["Year in Bangla"],
-      imageUrl: `https://dndlab-sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}.JPG`,
-      description: item["Description"] ?? "",
+      imageUrl: `https://sqcf.s3.ap-southeast-1.amazonaws.com/${selectedCategory}/${item["Image File Name"]}`,
       tags: item["Tags in English"].split(",").map((tag: string) => tag.trim()),
       tags_Bangla: item["Tags in Bangla"]
         .split(",")
@@ -238,6 +225,24 @@ const AddGraphics: NextPage = () => {
     }
   }
 
+  async function processLogos(data: any[]) {
+  }
+
+  async function processMasterHeads(data: any[]) {
+  }
+
+  async function processCalligraphies(data: any[]) {
+  }
+
+  async function processPortraits(data: any[]) {
+  }
+
+  async function processCrestDesigns(data: any[]) {
+  }
+
+  async function processTextiles(data: any[]) {
+  }
+
   // Logout Function
   const handleSubmit2 = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -253,17 +258,12 @@ const AddGraphics: NextPage = () => {
     return (
       <div style={{ padding: "20px" }} className="text-white">
         <h2 className="text-4xl font-bold custom-font lg:mb-2 mb-8 text-center">
-          Insert New Graphics Design
+          Automated Insert New Graphics Design
         </h2>
 
         {/* Automated Submission */}
 
-        <hr className="my-8 border-b-2 border-orange-800" />
-
-        <div className="lg:grid-cols-2 grid-cols-1 flex flex-col lg:gap-y-6 gap-y-4 items-center justify-center">
-          <h1 className="text-4xl font-bold text-center">
-            Automated insert using csv file
-          </h1>
+        <div className="lg:grid-cols-2 grid-cols-1 flex flex-col lg:gap-y-6 gap-y-4 items-center justify-center pt-8">
           <div className="text-white text-xl">
             {fileName ? fileName : "No File Uploaded"}
           </div>{" "}
@@ -304,36 +304,49 @@ const AddGraphics: NextPage = () => {
             <option value="illustration_cards">
               Illustrations &amp; Cards
             </option>
+            <option value="logos">Logos</option>
+            <option value="master_heads">
+              Master Heads &amp; Page Make up
+            </option>
+            <option value="calligraphies">
+              Calligraphy &amp; Typography
+            </option>
+            <option value="portraits">Portraits</option>
+            <option value="crest_designs">
+              Record Sleeves &amp; Crest Design
+            </option>
+            <option value="textiles">
+              Textiles &amp; Garments
+            </option>
           </select>
         </div>
 
-        <div className="grid lg:grid-cols-2 grid-cols-1 lg:w-1/3 w-full mx-auto">
-          <div className="text-center pb-4 pt-8">
-            <Link
-              href="/dev/view"
-              className="text-2xl font-bold custom-font bg-sky-950 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg"
-            >
-              VIEW DATA
-            </Link>
-          </div>
+        <div className='p-4'>
+            <div className='text-center pb-4 pt-8'>
+                <Link href="/dev/view"
+                className='text-xl font-bold custom-font bg-indigo-800 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
+                >VIEW DATA</Link>
+            </div>
 
-          <div className="text-center pb-4 pt-8">
-            <Link
-              href="/dev/insertArt"
-              className="text-2xl font-bold custom-font bg-indigo-600 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg"
-            >
-              INSERT ART
-            </Link>
-          </div>
+            <div className='text-center pb-4 pt-8'>
+                <Link href="/dev/insertArt"
+                className='text-xl font-bold custom-font bg-green-800 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
+                >INSERT Art</Link>
+            </div>
+
+            <div className='text-center pb-4 pt-8'>
+                <Link href="/dev/insertWritings"
+                className='text-xl font-bold custom-font bg-green-600 text-white p-3 rounded-xl text-center px-6 drop-shadow-lg'
+                >INSERT Writings</Link>
+            </div>
+
         </div>
-
-        <hr className="my-8 border-b-2 border-orange-800" />
 
         {/* Logout */}
 
-        <div className="flex justify-center items-center lg:mt-0 mt-4">
+        <div className="fixed right-0 lg:mt-0 mt-4 bottom-0 mr-8">
           <button
-            className="bg-rose-800 text-white p-2 rounded-sm border border-black transform mb-4 w-[95%]"
+            className="bg-rose-800 text-white px-4 py-2 rounded-sm border border-black transform mb-4 w-full"
             onClick={handleSubmit2}
           >
             Logout

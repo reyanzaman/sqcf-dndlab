@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import axios from "axios";
-import "../../../styles/home.css";
-import useAuth from "../../../hooks/useAuth";
-import { Login } from "../../../components/login";
+import "/public/styles/home.css";
+import useAuth from "@/hooks/useAuth";
+import { Login } from "@/components/login";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,8 +17,8 @@ interface Art {
   year_Bangla: string;
   imageUrl: string;
   description: string;
-  width: string;
-  height: string;
+  measurement: string;
+  measurement_Bangla: string;
   medium: string;
   medium_Bangla: string;
   type: string;
@@ -32,15 +32,10 @@ interface Art {
 interface BookCover {
   id: string;
   title: string;
-  title_Bangla: string;
   author: string;
-  author_Bangla: string;
   publisher: string;
-  publisher_Bangla: string;
   date: string;
-  date_Bangla: string;
   imageUrl: string;
-  description: string;
   type: string;
   type_Bangla: string;
   tags: string[];
@@ -83,6 +78,30 @@ interface Illustration {
   tags_Bangla: string[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface Logos {
+
+}
+
+interface MasterHeads {
+
+}
+
+interface Calligraphies {
+
+}
+
+interface Portraits {
+
+}
+
+interface CrestDesigns {
+
+}
+
+interface Textiles {
+
 }
 
 
@@ -169,11 +188,12 @@ const ViewArt: NextPage = () => {
         </div>
         <hr className="border-b-2 border-white mt-2 mb-4 w-full"></hr>
 
+        {/* Item Counter */}
         <div className="grid lg:grid-cols-8 grid-cols-2">
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-orange-100">Art Count: {arts.length}</h1>
-            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-rose-100">Painting Count: {arts.filter(art => art.type === "painting" || art.type === "Painting").length}</h1>
-            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-green-100">Drawing Count: {arts.filter(art => art.type === "drawing" || art.type === "Drawing").length}</h1>
-            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-amber-100">Sketch Count: {arts.filter(art => art.type === "sketch" || art.type === "Sketch").length}</h1>
+            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-rose-100">Painting Count: {arts.filter(art => art.type === "paintings").length}</h1>
+            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-green-100">Drawing Count: {arts.filter(art => art.type === "drawings").length}</h1>
+            <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-amber-100">Sketch Count: {arts.filter(art => art.type === "sketches").length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-yellow-100">Graphics Design Count: {bookcovers.length + posters.length + illustrations.length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-fuchsia-100">Book Cover Count: {bookcovers.length}</h1>
             <h1 className="m-1 text-sm font-bold mx-4 border-2 border-black p-2 shadow-lg bg-pink-100">Poster  Count: {posters.length}</h1>
@@ -198,8 +218,10 @@ const ViewArt: NextPage = () => {
                 </th>
                 <th className="border-2 border-black px-4 py-2">Image URL</th>
                 <th className="border-2 border-black px-4 py-2">Description</th>
-                <th className="border-2 border-black px-4 py-2">Width</th>
-                <th className="border-2 border-black px-4 py-2">Height</th>
+                <th className="border-2 border-black px-4 py-2">Measurement</th>
+                <th className="border-2 border-black px-4 py-2">
+                  Measurement_Bangla
+                </th>
                 <th className="border-2 border-black px-4 py-2">Medium</th>
                 <th className="border-2 border-black px-4 py-2">
                   Medium (Bangla)
@@ -224,8 +246,8 @@ const ViewArt: NextPage = () => {
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.year_Bangla}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.imageUrl}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem] text-justify">{art.description}</div></td>
-                  <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.width}</div></td>
-                  <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.height}</div></td>
+                  <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.measurement}</div></td>
+                  <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.measurement_Bangla}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.medium}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.medium_Bangla}</div></td>
                   <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{art.type}</div></td>
@@ -248,23 +270,10 @@ const ViewArt: NextPage = () => {
                   <th className="border-2 border-black px-4 py-2">Image</th>
                   <th className="border-2 border-black px-4 py-2">ID</th>
                   <th className="border-2 border-black px-4 py-2">Title</th>
-                  <th className="border-2 border-black px-4 py-2">
-                    Title (Bangla)
-                  </th>
                   <th className="border-2 border-black px-4 py-2">Publication Date</th>
-                  <th className="border-2 border-black px-4 py-2">
-                  Publication Date (Bangla)
-                  </th>
                   <th className="border-2 border-black px-4 py-2">Image URL</th>
-                  <th className="border-2 border-black px-4 py-2">Description</th>
                   <th className="border-2 border-black px-4 py-2">Author</th>
-                  <th className="border-2 border-black px-4 py-2">
-                  Author (Bangla)
-                  </th>
                   <th className="border-2 border-black px-4 py-2">Publisher</th>
-                  <th className="border-2 border-black px-4 py-2">
-                  Publisher (Bangla)
-                  </th>
                   <th className="border-2 border-black px-4 py-2">Type</th>
                   <th className="border-2 border-black px-4 py-2">
                   Type (Bangla)
@@ -282,15 +291,10 @@ const ViewArt: NextPage = () => {
 
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.id}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.title}</div></td>
-                    <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.title_Bangla}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.date}</div></td>
-                    <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.date_Bangla}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.imageUrl}</div></td>
-                    <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem] text-justify">{bookcover.description}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.author}</div></td>
-                    <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.author_Bangla}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.publisher}</div></td>
-                    <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.publisher_Bangla}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.type}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.type_Bangla}</div></td>
                     <td className="border-2 border-black px-4 py-1"><div className="h-max-[20rem] h-min-fit w-min-fit w-max-[25rem]">{bookcover.tags.join(", ")}</div></td>
