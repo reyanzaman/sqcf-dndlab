@@ -15,6 +15,7 @@ interface Writing {
   id: string;
   title: string;
   subtitle: string;
+  author: String;
   publisher: string;
   link: string;
   category: string;
@@ -77,7 +78,10 @@ export default function Writing({ params }: { params: { writingId: string } }) {
                 <h1 className="bangla-font lg:text-8xl text-6xl font-bold mb-3">
                   {writings[0].title}
                 </h1>
-                <h1 className="lg:text-xl text-base font-bold mb-2">
+                <h1 className="lg:text-2xl text-base font-bold mb-2">
+                  By {writings[0].author}
+                </h1>
+                <h1 className="text-base mb-2">
                   Published By: {writings[0].publisher}
                 </h1>
                 <h1 className="text-base mb-2">

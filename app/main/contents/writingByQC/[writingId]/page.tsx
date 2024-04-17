@@ -43,7 +43,7 @@ export default function Writing({ params }: { params: { writingId: string } }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/getWritingOnQC", {
+        const response = await axios.get("/api/getWritingByQC", {
           params: { writingId: params.writingId },
         });
         setWritings([response.data]);
@@ -141,15 +141,18 @@ export default function Writing({ params }: { params: { writingId: string } }) {
                   </p>
                 </div>
 
-                <div className="my-12">
-                  <Link
-                    href={writings[0].link}
-                    target="blank"
-                    className="bg-amber-300 text-black p-4 rounded-sm hover:bg-amber-200"
-                  >
-                    LINK TO ORIGINAL ARTICLE
-                  </Link>
-                </div>
+                {writings[0].link !== "" && (
+                  <div className="my-12">
+                    <a
+                      href={writings[0].link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-amber-300 text-black p-4 rounded-sm hover:bg-amber-200"
+                    >
+                      LINK TO ORIGINAL ARTICLE
+                    </a>
+                  </div>
+                )}
 
                 {writings[0].category!=='Poem' && (
                   <hr className="text-white my-8"></hr>

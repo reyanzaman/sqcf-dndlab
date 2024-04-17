@@ -331,19 +331,20 @@ export default function Category() {
       debouncedPerformSearch();
     }
 
+    // Requires update on new categories insert
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/getAllArt");
         const response2 = await axios.get("/api/getAllBookCovers");
         const response3 = await axios.get("/api/getAllPosters");
         const response4 = await axios.get("/api/getAllIllustrations");
-        // const response5 = await axios.get("/api/getAllWritingsByQC");
+        const response5 = await axios.get("/api/getAllWritingByQC");
         const response6 = await axios.get("/api/getAllWritingOnQC");
         setArts(response.data);
         setBookCovers(response2.data);
         setPosters(response3.data);
         setIllustrations(response4.data);
-        // setWritingsByQC(response5.data);
+        setWritingsByQC(response5.data);
         setWritingsOnQC(response6.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -416,7 +417,7 @@ export default function Category() {
                     <span className="text-amber-200">
                       {
                         writingsByQC.filter(
-                          (writing) => writing.category === "Poem"
+                          (writing) => writing.category === "Poems"
                         ).length
                       }
                     </span>{" "}
@@ -428,16 +429,7 @@ export default function Category() {
                         ).length
                       }
                     </span>{" "}
-                    Prose |{" "}
-                    <span className="text-amber-200">
-                      {
-                        writingsByQC.filter(
-                          (writing) =>
-                            writing.category === "Juvenile Literature"
-                        ).length
-                      }
-                    </span>{" "}
-                    Juvenile Literature{" "}
+                    Prose
                   </h1>
                   <h1 className="text-sm mb-1 custom-font text-right">
                     <span className="text-amber-200">
@@ -718,7 +710,7 @@ export default function Category() {
                               setCurrentPage(1);
                               setselectedCategory("Juvenile Literature");
                             }}
-                            className="block px-4 py-2 text-base text-zinc-300 hover:text-white"
+                            className="block px-4 py-2 text-base text-zinc-600 pointer-events-none"
                           >
                             Juvenile Literature
                           </a>
@@ -1042,11 +1034,11 @@ export default function Category() {
                     {/* Poems */}
                     {selectedCategory === "Poems" &&
                       writingsByQC
-                        .filter((writing) => writing.category === "Poem")
+                        .filter((writing) => writing.category === "Poems")
                         .slice(currentIndex, currentIndex + itemsPerPage)
                         .map((art, index) => (
                           <div className="" key={index}>
-                            <Link href={`/category/writing/${art.id}`}>
+                            <Link href={`/main/contents/writingByQC/${art.id}`}>
                               <div className="relative group cursor-pointer">
                                 {art.imageUrl ? (
                                   <Image
@@ -1073,7 +1065,7 @@ export default function Category() {
                             </Link>
                             <div className="mb-2">
                               <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                                {art.title} | {art.date}
+                                {art.title} | {art.date_Bangla}
                               </h1>
                               <h1 className="text-center text-xs px-1">
                                 Published In: {art.publisher}
@@ -1088,7 +1080,7 @@ export default function Category() {
                         .slice(currentIndex, currentIndex + itemsPerPage)
                         .map((art, index) => (
                           <div className="" key={index}>
-                            <Link href={`/category/writing/${art.id}`}>
+                            <Link href={`/main/contents/writingByQC/${art.id}`}>
                               <div className="relative group cursor-pointer">
                                 {art.imageUrl ? (
                                   <Image
@@ -1115,7 +1107,7 @@ export default function Category() {
                             </Link>
                             <div className="mb-2">
                               <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                                {art.title} | {art.date}
+                                {art.title} | {art.date_Bangla}
                               </h1>
                               <h1 className="text-center text-xs px-1">
                                 Published In: {art.publisher}
@@ -1162,52 +1154,8 @@ export default function Category() {
                                 Published On: {art.date}
                               </h1>
                               <h1 className="text-center text-xs px-1 bangla-font">
-                                Published In:{" "}
-                                {art.publisher}
-                              </h1>
-                            </div>
-                          </div>
-                        ))}
-                    {selectedCategory === "Juvenile Literature" &&
-                      writingsByQC
-                        .filter(
-                          (writing) => writing.category === "Juvenile Literature"
-                        )
-                        .slice(currentIndex, currentIndex + itemsPerPage)
-                        .map((art, index) => (
-                          <div className="" key={index}>
-                            <Link href={`/category/writing/${art.id}`}>
-                              <div className="relative group cursor-pointer">
-                                {art.imageUrl ? (
-                                  <Image
-                                    src={art.imageUrl}
-                                    alt={art.title}
-                                    width={500}
-                                    height={500}
-                                    objectFit="cover"
-                                    className="w-full lg:h-[20vw] h-[35vw] object-cover border-4 border-black mb-2 transition-all duration-500 ease-in-out group-hover:brightness-[.2] group-hover:border-8"
-                                  />
-                                ) : (
-                                  <div className="w-full lg:h-[20vw] h-[35vw] flex items-center justify-center border-4 border-black mb-2 bg-gray-100 transition-all duration-500 ease-in-out group-hover:brightness-[0.2] group-hover:border-8 group-hover:text-gray-100 text-black">
-                                    <span className="lg:text-4xl text-2xl font-bold text-center overflow-hidden text-ellipsis p-4">
-                                      {art.title}
-                                    </span>
-                                  </div>
-                                )}
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
-                                  <h1 className="text-white text-3xl font-bold custom-font">
-                                    View Writing
-                                  </h1>
-                                </div>
-                              </div>
-                            </Link>
-                            <div className="mb-2">
-                              <h1 className="text-center bangla-font text-lg px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                                {art.title}
-                              </h1>
-                              <h1 className="text-center text-xs px-1">
-                                Published In:{" "}
-                                {art.publisher}
+                                Written By:{" "}
+                                {art.author}
                               </h1>
                             </div>
                           </div>
