@@ -1416,7 +1416,7 @@ export default function Category() {
         )}
 
         {/* Navbar */}
-        <Navbar />
+        <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
       </div>
     </main>

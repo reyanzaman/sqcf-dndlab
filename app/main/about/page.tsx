@@ -81,7 +81,7 @@ export default function About() {
     <div className="flex flex-col">
 
       {/* Navbar */}
-      <Navbar/>
+      <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
       {/* Main Code */}
       {!isMenuOpen ? (

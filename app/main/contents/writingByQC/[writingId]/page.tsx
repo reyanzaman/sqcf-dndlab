@@ -169,7 +169,7 @@ export default function Writing({ params }: { params: { writingId: string } }) {
             </div>
 
             {/* Navbar */}
-            <Navbar/>
+            <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           </div>
         ) : (
           <div></div>

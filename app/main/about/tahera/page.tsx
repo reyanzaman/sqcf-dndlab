@@ -17,7 +17,7 @@ export default function Tahera() {
 
     <div className="anim-appear-3 z-50">
       {/* Navbar */}
-      <Navbar/>
+      <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
     </div>
 
       <div>

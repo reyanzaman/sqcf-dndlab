@@ -34,10 +34,6 @@ export default function Home() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   const specificArtTitleArray = [
     "Collecting Shapla",
   ];
@@ -85,7 +81,7 @@ export default function Home() {
       <div className="flex flex-col">
 
         {/* Navbar */}
-        <Navbar/>
+        <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
         {/* Main Code */}
         {!isMenuOpen ? (
@@ -114,10 +110,10 @@ export default function Home() {
                     <a
                       data-fancybox
                       data-src={`${arts[0].imageUrl}`}
-                      data-caption={`<div style='text-align: center;'>${arts[0].title}<br><div style='color: #fde68a;'>${arts[0].tags.join(', ')}<br>${arts[0].tags_Bangla.join(', ')}</div></div>`}
+                      data-caption={`<div style='text-align: center;'>${arts[0].title}<br><div style='color: #fde68a;'>${arts[0].tags ? arts[0].tags.join(', ') : ""}<br>${arts[0].tags_Bangla ? arts[0].tags_Bangla.join(', ') : ""}</div></div>`}
                     >
                       <Image
-                        src={`${arts[0].imageUrl}`}
+                        src={`${arts[0].imageUrl ? arts[0].imageUrl : ""}`}
                         alt={`${arts[0].title}`}
                         height={550}
                         width={550}
@@ -130,6 +126,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="lg:hidden block py-10">
+              <br></br>
             </div>
           </div>
         ):(<div></div>)}

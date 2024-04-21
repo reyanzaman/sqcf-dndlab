@@ -2,8 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const pathname = usePathname();
 
   const toggleMenu = () => {
